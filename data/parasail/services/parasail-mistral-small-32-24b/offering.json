@@ -1,0 +1,30 @@
+{
+  "currency": "USD",
+  "description": "",
+  "details": {
+    "model_name": "parasail-mistral-small-32-24b"
+  },
+  "display_name": "parasail-mistral-small-32-24b",
+  "name": "parasail-mistral-small-32-24b",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.50",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
+  "service_type": "llm",
+  "status": "ready",
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "upstream_access_interfaces": {
+    "Parasail API": {
+      "access_method": "http",
+      "base_url": "https://api.parasail.io/v1",
+      "rate_limits": []
+    }
+  }
+}

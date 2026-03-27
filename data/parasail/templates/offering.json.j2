@@ -1,0 +1,21 @@
+{
+  "schema": "offering_v1",
+  "name": "{{ offering_name }}",
+  "display_name": "{{ display_name }}",
+  "description": {{ description | tojson }},
+  "service_type": "{{ service_type }}",
+  "status": "{{ status | default('ready') }}",
+  "currency": "USD",
+  "tags": ["ai", "gateway", "byok"],
+  "details": {{ details | tojson }},
+{%- if payout_price %}
+  "payout_price": {{ payout_price | tojson }},
+{%- endif %}
+  "upstream_access_interfaces": {
+    "{{ provider_display_name }} API": {
+      "access_method": "http",
+      "base_url": "{{ api_base_url }}",
+      "rate_limits": []
+    }
+  }
+}

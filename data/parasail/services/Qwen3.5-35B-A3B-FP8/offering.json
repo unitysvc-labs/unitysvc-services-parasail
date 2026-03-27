@@ -1,0 +1,30 @@
+{
+  "currency": "USD",
+  "description": "",
+  "details": {
+    "model_name": "Qwen/Qwen3.5-35B-A3B-FP8"
+  },
+  "display_name": "Qwen3.5-35B-A3B-FP8",
+  "name": "Qwen/Qwen3.5-35B-A3B-FP8",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.50",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
+  "service_type": "llm",
+  "status": "ready",
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "upstream_access_interfaces": {
+    "Parasail API": {
+      "access_method": "http",
+      "base_url": "https://api.parasail.io/v1",
+      "rate_limits": []
+    }
+  }
+}

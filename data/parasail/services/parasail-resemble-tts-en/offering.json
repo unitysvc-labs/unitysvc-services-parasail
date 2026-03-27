@@ -1,0 +1,30 @@
+{
+  "currency": "USD",
+  "description": "",
+  "details": {
+    "model_name": "parasail-resemble-tts-en"
+  },
+  "display_name": "parasail-resemble-tts-en",
+  "name": "parasail-resemble-tts-en",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.50",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
+  "service_type": "prerecorded_transcription",
+  "status": "ready",
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "upstream_access_interfaces": {
+    "Parasail API": {
+      "access_method": "http",
+      "base_url": "https://api.parasail.io/v1",
+      "rate_limits": []
+    }
+  }
+}

@@ -10,13 +10,12 @@ secondary_contact_email = "inquiries@parasail.io"
 logo = "https://parasail.io/favicon.ico"
 
 [provider_access_info]
-api_key = 'psk-unitlxpcTlCv-waUtCuj10pqUhaPRFHLk'
+api_key = "..."
 base_url = "https://api.parasail.io/v1"
 
 # These will be provided to services_populator as environment variables
-PARASAIL_API_KEY = 'psk-unitlxpcTlCv-waUtCuj10pqUhaPRFHLk'
+PARASAIL_API_KEY = "..."
 PARASAIL_API_BASE_URL = "https://api.parasail.io/v1"
-PARASAIL_MODEL_BASE_URL = "https://www.saas.parasail.io/serverless"
 
 [services_populator]
-command = ['scripts/update_services.py', '--force']
+command = ["scripts/update_services.py", "--force"]

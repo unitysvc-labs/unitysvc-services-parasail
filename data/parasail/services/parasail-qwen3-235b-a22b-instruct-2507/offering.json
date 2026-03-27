@@ -1,0 +1,30 @@
+{
+  "currency": "USD",
+  "description": "",
+  "details": {
+    "model_name": "parasail-qwen3-235b-a22b-instruct-2507"
+  },
+  "display_name": "parasail-qwen3-235b-a22b-instruct-2507",
+  "name": "parasail-qwen3-235b-a22b-instruct-2507",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.80",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
+  "service_type": "llm",
+  "status": "ready",
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "upstream_access_interfaces": {
+    "Parasail API": {
+      "access_method": "http",
+      "base_url": "https://api.parasail.io/v1",
+      "rate_limits": []
+    }
+  }
+}

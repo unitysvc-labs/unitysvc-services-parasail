@@ -1,58 +1,98 @@
 {
   "currency": "USD",
-  "customer_price": {
+  "documents": {
+    "Connectivity test": {
+      "category": "connectivity_test",
+      "description": "Connectivity test",
+      "file_path": "../../docs/connectivity.sh.j2",
+      "is_active": true,
+      "is_public": false,
+      "mime_type": "bash"
+    },
+    "How to use this model": {
+      "category": "getting_started",
+      "file_path": "../../docs/description.md",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "markdown"
+    },
+    "JavaScript code example": {
+      "category": "code_example",
+      "description": "Example code to use the model",
+      "file_path": "../../docs/code_example.js.j2",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "javascript"
+    },
+    "Python code example": {
+      "category": "code_example",
+      "description": "Example code to use the model",
+      "file_path": "../../docs/code_example.py.j2",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "python"
+    },
+    "Python function calling code example": {
+      "category": "code_example",
+      "description": "Example code to use the model",
+      "file_path": "../../docs/code_example_fc.py.j2",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "python"
+    },
+    "cURL code example": {
+      "category": "code_example",
+      "description": "Example code to use the model",
+      "file_path": "../../docs/code_example.sh.j2",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "bash"
+    }
+  },
+  "list_price": {
     "description": "Pricing Per 1M Tokens",
     "price": "0.80",
     "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
     "type": "one_million_tokens"
   },
-  "listing_status": "ready",
   "schema": "listing_v1",
-  "seller_name": "svcreseller",
-  "time_created": "2026-03-27T02:55:45.197Z",
-  "user_access_interfaces": [
-    {
-      "access_method": "http",
-      "base_url": "${GATEWAY_BASE_URL}/p/parasail.io",
-      "documents": [
-        {
-          "category": "code_example",
-          "description": "Example code to use the model",
-          "file_path": "../../docs/code_example.py.j2",
-          "is_active": true,
-          "is_public": true,
-          "mime_type": "python",
-          "title": "Python code example"
-        },
-        {
-          "category": "code_example",
-          "description": "Example code to use the model",
-          "file_path": "../../docs/code_example_1.py.j2",
-          "is_active": true,
-          "is_public": true,
-          "mime_type": "python",
-          "title": "Python function calling code example"
-        },
-        {
-          "category": "code_example",
-          "description": "Example code to use the model",
-          "file_path": "../../docs/code_example.js.j2",
-          "is_active": true,
-          "is_public": true,
-          "mime_type": "javascript",
-          "title": "JavaScript code example"
-        },
-        {
-          "category": "code_example",
-          "description": "Example code to use the model",
-          "file_path": "../../docs/code_example.sh.j2",
-          "is_active": true,
-          "is_public": true,
-          "mime_type": "bash",
-          "title": "cURL code example"
-        }
-      ],
-      "name": "Provider API"
+  "service_options": {
+    "ops_testing_parameters": {
+      "api_key": "${ secrets.PARASAIL_API_KEY }"
     }
-  ]
+  },
+  "status": "ready",
+  "user_access_interfaces": {
+    "Provider API": {
+      "access_method": "http",
+      "base_url": "${GATEWAY_BASE_URL}/p/parasail",
+      "routing_key": {
+        "model": "openai/gpt-oss-120b"
+      }
+    }
+  },
+  "user_parameters_schema": {
+    "description": "Access service with your own api-key",
+    "properties": {
+      "api_key": {
+        "default": "",
+        "title": "API Key (PARASAIL_API_KEY)",
+        "type": "string"
+      }
+    },
+    "required": [
+      "api_key"
+    ],
+    "title": "Be Your Own Provider",
+    "type": "object"
+  },
+  "user_parameters_ui_schema": {
+    "api_key": {
+      "ui:description": "Your API key will be securely stored as secret 'PARASAIL_API_KEY'",
+      "ui:options": {
+        "secret": "PARASAIL_API_KEY"
+      },
+      "ui:placeholder": "Enter your API key"
+    }
+  }
 }

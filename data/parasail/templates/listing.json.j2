@@ -1,0 +1,91 @@
+{
+  "schema": "listing_v1",
+  "status": "{{ status | default('ready') }}",
+  "currency": "USD",
+{%- if list_price %}
+  "list_price": {{ list_price | tojson }},
+{%- endif %}
+  "user_access_interfaces": {
+    "Provider API": {
+      "access_method": "http",
+      "base_url": "${GATEWAY_BASE_URL}/p/{{ provider_name }}",
+      "routing_key": {"model": "{{ offering_name }}"}
+    }
+  },
+  "documents": {
+    "How to use this model": {
+      "category": "getting_started",
+      "file_path": "../../docs/description.md",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "markdown"
+    },
+    "Python code example": {
+      "category": "code_example",
+      "description": "Example code to use the model",
+      "file_path": "../../docs/code_example.py.j2",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "python"
+    },
+    "Python function calling code example": {
+      "category": "code_example",
+      "description": "Example code to use the model",
+      "file_path": "../../docs/code_example_fc.py.j2",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "python"
+    },
+    "JavaScript code example": {
+      "category": "code_example",
+      "description": "Example code to use the model",
+      "file_path": "../../docs/code_example.js.j2",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "javascript"
+    },
+    "cURL code example": {
+      "category": "code_example",
+      "description": "Example code to use the model",
+      "file_path": "../../docs/code_example.sh.j2",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "bash"
+    },
+    "Connectivity test": {
+      "category": "connectivity_test",
+      "description": "Connectivity test",
+      "file_path": "../../docs/connectivity.sh.j2",
+      "is_active": true,
+      "is_public": false,
+      "mime_type": "bash"
+    }
+  },
+  "user_parameters_schema": {
+    "title": "Be Your Own Provider",
+    "description": "Access service with your own api-key",
+    "type": "object",
+    "required": ["api_key"],
+    "properties": {
+      "api_key": {
+        "type": "string",
+        "title": "API Key ({{ env_api_key_name }})",
+        "default": ""
+      }
+    }
+  },
+  "user_parameters_ui_schema": {
+    "api_key": {
+      "ui:options": {
+        "secret": "{{ env_api_key_name }}"
+      },
+      "ui:placeholder": "Enter your API key",
+      "ui:description": "Your API key will be securely stored as secret '{{ env_api_key_name }}'"
+    }
+  },
+  "service_options": {
+    "ops_testing_parameters": {
+      "api_key": "${ secrets.{{ env_api_key_name }} }"
+    }
+  }
+}
