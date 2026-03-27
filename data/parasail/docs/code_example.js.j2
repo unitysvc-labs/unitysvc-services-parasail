@@ -1,0 +1,24 @@
+const API_KEY = process.env.API_KEY;
+const ENDPOINT = process.env.BASE_URL;
+
+async function main() {
+  const response = await fetch(`${ENDPOINT}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "{{offering.details.model_name}}",
+      messages: [
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: "Say this is a test" },
+      ],
+    }),
+  });
+
+  const data = await response.json();
+  console.log(data.choices[0].message.content);
+}
+
+main();

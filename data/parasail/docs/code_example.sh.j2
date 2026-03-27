@@ -1,0 +1,10 @@
+curl -X POST "$BASE_URL/chat/completions" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $API_KEY" \
+  -d '{
+    "model": "{{offering.details.model_name}}",
+    "messages": [
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "Say this is a test"}
+    ]
+  }'

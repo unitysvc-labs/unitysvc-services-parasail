@@ -1,0 +1,54 @@
+import openai
+import json
+import os
+
+client = openai.OpenAI(
+    base_url=os.environ.get("BASE_URL"),
+    api_key=os.environ.get("API_KEY")
+)
+
+# Example function
+def echo_message(message):
+    return f"Echo: {message}"
+
+response = client.chat.completions.create(
+    model="{{offering.details.model_name}}",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Repeat: Hello world"}
+    ],
+    tools=[
+        {
+            "type": "function",
+            "function": {
+                "name": "echo_message",
+                "description": "Echoes back the given message",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                            "type": "string",
+                            "description": "The message to echo"
+                        }
+                    },
+                    "required": ["message"]
+                }
+            }
+        }
+    ],
+    tool_choice="auto"
+)
+
+message = response.choices[0].message
+
+# Check for tool call
+if hasattr(message, "tool_calls") and message.tool_calls:
+    call = message.tool_calls[0]
+    function_name = call.function.name
+    function_args = json.loads(call.function.arguments)
+
+    if function_name == "echo_message":
+        print(echo_message(function_args["message"]))
+
+else:
+    print(message.content)

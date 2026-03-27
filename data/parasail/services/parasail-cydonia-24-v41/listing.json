@@ -1,0 +1,58 @@
+{
+  "currency": "USD",
+  "customer_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.50",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "listing_status": "ready",
+  "schema": "listing_v1",
+  "seller_name": "svcreseller",
+  "time_created": "2026-03-27T02:55:46.559Z",
+  "user_access_interfaces": [
+    {
+      "access_method": "http",
+      "base_url": "${GATEWAY_BASE_URL}/p/parasail.io",
+      "documents": [
+        {
+          "category": "code_example",
+          "description": "Example code to use the model",
+          "file_path": "../../docs/code_example.py.j2",
+          "is_active": true,
+          "is_public": true,
+          "mime_type": "python",
+          "title": "Python code example"
+        },
+        {
+          "category": "code_example",
+          "description": "Example code to use the model",
+          "file_path": "../../docs/code_example_1.py.j2",
+          "is_active": true,
+          "is_public": true,
+          "mime_type": "python",
+          "title": "Python function calling code example"
+        },
+        {
+          "category": "code_example",
+          "description": "Example code to use the model",
+          "file_path": "../../docs/code_example.js.j2",
+          "is_active": true,
+          "is_public": true,
+          "mime_type": "javascript",
+          "title": "JavaScript code example"
+        },
+        {
+          "category": "code_example",
+          "description": "Example code to use the model",
+          "file_path": "../../docs/code_example.sh.j2",
+          "is_active": true,
+          "is_public": true,
+          "mime_type": "bash",
+          "title": "cURL code example"
+        }
+      ],
+      "name": "Provider API"
+    }
+  ]
+}

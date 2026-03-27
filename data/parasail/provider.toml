@@ -1,0 +1,22 @@
+schema = "provider_v1"
+time_created = "2025-08-17T10:55:04.976433Z"
+name = "parasail"
+display_name = "Parasail"
+status = "pending"
+terms_of_service = "https://parasail.io/terms"
+contact_email = "support@parasail.io"
+homepage = "https://parasail.io/"
+secondary_contact_email = "inquiries@parasail.io"
+logo = "https://parasail.io/favicon.ico"
+
+[provider_access_info]
+api_key = 'psk-unitlxpcTlCv-waUtCuj10pqUhaPRFHLk'
+base_url = "https://api.parasail.io/v1"
+
+# These will be provided to services_populator as environment variables
+PARASAIL_API_KEY = 'psk-unitlxpcTlCv-waUtCuj10pqUhaPRFHLk'
+PARASAIL_API_BASE_URL = "https://api.parasail.io/v1"
+PARASAIL_MODEL_BASE_URL = "https://www.saas.parasail.io/serverless"
+
+[services_populator]
+command = ['scripts/update_services.py', '--force']
