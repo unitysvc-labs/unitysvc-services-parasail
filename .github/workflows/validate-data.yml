@@ -1,0 +1,50 @@
+name: Validate Data
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "data/**"
+      - ".github/workflows/validate-data.yml"
+  push:
+    branches: [main]
+    paths:
+      - "data/**"
+      - ".github/workflows/validate-data.yml"
+
+jobs:
+  validate-data:
+    name: Validate Data Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install unitysvc-services
+        run: |
+          python -m pip install --upgrade pip
+          pip install unitysvc-services
+
+      - name: Validate data directory
+        run: |
+          echo "Validating data directory..."
+          usvc data validate
+
+      - name: Data validation summary
+        if: always()
+        run: |
+          echo "## Data Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Validation Results" >> $GITHUB_STEP_SUMMARY
+          echo "- Data directory validation completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Checks Performed" >> $GITHUB_STEP_SUMMARY
+          echo "- Schema compliance" >> $GITHUB_STEP_SUMMARY
+          echo "- File references" >> $GITHUB_STEP_SUMMARY
+          echo "- Directory name consistency" >> $GITHUB_STEP_SUMMARY

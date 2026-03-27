@@ -1,0 +1,108 @@
+name: Populate Services
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: "0 2 * * *"
+  workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  populate-services:
+    name: Populate Services Data
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install unitysvc-services
+
+      - name: Execute populate services command
+        # Add your provider API key secret here, e.g.:
+        # env:
+        #   FIREWORKS_API_KEY: ${{ secrets.FIREWORKS_API_KEY }}
+        #   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "Running populate services command..."
+          usvc data populate
+
+      - name: Check for changes in data directory
+        id: check_changes
+        run: |
+          echo "Checking for changes in data directory..."
+          git add data/
+          if git diff --cached --exit-code data/; then
+            echo "No changes detected in data directory"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected in data directory"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            Auto-populate services data
+
+            Automated update of services data via usvc data populate
+
+            Generated with GitHub Actions
+          title: "Auto-populate services data"
+          body: |
+            ## Summary
+
+            This PR contains automatically generated changes from running `usvc data populate`.
+
+            ## Changes Made
+
+            - Executed services population commands from provider configurations
+            - Updated data files in the `data/` directory
+
+            ## Review Checklist
+
+            - [ ] Verify all generated data is accurate and properly formatted
+            - [ ] Check that no sensitive information was accidentally included
+            - [ ] Ensure all new files follow the repository's data structure conventions
+
+            ---
+
+            This PR was automatically created by the populate-services workflow.
+
+            **Workflow run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          branch: auto-populate-services-${{ github.run_number }}
+          delete-branch: true
+          labels: |
+            automated
+            data-update
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Populate Services Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
+            echo "### Changes Detected" >> $GITHUB_STEP_SUMMARY
+            echo "- Services population completed" >> $GITHUB_STEP_SUMMARY
+            echo "- Pull request created" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### No Changes" >> $GITHUB_STEP_SUMMARY
+            echo "- Services population completed" >> $GITHUB_STEP_SUMMARY
+            echo "- No changes detected" >> $GITHUB_STEP_SUMMARY
+          fi

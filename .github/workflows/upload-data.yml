@@ -1,0 +1,45 @@
+name: Upload Data
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  upload:
+    # Only run if the PR was merged (not just closed)
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install unitysvc-services
+        run: |
+          python -m pip install --upgrade pip
+          pip install unitysvc-services
+
+      - name: Upload services
+        env:
+          UNITYSVC_API_URL: ${{ secrets.SERVICE_API_URL }}
+          UNITYSVC_API_KEY: ${{ secrets.UNITYSVC_API_KEY }}
+        run: |
+          echo "Uploading services..."
+          usvc services upload
+
+      - name: Upload summary
+        if: always()
+        run: |
+          echo "## Upload Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Uploaded to Backend" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend URL: \`${{ secrets.UNITYSVC_API_URL }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Triggered by PR: #${{ github.event.pull_request.number }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Upload Details" >> $GITHUB_STEP_SUMMARY
+          echo "Services are uploaded atomically (provider + offering + listing together)" >> $GITHUB_STEP_SUMMARY

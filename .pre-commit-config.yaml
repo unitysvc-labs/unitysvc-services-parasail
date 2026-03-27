@@ -1,0 +1,27 @@
+repos:
+  # JSON and TOML formatting and validation
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: pretty-format-json
+        args: ["--autofix", "--indent=2"]
+        files: \.(json)$
+      - id: check-json
+        files: \.(json)$
+      - id: check-toml
+        files: \.(toml)$
+      - id: end-of-file-fixer
+        files: \.(json|md|toml)$
+      - id: trailing-whitespace
+        files: \.(json|md|toml)$
+
+  # Data validation using unitysvc-services
+  - repo: local
+    hooks:
+      - id: validate-data-files
+        name: Validate data files against schemas
+        entry: unitysvc_services validate data
+        language: system
+        files: ^data/.*\.(json|toml|md)$
+        pass_filenames: false
+        always_run: true
