@@ -1,0 +1,11 @@
+curl ${SERVICE_BASE_URL}/chat/completions \
+  -H "Authorization: Bearer $UNITYSVC_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d @- <<'EOF'
+{
+  "model": "{{ offering.name }}",
+  "messages": [
+    {"role": "user", "content": "How does matrix multiplication work?"}
+  ]
+}
+EOF

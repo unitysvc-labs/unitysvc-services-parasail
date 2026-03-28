@@ -23,7 +23,7 @@
     "Python code example": {
       "category": "code_example",
       "description": "Example code to use the model",
-      "file_path": "../../docs/code_example.py.j2",
+      "file_path": "../../docs/code-example.py.j2",
       "is_active": true,
       "is_public": true,
       "mime_type": "python"
@@ -31,7 +31,7 @@
     "Python function calling code example": {
       "category": "code_example",
       "description": "Example code to use the model",
-      "file_path": "../../docs/code_example_fc.py.j2",
+      "file_path": "../../docs/code-example-fc.py.j2",
       "is_active": true,
       "is_public": true,
       "mime_type": "python"
@@ -39,7 +39,7 @@
     "JavaScript code example": {
       "category": "code_example",
       "description": "Example code to use the model",
-      "file_path": "../../docs/code_example.js.j2",
+      "file_path": "../../docs/code-example.js.j2",
       "is_active": true,
       "is_public": true,
       "mime_type": "javascript"
@@ -47,7 +47,7 @@
     "cURL code example": {
       "category": "code_example",
       "description": "Example code to use the model",
-      "file_path": "../../docs/code_example.sh.j2",
+      "file_path": "../../docs/code-example.sh.j2",
       "is_active": true,
       "is_public": true,
       "mime_type": "bash"
@@ -85,6 +85,7 @@
   },
   "service_options": {
     "ops_testing_parameters": {
+      "base_url": "https://api.parasail.io/v1",
       "api_key": "${ secrets.{{ env_api_key_name }} }"
     }
   }
