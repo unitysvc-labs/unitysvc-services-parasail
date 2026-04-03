@@ -86,7 +86,7 @@ jobs:
             This PR was automatically created by the populate-services workflow.
 
             **Workflow run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          branch: auto-populate-services-${{ github.run_number }}
+          branch: auto-populate-services
           delete-branch: true
           labels: |
             automated
