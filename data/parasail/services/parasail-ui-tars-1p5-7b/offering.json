@@ -20,11 +20,34 @@
     "gateway",
     "byok"
   ],
-  "upstream_access_interfaces": {
+  "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
+      "api_key": "${ secrets.PARASAIL_API_KEY }",
       "base_url": "https://api.parasail.io/v1",
-      "rate_limits": []
+      "rate_limits": [
+        {
+          "description": "Requests per minute",
+          "limit": 60,
+          "unit": "requests",
+          "window": "minute"
+        },
+        {
+          "description": "Input tokens per minute",
+          "limit": 100000,
+          "unit": "input_tokens",
+          "window": "minute"
+        },
+        {
+          "description": "Output tokens per minute",
+          "limit": 10000,
+          "unit": "output_tokens",
+          "window": "minute"
+        }
+      ],
+      "routing_key": {
+        "model": "parasail-ui-tars-1p5-7b"
+      }
     }
   }
 }

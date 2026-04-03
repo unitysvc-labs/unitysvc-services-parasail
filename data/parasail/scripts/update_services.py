@@ -209,6 +209,7 @@ class ParasailModelExtractor:
         return {
             "provider_name": PROVIDER_NAME,
             "provider_display_name": PROVIDER_DISPLAY_NAME,
+            "env_api_key_name": ENV_API_KEY_NAME,
             "offering_name": model_id,
             "display_name": display_name,
             "description": description,

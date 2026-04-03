@@ -1,12 +1,15 @@
 const SERVICE_BASE_URL = process.env.SERVICE_BASE_URL;
 const MODEL = process.env.MODEL;
+const UNITYSVC_API_KEY = (process.env.UNITYSVC_API_KEY || "")
+  .trim()
+  .replace(/^[\u201c\u201d\u2018\u2019"']+|[\u201c\u201d\u2018\u2019"']+$/g, "");
 
 const response = await fetch(
   `${SERVICE_BASE_URL}/chat/completions`,
   {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${process.env.UNITYSVC_API_KEY}`,
+      Authorization: `Bearer ${UNITYSVC_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
