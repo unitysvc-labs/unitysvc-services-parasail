@@ -1,5 +1,6 @@
 {
   "schema": "listing_v1",
+  "time_created": "{{ time_created }}",
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
 {%- if list_price %}
@@ -59,34 +60,6 @@
       "is_active": true,
       "is_public": false,
       "mime_type": "bash"
-    }
-  },
-  "user_parameters_schema": {
-    "title": "Be Your Own Provider",
-    "description": "Access service with your own api-key",
-    "type": "object",
-    "required": ["api_key"],
-    "properties": {
-      "api_key": {
-        "type": "string",
-        "title": "API Key ({{ env_api_key_name }})",
-        "default": ""
-      }
-    }
-  },
-  "user_parameters_ui_schema": {
-    "api_key": {
-      "ui:options": {
-        "secret": "{{ env_api_key_name }}"
-      },
-      "ui:placeholder": "Enter your API key",
-      "ui:description": "Your API key will be securely stored as secret '{{ env_api_key_name }}'"
-    }
-  },
-  "service_options": {
-    "ops_testing_parameters": {
-      "base_url": "https://api.parasail.io/v1",
-      "api_key": "${ secrets.{{ env_api_key_name }} }"
     }
   }
 }

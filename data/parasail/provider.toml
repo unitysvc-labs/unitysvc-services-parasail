@@ -9,10 +9,6 @@ homepage = "https://parasail.io/"
 secondary_contact_email = "inquiries@parasail.io"
 logo = "https://parasail.io/favicon.ico"
 
-[provider_access_info]
-api_key = "..."
-base_url = "https://api.parasail.io/v1"
-
 # These will be provided to services_populator as environment variables
 PARASAIL_API_KEY = "..."
 PARASAIL_API_BASE_URL = "https://api.parasail.io/v1"

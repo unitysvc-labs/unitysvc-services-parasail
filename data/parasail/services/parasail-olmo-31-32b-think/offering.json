@@ -1,25 +1,15 @@
 {
-  "currency": "USD",
-  "description": "",
-  "details": {
-    "model_name": "parasail-olmo-31-32b-think"
-  },
-  "display_name": "parasail-olmo-31-32b-think",
-  "name": "parasail-olmo-31-32b-think",
-  "payout_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.50",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
   "schema": "offering_v1",
+  "time_created": "2026-04-04T18:51:07.056Z",
+  "name": "parasail-olmo-31-32b-think",
+  "display_name": "parasail-olmo-31-32b-think",
+  "description": "",
   "service_type": "llm",
   "status": "ready",
-  "tags": [
-    "ai",
-    "gateway",
-    "byok"
-  ],
+  "currency": "USD",
+  "tags": ["ai", "gateway", "byok"],
+  "details": {"model_name": "parasail-olmo-31-32b-think"},
+  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",

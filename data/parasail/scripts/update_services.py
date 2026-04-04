@@ -176,10 +176,13 @@ class ParasailModelExtractor:
         return template.render(**context)
 
     def build_listing_context(self, model_id: str, price: str) -> Dict:
+        now = datetime.now(timezone.utc)
+        timestamp = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         return {
             "provider_name": PROVIDER_NAME,
             "offering_name": model_id,
             "env_api_key_name": ENV_API_KEY_NAME,
+            "time_created": timestamp,
             "status": "ready",
             "list_price": {
                 "description": "Pricing Per 1M Tokens",
@@ -204,10 +207,13 @@ class ParasailModelExtractor:
             if field in model_data:
                 details[field] = model_data[field]
 
+        now = datetime.now(timezone.utc)
+        timestamp = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         return {
             "provider_name": PROVIDER_NAME,
             "provider_display_name": PROVIDER_DISPLAY_NAME,
             "env_api_key_name": ENV_API_KEY_NAME,
+            "time_created": timestamp,
             "offering_name": model_id,
             "display_name": display_name,
             "description": description,

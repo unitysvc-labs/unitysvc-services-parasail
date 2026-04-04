@@ -1,25 +1,15 @@
 {
-  "currency": "USD",
-  "description": "",
-  "details": {
-    "model_name": "parasail-qwen25-vl-72b-instruct"
-  },
-  "display_name": "parasail-qwen25-vl-72b-instruct",
-  "name": "parasail-qwen25-vl-72b-instruct",
-  "payout_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.70",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
   "schema": "offering_v1",
+  "time_created": "2026-04-04T18:51:07.393Z",
+  "name": "parasail-qwen25-vl-72b-instruct",
+  "display_name": "parasail-qwen25-vl-72b-instruct",
+  "description": "",
   "service_type": "llm",
   "status": "ready",
-  "tags": [
-    "ai",
-    "gateway",
-    "byok"
-  ],
+  "currency": "USD",
+  "tags": ["ai", "gateway", "byok"],
+  "details": {"model_name": "parasail-qwen25-vl-72b-instruct"},
+  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.70", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",

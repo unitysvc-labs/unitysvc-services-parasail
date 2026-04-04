@@ -1,28 +1,23 @@
 {
+  "schema": "listing_v1",
+  "time_created": "2026-04-04T18:51:01.580Z",
+  "status": "ready",
   "currency": "USD",
+  "list_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "user_access_interfaces": {
+    "Provider API": {
+      "access_method": "http",
+      "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
+      "routing_key": {"model": "TheDrummer/Skyfall-36B-v2"}
+    }
+  },
   "documents": {
-    "Connectivity test": {
-      "category": "connectivity_test",
-      "description": "Connectivity test",
-      "file_path": "../../docs/connectivity.sh.j2",
-      "is_active": true,
-      "is_public": false,
-      "mime_type": "bash"
-    },
     "How to use this model": {
       "category": "getting_started",
       "file_path": "../../docs/description.md",
       "is_active": true,
       "is_public": true,
       "mime_type": "markdown"
-    },
-    "JavaScript code example": {
-      "category": "code_example",
-      "description": "Example code to use the model",
-      "file_path": "../../docs/code-example.js.j2",
-      "is_active": true,
-      "is_public": true,
-      "mime_type": "javascript"
     },
     "Python code example": {
       "category": "code_example",
@@ -40,6 +35,14 @@
       "is_public": true,
       "mime_type": "python"
     },
+    "JavaScript code example": {
+      "category": "code_example",
+      "description": "Example code to use the model",
+      "file_path": "../../docs/code-example.js.j2",
+      "is_active": true,
+      "is_public": true,
+      "mime_type": "javascript"
+    },
     "cURL code example": {
       "category": "code_example",
       "description": "Example code to use the model",
@@ -47,53 +50,14 @@
       "is_active": true,
       "is_public": true,
       "mime_type": "bash"
-    }
-  },
-  "list_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.50",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
-  "schema": "listing_v1",
-  "service_options": {
-    "ops_testing_parameters": {
-      "api_key": "${ secrets.PARASAIL_API_KEY }",
-      "base_url": "https://api.parasail.io/v1"
-    }
-  },
-  "status": "ready",
-  "user_access_interfaces": {
-    "Provider API": {
-      "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
-      "routing_key": {
-        "model": "TheDrummer/Skyfall-36B-v2"
-      }
-    }
-  },
-  "user_parameters_schema": {
-    "description": "Access service with your own api-key",
-    "properties": {
-      "api_key": {
-        "default": "",
-        "title": "API Key (PARASAIL_API_KEY)",
-        "type": "string"
-      }
     },
-    "required": [
-      "api_key"
-    ],
-    "title": "Be Your Own Provider",
-    "type": "object"
-  },
-  "user_parameters_ui_schema": {
-    "api_key": {
-      "ui:description": "Your API key will be securely stored as secret 'PARASAIL_API_KEY'",
-      "ui:options": {
-        "secret": "PARASAIL_API_KEY"
-      },
-      "ui:placeholder": "Enter your API key"
+    "Connectivity test": {
+      "category": "connectivity_test",
+      "description": "Connectivity test",
+      "file_path": "../../docs/connectivity.sh.j2",
+      "is_active": true,
+      "is_public": false,
+      "mime_type": "bash"
     }
   }
 }
