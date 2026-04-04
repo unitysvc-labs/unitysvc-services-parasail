@@ -85,10 +85,8 @@ def derive_service_type(model_id: str) -> str:
         return "embedding"
     if any(k in mid for k in ["flux", "stable-diffusion", "sdxl"]):
         return "image_generation"
-    if any(k in mid for k in ["vision", "vl-", "-vl", "llava", "minicpm"]):
-        return "vision_language_model"
-    if any(k in mid for k in ["whisper", "audio", "speech", "tts"]):
-        return "prerecorded_transcription"
+    # vision_language_model and prerecorded_transcription are not valid server-side;
+    # fall back to llm for all text-based models including vision and TTS
     return "llm"
 
 
