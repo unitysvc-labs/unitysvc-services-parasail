@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install unitysvc-services
+          pip install unitysvc-sellers
 
       - name: Execute populate services command
         # Add your provider API key secret here, e.g.:
@@ -38,7 +38,7 @@ jobs:
         #   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo "Running populate services command..."
-          usvc data populate
+          usvc_seller data populate
 
       - name: Check for changes in data directory
         id: check_changes
@@ -61,14 +61,14 @@ jobs:
           commit-message: |
             Auto-populate services data
 
-            Automated update of services data via usvc data populate
+            Automated update of services data via usvc_seller data populate
 
             Generated with GitHub Actions
           title: "Auto-populate services data"
           body: |
             ## Summary
 
-            This PR contains automatically generated changes from running `usvc data populate`.
+            This PR contains automatically generated changes from running `usvc_seller data populate`.
 
             ## Changes Made
 

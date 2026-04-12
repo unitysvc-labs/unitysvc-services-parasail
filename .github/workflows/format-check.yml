@@ -23,12 +23,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install unitysvc-services
+          pip install unitysvc-sellers
 
       - name: Check formatting
         run: |
           echo "Checking data file formatting..."
-          usvc data format --check
+          usvc_seller data format --check
 
       - name: Format check summary
         if: always()
@@ -42,7 +42,7 @@ jobs:
             echo "**Formatting issues detected!**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "### How to fix:" >> $GITHUB_STEP_SUMMARY
-            echo "1. Run \`usvc data format\` locally" >> $GITHUB_STEP_SUMMARY
+            echo "1. Run \`usvc_seller data format\` locally" >> $GITHUB_STEP_SUMMARY
             echo "2. Commit the formatted files" >> $GITHUB_STEP_SUMMARY
             echo "3. Push your changes" >> $GITHUB_STEP_SUMMARY
           fi

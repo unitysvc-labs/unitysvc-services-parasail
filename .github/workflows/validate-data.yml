@@ -26,15 +26,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install unitysvc-services
+      - name: Install unitysvc-sellers
         run: |
           python -m pip install --upgrade pip
-          pip install unitysvc-services
+          pip install unitysvc-sellers
 
       - name: Validate data directory
         run: |
           echo "Validating data directory..."
-          usvc data validate
+          usvc_seller data validate
 
       - name: Data validation summary
         if: always()

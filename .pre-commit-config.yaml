@@ -15,12 +15,12 @@ repos:
       - id: trailing-whitespace
         files: \.(json|md|toml)$
 
-  # Data validation using unitysvc-services
+  # Data validation using unitysvc-sellers
   - repo: local
     hooks:
       - id: validate-data-files
         name: Validate data files against schemas
-        entry: unitysvc_services validate data
+        entry: usvc_seller validate data
         language: system
         files: ^data/.*\.(json|toml|md)$
         pass_filenames: false

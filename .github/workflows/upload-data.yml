@@ -19,10 +19,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install unitysvc-services
+      - name: Install unitysvc-sellers
         run: |
           python -m pip install --upgrade pip
-          pip install unitysvc-services
+          pip install unitysvc-sellers
 
       - name: Upload services
         env:
@@ -30,7 +30,7 @@ jobs:
           UNITYSVC_API_KEY: ${{ secrets.UNITYSVC_API_KEY }}
         run: |
           echo "Uploading services..."
-          usvc services upload
+          usvc_seller services upload
 
       - name: Upload summary
         if: always()
