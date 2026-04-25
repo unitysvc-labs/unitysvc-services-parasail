@@ -7,7 +7,7 @@
   "list_price": {{ list_price | tojson }},
 {%- endif %}
   "user_access_interfaces": {
-    "Provider API": {
+    "provider_api": {
       "access_method": "http",
       "base_url": "${API_GATEWAY_BASE_URL}/p/{{ provider_name }}",
       "routing_key": {"model": "{{ offering_name }}"}
