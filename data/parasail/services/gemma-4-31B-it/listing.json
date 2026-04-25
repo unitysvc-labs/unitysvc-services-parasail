@@ -3,12 +3,19 @@
   "time_created": "2026-04-04T18:51:03.228Z",
   "status": "ready",
   "currency": "USD",
-  "list_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "list_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.50",
+    "type": "one_million_tokens",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"
+  },
   "user_access_interfaces": {
-    "Provider API": {
+    "provider_api": {
       "access_method": "http",
       "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
-      "routing_key": {"model": "google/gemma-4-31B-it"}
+      "routing_key": {
+        "model": "google/gemma-4-31B-it"
+      }
     }
   },
   "documents": {

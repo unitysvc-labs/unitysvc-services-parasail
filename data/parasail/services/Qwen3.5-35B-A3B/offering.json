@@ -7,11 +7,22 @@
   "service_type": "llm",
   "status": "ready",
   "currency": "USD",
-  "tags": ["ai", "gateway", "byok"],
-  "details": {"model_name": "Qwen/Qwen3.5-35B-A3B"},
-  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "details": {
+    "model_name": "Qwen/Qwen3.5-35B-A3B"
+  },
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.50",
+    "type": "one_million_tokens",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"
+  },
   "upstream_access_config": {
-    "Parasail API": {
+    "parasail_api": {
       "access_method": "http",
       "api_key": "${ secrets.PARASAIL_API_KEY }",
       "base_url": "https://api.parasail.io/v1",
