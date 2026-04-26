@@ -9,9 +9,9 @@ homepage = "https://parasail.io/"
 secondary_contact_email = "inquiries@parasail.io"
 logo = "https://parasail.io/favicon.ico"
 
-# These will be provided to services_populator as environment variables
-PARASAIL_API_KEY = "..."
-PARASAIL_API_BASE_URL = "https://api.parasail.io/v1"
-
 [services_populator]
 command = ["scripts/update_services.py", "--force"]
+# scripts/update_services.py reads PARASAIL_API_KEY from os.environ;
+# the workflow must wire it in from `secrets.PARASAIL_API_KEY`.
+# PARASAIL_API_BASE_URL is optional — the script falls back to the
+# public default `https://api.parasail.io/v1`.
