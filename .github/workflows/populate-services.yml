@@ -32,10 +32,8 @@ jobs:
           pip install unitysvc-sellers
 
       - name: Execute populate services command
-        # Add your provider API key secret here, e.g.:
-        # env:
-        #   FIREWORKS_API_KEY: ${{ secrets.FIREWORKS_API_KEY }}
-        #   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        env:
+          PARASAIL_API_KEY: ${{ secrets.PARASAIL_API_KEY }}
         run: |
           echo "Running populate services command..."
           usvc_seller data populate
