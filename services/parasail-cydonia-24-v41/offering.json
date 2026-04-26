@@ -1,0 +1,43 @@
+{
+  "schema": "offering_v1",
+  "time_created": "2026-04-26T03:53:45.337Z",
+  "name": "parasail-cydonia-24-v41",
+  "display_name": "parasail-cydonia-24-v41",
+  "description": "",
+  "service_type": "llm",
+  "status": "ready",
+  "currency": "USD",
+  "tags": ["ai", "gateway", "byok"],
+  "details": {"model_name": "parasail-cydonia-24-v41"},
+  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "upstream_access_config": {
+    "Parasail API": {
+      "access_method": "http",
+      "api_key": "${ secrets.PARASAIL_API_KEY }",
+      "base_url": "https://api.parasail.io/v1",
+      "rate_limits": [
+        {
+          "description": "Requests per minute",
+          "limit": 60,
+          "unit": "requests",
+          "window": "minute"
+        },
+        {
+          "description": "Input tokens per minute",
+          "limit": 100000,
+          "unit": "input_tokens",
+          "window": "minute"
+        },
+        {
+          "description": "Output tokens per minute",
+          "limit": 10000,
+          "unit": "output_tokens",
+          "window": "minute"
+        }
+      ],
+      "routing_key": {
+        "model": "parasail-cydonia-24-v41"
+      }
+    }
+  }
+}
