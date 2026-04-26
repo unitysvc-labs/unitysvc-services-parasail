@@ -20,9 +20,9 @@
     "gateway",
     "byok"
   ],
-  "time_created": "2026-04-04T18:51:01.080Z",
+  "time_created": "2026-04-26T04:58:32.606Z",
   "upstream_access_config": {
-    "parasail_api": {
+    "Parasail API": {
       "access_method": "http",
       "api_key": "${ secrets.PARASAIL_API_KEY }",
       "base_url": "https://api.parasail.io/v1",
