@@ -1,0 +1,54 @@
+{
+  "currency": "USD",
+  "description": "",
+  "details": {
+    "model_name": "Qwen/Qwen3.5-397B-A17B"
+  },
+  "display_name": "Qwen3.5-397B-A17B",
+  "name": "Qwen/Qwen3.5-397B-A17B",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.80",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
+  "service_type": "llm",
+  "status": "ready",
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "time_created": "2026-04-26T03:53:41.656Z",
+  "upstream_access_config": {
+    "Parasail API": {
+      "access_method": "http",
+      "api_key": "${ secrets.PARASAIL_API_KEY }",
+      "base_url": "https://api.parasail.io/v1",
+      "rate_limits": [
+        {
+          "description": "Requests per minute",
+          "limit": 60,
+          "unit": "requests",
+          "window": "minute"
+        },
+        {
+          "description": "Input tokens per minute",
+          "limit": 100000,
+          "unit": "input_tokens",
+          "window": "minute"
+        },
+        {
+          "description": "Output tokens per minute",
+          "limit": 10000,
+          "unit": "output_tokens",
+          "window": "minute"
+        }
+      ],
+      "routing_key": {
+        "model": "Qwen/Qwen3.5-397B-A17B"
+      }
+    }
+  }
+}

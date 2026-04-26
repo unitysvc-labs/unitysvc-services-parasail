@@ -1,26 +1,26 @@
 {
-  "schema": "offering_v1",
-  "time_created": "2026-04-04T18:51:02.399Z",
-  "name": "deepseek-chat",
-  "display_name": "deepseek-chat",
+  "currency": "USD",
   "description": "",
+  "details": {
+    "model_name": "deepseek-chat"
+  },
+  "display_name": "deepseek-chat",
+  "name": "deepseek-chat",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.50",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
   "service_type": "llm",
   "status": "ready",
-  "currency": "USD",
   "tags": [
     "ai",
     "gateway",
     "byok"
   ],
-  "details": {
-    "model_name": "deepseek-chat"
-  },
-  "payout_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.50",
-    "type": "one_million_tokens",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"
-  },
+  "time_created": "2026-04-04T18:51:02.399Z",
   "upstream_access_config": {
     "parasail_api": {
       "access_method": "http",
