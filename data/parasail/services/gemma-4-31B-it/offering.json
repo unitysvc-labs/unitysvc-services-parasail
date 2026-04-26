@@ -2,10 +2,10 @@
   "currency": "USD",
   "description": "",
   "details": {
-    "model_name": "google/gemma-4-31B-it"
+    "model_name": "google/gemma-4-31b-it"
   },
-  "display_name": "gemma-4-31B-it",
-  "name": "google/gemma-4-31B-it",
+  "display_name": "gemma-4-31b-it",
+  "name": "google/gemma-4-31b-it",
   "payout_price": {
     "description": "Pricing Per 1M Tokens",
     "price": "0.50",
@@ -20,9 +20,9 @@
     "gateway",
     "byok"
   ],
-  "time_created": "2026-04-04T18:51:03.227Z",
+  "time_created": "2026-04-26T04:58:35.172Z",
   "upstream_access_config": {
-    "parasail_api": {
+    "Parasail API": {
       "access_method": "http",
       "api_key": "${ secrets.PARASAIL_API_KEY }",
       "base_url": "https://api.parasail.io/v1",
@@ -47,7 +47,7 @@
         }
       ],
       "routing_key": {
-        "model": "google/gemma-4-31B-it"
+        "model": "google/gemma-4-31b-it"
       }
     }
   }
