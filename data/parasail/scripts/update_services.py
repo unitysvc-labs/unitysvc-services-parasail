@@ -32,6 +32,8 @@ from datetime import datetime, timezone
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+from unitysvc_sellers.model_data import ModelDataFetcher, ModelDataLookup
+
 
 PROVIDER_NAME = "parasail"
 PROVIDER_DISPLAY_NAME = "Parasail"
@@ -105,6 +107,7 @@ class ParasailModelExtractor:
         self.api_key = api_key
         self.api_base_url = (api_base_url or "https://api.parasail.io/v1").strip()
         self.templates_dir = templates_dir
+        self.fetcher = ModelDataFetcher()
         self.session = requests.Session()
         self.session.headers.update(
             {
@@ -208,9 +211,35 @@ class ParasailModelExtractor:
 
         details: Dict[str, Any] = {"model_name": model_id}
         for field in ["context_length", "context_window", "max_tokens",
-                      "supports_tools", "supports_vision"]:
+                      "parameter_count", "supports_tools", "supports_vision"]:
             if field in model_data:
                 details[field] = model_data[field]
+
+        # Canonical metadata fallback (PR unitysvc/unitysvc#863 requires
+        # both context_length and parameter_count keys to be present on
+        # every LLM offering — null is the sentinel for "unknown").
+        # Uses ModelDataLookup.get_canonical_metadata which chains
+        # OpenRouter → LiteLLM → HuggingFace.
+        if service_type == "llm":
+            canonical = ModelDataLookup.get_canonical_metadata(
+                model_id, fetcher=self.fetcher
+            )
+            sources: Dict[str, Any] = {}
+            if details.get("context_length") is None:
+                details["context_length"] = canonical["context_length"]
+                if canonical["sources"].get("context_length"):
+                    sources["context_length"] = canonical["sources"]["context_length"]
+            # Parasail's API never reports parameter_count — always pull
+            # from canonical so the validator-required key is populated.
+            details["parameter_count"] = canonical["parameter_count"]
+            if canonical["sources"].get("parameter_count"):
+                sources["parameter_count"] = canonical["sources"]["parameter_count"]
+            if sources:
+                details["metadata_sources"] = sources
+            # Ensure both required keys are present even when canonical
+            # lookup returned nothing — null marks "unknown".
+            details.setdefault("context_length", None)
+            details.setdefault("parameter_count", None)
 
         now = datetime.now(timezone.utc)
         timestamp = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
