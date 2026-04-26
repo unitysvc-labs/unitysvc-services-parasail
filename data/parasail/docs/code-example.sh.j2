@@ -1,4 +1,0 @@
-  curl -X POST $SERVICE_BASE_URL/v1/chat/completions \
-    -H "Authorization: Bearer $UNITYSVC_API_KEY" \
-    -H "content-type: application/json" \
-    -d '{"model": "${MODEL:-{{ offering.name }}}", "chat_template_kwargs": {"thinking": false}, "messages": [{"role": "user", "content": "What is the capital of New York?"}]}'

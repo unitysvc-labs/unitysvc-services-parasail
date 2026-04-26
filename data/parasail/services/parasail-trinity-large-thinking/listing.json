@@ -1,36 +1,25 @@
 {
+  "schema": "listing_v1",
+  "time_created": "2026-04-26T06:02:04.316Z",
+  "status": "ready",
   "currency": "USD",
+  "list_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "user_access_interfaces": {
+    "provider_api": {
+      "access_method": "http",
+      "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
+      "routing_key": {"model": "parasail-trinity-large-thinking"}
+    }
+  },
   "documents": {
-    "Connectivity test": {
-      "category": "connectivity_test",
-      "description": "Connectivity test",
-      "file_path": "../../docs/connectivity.sh.j2",
-      "is_active": true,
-      "is_public": false,
-      "mime_type": "bash"
-    },
     "How to use this model": {
-      "category": "getting_started",
-      "file_path": "../../docs/description.md",
-      "is_active": true,
-      "is_public": true,
-      "mime_type": "markdown"
-    },
-    "JavaScript code example": {
-      "category": "code_example",
-      "description": "Example code to use the model",
-      "file_path": "../../docs/code-example.js.j2",
-      "is_active": true,
-      "is_public": true,
-      "mime_type": "javascript"
+      "$doc_preset": "llm_description"
     },
     "Python code example": {
-      "category": "code_example",
-      "description": "Example code to use the model",
-      "file_path": "../../docs/code-example.py.j2",
-      "is_active": true,
-      "is_public": true,
-      "mime_type": "python"
+      "$doc_preset": {
+        "name": "llm_code_example_openai",
+        "description": "Example code to use the model"
+      }
     },
     "Python function calling code example": {
       "category": "code_example",
@@ -40,31 +29,25 @@
       "is_public": true,
       "mime_type": "python"
     },
-    "cURL code example": {
-      "category": "code_example",
-      "description": "Example code to use the model",
-      "file_path": "../../docs/code-example.sh.j2",
-      "is_active": true,
-      "is_public": true,
-      "mime_type": "bash"
-    }
-  },
-  "list_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.50",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
-  "schema": "listing_v1",
-  "status": "ready",
-  "time_created": "2026-04-26T04:58:42.071Z",
-  "user_access_interfaces": {
-    "provider_api": {
-      "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
-      "routing_key": {
-        "model": "parasail-trinity-large-thinking"
+    "JavaScript code example": {
+      "$doc_preset": {
+        "name": "llm_code_example_javascript",
+        "description": "Example code to use the model"
       }
+    },
+    "cURL code example": {
+      "$doc_preset": {
+        "name": "llm_code_example_shell",
+        "description": "Example code to use the model"
+      }
+    },
+    "Connectivity test": {
+      "category": "connectivity_test",
+      "description": "Connectivity test",
+      "file_path": "../../docs/connectivity.sh.j2",
+      "is_active": true,
+      "is_public": false,
+      "mime_type": "bash"
     }
   }
 }
