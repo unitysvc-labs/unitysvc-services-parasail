@@ -9,9 +9,14 @@ This script:
 4. Flags deprecated service directories
 
 Usage:
-  python update_services.py [output_dir]                    # Process all models
+  python update_services.py                                # Process all models
   python update_services.py --models model1 model2         # Process specific models
   python update_services.py custom_dir --models model1     # Custom output + specific models
+
+The default output directory is `data/parasail/services` (resolved
+relative to the script's location, not the current working
+directory) so the script writes to the right place no matter where
+it is invoked from.
 """
 
 import os
@@ -425,14 +430,19 @@ class ParasailModelExtractor:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    # Resolve the default output directory relative to this script so the
+    # behaviour matches the other 12 unitysvc-services-* repos and is
+    # independent of the current working directory.
+    DEFAULT_OUTPUT_DIR = str(Path(__file__).resolve().parent.parent / "services")
+
     parser = argparse.ArgumentParser(
         description="Extract model data from Parasail API and generate service files"
     )
     parser.add_argument(
         "output_dir",
         nargs="?",
-        default="services",
-        help="Output directory for service files (default: services)",
+        default=DEFAULT_OUTPUT_DIR,
+        help=f"Output directory for service files (default: {DEFAULT_OUTPUT_DIR})",
     )
     parser.add_argument(
         "--models",
