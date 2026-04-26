@@ -1,15 +1,28 @@
 {
-  "schema": "offering_v1",
-  "time_created": "2026-04-26T06:01:54.596Z",
-  "name": "Qwen/Qwen3-Next-80B-A3B-Instruct",
-  "display_name": "Qwen3-Next-80B-A3B-Instruct",
+  "currency": "USD",
   "description": "",
+  "details": {
+    "context_length": null,
+    "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "parameter_count": null
+  },
+  "display_name": "Qwen3-Next-80B-A3B-Instruct",
+  "name": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.70",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
   "service_type": "llm",
   "status": "ready",
-  "currency": "USD",
-  "tags": ["ai", "gateway", "byok"],
-  "details": {"model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct"},
-  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.70", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "time_created": "2026-04-26T06:01:54.596Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
