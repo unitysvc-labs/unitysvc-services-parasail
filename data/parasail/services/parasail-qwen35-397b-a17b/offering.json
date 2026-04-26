@@ -1,26 +1,15 @@
 {
-  "currency": "USD",
-  "description": "",
-  "details": {
-    "model_name": "parasail-qwen35-397b-a17b"
-  },
-  "display_name": "parasail-qwen35-397b-a17b",
-  "name": "parasail-qwen35-397b-a17b",
-  "payout_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.80",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
   "schema": "offering_v1",
+  "time_created": "2026-04-26T06:02:03.175Z",
+  "name": "parasail-qwen35-397b-a17b",
+  "display_name": "parasail-qwen35-397b-a17b",
+  "description": "",
   "service_type": "llm",
   "status": "ready",
-  "tags": [
-    "ai",
-    "gateway",
-    "byok"
-  ],
-  "time_created": "2026-04-26T04:58:40.835Z",
+  "currency": "USD",
+  "tags": ["ai", "gateway", "byok"],
+  "details": {"model_name": "parasail-qwen35-397b-a17b"},
+  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.80", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
