@@ -2,41 +2,22 @@
   "currency": "USD",
   "documents": {
     "Connectivity test": {
-      "category": "connectivity_test",
-      "description": "Connectivity test",
-      "file_path": "../../docs/connectivity.sh.j2",
-      "is_active": true,
-      "is_public": false,
-      "mime_type": "bash"
+      "$doc_preset": "api_connectivity"
     },
     "How to use this model": {
       "$doc_preset": "llm_description"
     },
     "JavaScript code example": {
-      "$doc_preset": {
-        "description": "Example code to use the model",
-        "name": "llm_code_example_javascript"
-      }
+      "$doc_preset": "llm_code_example_javascript"
     },
     "Python code example": {
-      "$doc_preset": {
-        "description": "Example code to use the model",
-        "name": "llm_code_example_openai"
-      }
+      "$doc_preset": "llm_code_example_openai"
     },
     "Python function calling code example": {
-      "category": "code_example",
-      "description": "Example code to use the model",
-      "file_path": "../../docs/code-example-fc.py.j2",
-      "is_active": true,
-      "is_public": true,
-      "mime_type": "python"
+      "$doc_preset": "llm_code_example_fc_requests"
     },
     "cURL code example": {
-      "$doc_preset": {
-        "description": "Example code to use the model",
-        "name": "llm_code_example_shell"
-      }
+      "$doc_preset": "llm_code_example_shell"
     }
   },
   "list_price": {
