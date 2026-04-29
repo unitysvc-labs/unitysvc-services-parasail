@@ -22,7 +22,7 @@ response = requests.post(
     f"{os.getenv('SERVICE_BASE_URL')}/chat/completions",
     headers={"Authorization": f"Bearer {UNITYSVC_API_KEY}"},
     json={
-        "model": os.environ.get("MODEL", "{{ offering.name }}"),
+        "model": "{{ routing_key.model }}",
         "messages": [
             {"role": "user", "content": "How does matrix multiplication work?"}
         ],
