@@ -1,0 +1,36 @@
+{
+  "schema": "listing_v1",
+  "time_created": "{{ time_created }}",
+  "status": "{{ status | default('ready') }}",
+  "currency": "USD",
+{%- if list_price %}
+  "list_price": {{ list_price | tojson }},
+{%- endif %}
+  "user_access_interfaces": {
+    "provider_api": {
+      "access_method": "http",
+      "base_url": "${API_GATEWAY_BASE_URL}/p/{{ provider_name }}",
+      "routing_key": {"model": "{{ offering_name }}"}
+    }
+  },
+  "documents": {
+    "How to use this model": {
+      "$doc_preset": "llm_description"
+    },
+    "Python code example": {
+      "$doc_preset": "llm_code_example_openai"
+    },
+    "Python function calling code example": {
+      "$doc_preset": "llm_code_example_fc_requests"
+    },
+    "JavaScript code example": {
+      "$doc_preset": "llm_code_example_javascript"
+    },
+    "cURL code example": {
+      "$doc_preset": "llm_code_example_shell"
+    },
+    "Connectivity test": {
+      "$doc_preset": "api_connectivity"
+    }
+  }
+}

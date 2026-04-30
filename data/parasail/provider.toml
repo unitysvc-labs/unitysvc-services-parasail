@@ -1,0 +1,17 @@
+schema = "provider_v1"
+time_created = "2025-08-17T10:55:04.976433Z"
+name = "parasail"
+display_name = "Parasail"
+status = "ready"
+terms_of_service = "https://parasail.io/terms"
+contact_email = "support@parasail.io"
+homepage = "https://parasail.io/"
+secondary_contact_email = "inquiries@parasail.io"
+logo = "https://parasail.io/favicon.ico"
+
+[services_populator]
+command = ["scripts/update_services.py", "--force"]
+# scripts/update_services.py reads PARASAIL_API_KEY from os.environ;
+# the workflow must wire it in from `secrets.PARASAIL_API_KEY`.
+# PARASAIL_API_BASE_URL is optional — the script falls back to the
+# public default `https://api.parasail.io/v1`.
