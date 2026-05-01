@@ -38,7 +38,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add $(find data -name "listing.override.json" -o -name "listing.override.toml" 2>/dev/null) || true
+          find data \( -name "*.override.json" -o -name "*.override.toml" \) -exec git add {} +
           if ! git diff --cached --quiet; then
             git commit -m "ci: write back service_id override files [skip ci]"
             git push
