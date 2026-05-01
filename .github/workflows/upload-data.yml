@@ -52,7 +52,7 @@ jobs:
           UNITYSVC_SELLER_API_URL: ${{ secrets.SERVICE_API_URL }}
         run: |
           echo "Submitting services for review..."
-          usvc_seller services submit --from-data data --yes
+          usvc_seller services submit --from-data --data-dir data --yes
 
       - name: Upload summary
         if: always()
