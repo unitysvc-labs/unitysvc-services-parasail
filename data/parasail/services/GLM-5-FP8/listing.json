@@ -2,7 +2,7 @@
   "currency": "USD",
   "documents": {
     "Connectivity test": {
-      "$doc_preset": "api_connectivity"
+      "$doc_preset": "llm_connectivity"
     },
     "How to use this model": {
       "$doc_preset": "llm_description"
