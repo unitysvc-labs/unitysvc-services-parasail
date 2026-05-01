@@ -10,6 +10,8 @@ jobs:
     # Only run if the PR was merged (not just closed)
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to push override files back to main
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,11 +28,31 @@ jobs:
 
       - name: Upload services
         env:
-          UNITYSVC_API_URL: ${{ secrets.SERVICE_API_URL }}
-          UNITYSVC_API_KEY: ${{ secrets.UNITYSVC_API_KEY }}
+          UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_API_KEY }}
+          UNITYSVC_SELLER_API_URL: ${{ secrets.SERVICE_API_URL }}
         run: |
           echo "Uploading services..."
-          usvc_seller services upload
+          usvc_seller data upload
+
+      - name: Commit back override files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add $(find data -name "listing.override.json" -o -name "listing.override.toml" 2>/dev/null) || true
+          if ! git diff --cached --quiet; then
+            git commit -m "ci: write back service_id override files [skip ci]"
+            git push
+          else
+            echo "No override files changed"
+          fi
+
+      - name: Submit services for review
+        env:
+          UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_API_KEY }}
+          UNITYSVC_SELLER_API_URL: ${{ secrets.SERVICE_API_URL }}
+        run: |
+          echo "Submitting services for review..."
+          usvc_seller services submit --from-data data --yes
 
       - name: Upload summary
         if: always()
@@ -38,8 +60,5 @@ jobs:
           echo "## Upload Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Uploaded to Backend" >> $GITHUB_STEP_SUMMARY
-          echo "- Backend URL: \`${{ secrets.UNITYSVC_API_URL }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend URL: \`${{ secrets.SERVICE_API_URL }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- Triggered by PR: #${{ github.event.pull_request.number }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Upload Details" >> $GITHUB_STEP_SUMMARY
-          echo "Services are uploaded atomically (provider + offering + listing together)" >> $GITHUB_STEP_SUMMARY
