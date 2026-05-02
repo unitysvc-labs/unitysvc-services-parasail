@@ -28,8 +28,8 @@ jobs:
 
       - name: Upload services
         env:
-          UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_API_KEY }}
-          UNITYSVC_SELLER_API_URL: ${{ secrets.SERVICE_API_URL }}
+          UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_SELLER_API_KEY }}
+          UNITYSVC_SELLER_API_URL: ${{ secrets.UNITYSVC_SELLER_API_URL }}
         run: |
           echo "Uploading services..."
           usvc_seller data upload
@@ -48,11 +48,11 @@ jobs:
 
       - name: Submit services for review
         env:
-          UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_API_KEY }}
-          UNITYSVC_SELLER_API_URL: ${{ secrets.SERVICE_API_URL }}
+          UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_SELLER_API_KEY }}
+          UNITYSVC_SELLER_API_URL: ${{ secrets.UNITYSVC_SELLER_API_URL }}
         run: |
           echo "Submitting services for review..."
-          usvc_seller services submit --from-data --data-dir data --yes
+          usvc_seller services submit --local-ids --data-dir data --yes
 
       - name: Upload summary
         if: always()
