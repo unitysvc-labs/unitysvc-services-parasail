@@ -1,33 +1,20 @@
 {
-  "currency": "USD",
-  "description": "",
-  "details": {
-    "context_length": null,
-    "model_name": "meta-llama/Llama-3.3-70B-Instruct",
-    "parameter_count": null
-  },
-  "display_name": "Llama-3.3-70B-Instruct",
-  "name": "meta-llama/Llama-3.3-70B-Instruct",
-  "payout_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.70",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
   "schema": "offering_v1",
+  "time_created": "2026-05-03T03:16:31.107Z",
+  "name": "meta-llama/Llama-3.3-70B-Instruct",
+  "display_name": "Llama-3.3-70B-Instruct",
+  "description": "",
   "service_type": "llm",
   "status": "ready",
-  "tags": [
-    "ai",
-    "gateway",
-    "byok"
-  ],
-  "time_created": "2026-04-26T06:01:58.017Z",
+  "currency": "USD",
+  "tags": ["ai", "gateway", "byok"],
+  "details": {"model_name": "meta-llama/Llama-3.3-70B-Instruct", "context_length": 65536, "parameter_count": null, "metadata_sources": {"context_length": "openrouter"}},
+  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.70", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
       "api_key": "${ secrets.PARASAIL_API_KEY }",
-      "base_url": "https://api.parasail.io/v1",
+      "base_url": "https://api.parasail.io",
       "rate_limits": [
         {
           "description": "Requests per minute",
