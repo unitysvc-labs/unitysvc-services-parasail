@@ -253,7 +253,7 @@ class ParasailModelExtractor:
             "description": description,
             "service_type": service_type,
             "status": "ready",
-            "api_base_url": "https://api.parasail.io/v1",
+            "api_base_url": "https://api.parasail.io",
             "details": details,
             "payout_price": {
                 "description": "Pricing Per 1M Tokens",
