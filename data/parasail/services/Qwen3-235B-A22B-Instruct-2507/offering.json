@@ -1,15 +1,31 @@
 {
-  "schema": "offering_v1",
-  "time_created": "2026-05-03T03:16:17.142Z",
-  "name": "Qwen/Qwen3-235B-A22B-Instruct-2507",
-  "display_name": "Qwen3-235B-A22B-Instruct-2507",
+  "currency": "USD",
   "description": "",
+  "details": {
+    "context_length": 131072,
+    "metadata_sources": {
+      "context_length": "openrouter"
+    },
+    "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    "parameter_count": null
+  },
+  "display_name": "Qwen3-235B-A22B-Instruct-2507",
+  "name": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.80",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
   "service_type": "llm",
   "status": "ready",
-  "currency": "USD",
-  "tags": ["ai", "gateway", "byok"],
-  "details": {"model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507", "context_length": 131072, "parameter_count": null, "metadata_sources": {"context_length": "openrouter"}},
-  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.80", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "time_created": "2026-05-03T03:16:17.142Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
