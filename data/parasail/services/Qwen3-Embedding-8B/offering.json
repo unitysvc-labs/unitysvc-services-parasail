@@ -1,15 +1,26 @@
 {
-  "schema": "offering_v1",
-  "time_created": "2026-05-04T14:44:36.456Z",
-  "name": "Qwen/Qwen3-Embedding-8B",
-  "display_name": "Qwen3-Embedding-8B",
+  "currency": "USD",
   "description": "",
+  "details": {
+    "model_name": "Qwen/Qwen3-Embedding-8B"
+  },
+  "display_name": "Qwen3-Embedding-8B",
+  "name": "Qwen/Qwen3-Embedding-8B",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.08",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
   "service_type": "embedding",
   "status": "ready",
-  "currency": "USD",
-  "tags": ["ai", "gateway", "byok"],
-  "details": {"model_name": "Qwen/Qwen3-Embedding-8B"},
-  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.08", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "time_created": "2026-05-04T15:02:04.698Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",

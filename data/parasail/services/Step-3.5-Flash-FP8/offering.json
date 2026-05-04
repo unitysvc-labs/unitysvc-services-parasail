@@ -1,15 +1,31 @@
 {
-  "schema": "offering_v1",
-  "time_created": "2026-05-04T14:45:15.426Z",
-  "name": "stepfun-ai/Step-3.5-Flash-FP8",
-  "display_name": "Step-3.5-Flash-FP8",
+  "currency": "USD",
   "description": "",
+  "details": {
+    "context_length": null,
+    "metadata_sources": {
+      "parameter_count": "huggingface_safetensors"
+    },
+    "model_name": "stepfun-ai/Step-3.5-Flash-FP8",
+    "parameter_count": 190253629440
+  },
+  "display_name": "Step-3.5-Flash-FP8",
+  "name": "stepfun-ai/Step-3.5-Flash-FP8",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.50",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
   "service_type": "llm",
   "status": "ready",
-  "currency": "USD",
-  "tags": ["ai", "gateway", "byok"],
-  "details": {"model_name": "stepfun-ai/Step-3.5-Flash-FP8", "context_length": null, "parameter_count": 190253629440, "metadata_sources": {"parameter_count": "huggingface_safetensors"}},
-  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "time_created": "2026-05-04T15:02:24.792Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
