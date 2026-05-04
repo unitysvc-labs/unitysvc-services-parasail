@@ -1,28 +1,15 @@
 {
-  "currency": "USD",
-  "description": "",
-  "details": {
-    "context_length": null,
-    "model_name": "TheDrummer/Skyfall-31B-v4.2",
-    "parameter_count": null
-  },
-  "display_name": "Skyfall-31B-v4.2",
-  "name": "TheDrummer/Skyfall-31B-v4.2",
-  "payout_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.50",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
   "schema": "offering_v1",
+  "time_created": "2026-05-04T14:44:38.463Z",
+  "name": "TheDrummer/Skyfall-31B-v4.2",
+  "display_name": "Skyfall-31B-v4.2",
+  "description": "",
   "service_type": "llm",
   "status": "ready",
-  "tags": [
-    "ai",
-    "gateway",
-    "byok"
-  ],
-  "time_created": "2026-05-03T03:16:23.206Z",
+  "currency": "USD",
+  "tags": ["ai", "gateway", "byok"],
+  "details": {"model_name": "TheDrummer/Skyfall-31B-v4.2", "context_length": null, "parameter_count": 31352980480, "metadata_sources": {"parameter_count": "huggingface_safetensors"}},
+  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",

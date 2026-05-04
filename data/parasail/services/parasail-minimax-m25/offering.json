@@ -1,28 +1,15 @@
 {
-  "currency": "USD",
-  "description": "",
-  "details": {
-    "context_length": null,
-    "model_name": "parasail-minimax-m25",
-    "parameter_count": null
-  },
-  "display_name": "parasail-minimax-m25",
-  "name": "parasail-minimax-m25",
-  "payout_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.50",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
   "schema": "offering_v1",
+  "time_created": "2026-05-04T14:45:01.083Z",
+  "name": "parasail-minimax-m25",
+  "display_name": "parasail-minimax-m25",
+  "description": "",
   "service_type": "llm",
   "status": "ready",
-  "tags": [
-    "ai",
-    "gateway",
-    "byok"
-  ],
-  "time_created": "2026-05-03T03:16:46.250Z",
+  "currency": "USD",
+  "tags": ["ai", "gateway", "byok"],
+  "details": {"model_name": "parasail-minimax-m25", "context_length": null, "parameter_count": null},
+  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",

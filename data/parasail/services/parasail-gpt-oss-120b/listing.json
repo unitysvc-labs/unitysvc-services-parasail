@@ -1,14 +1,19 @@
 {
+  "schema": "listing_v1",
+  "time_created": "2026-05-04T14:44:54.990Z",
+  "status": "ready",
   "currency": "USD",
+  "list_price": {"description": "Pricing Per 1M Tokens", "price": "0.80", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "user_access_interfaces": {
+    "provider_api": {
+      "access_method": "http",
+      "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
+      "routing_key": {"model": "parasail-gpt-oss-120b"}
+    }
+  },
   "documents": {
-    "Connectivity test": {
-      "$doc_preset": "llm_connectivity"
-    },
     "How to use this model": {
       "$doc_preset": "llm_description"
-    },
-    "JavaScript code example": {
-      "$doc_preset": "llm_code_example_javascript"
     },
     "Python code example": {
       "$doc_preset": "llm_code_example_openai"
@@ -16,26 +21,14 @@
     "Python function calling code example": {
       "$doc_preset": "llm_code_example_fc_requests"
     },
+    "JavaScript code example": {
+      "$doc_preset": "llm_code_example_javascript"
+    },
     "cURL code example": {
       "$doc_preset": "llm_code_example_shell"
-    }
-  },
-  "list_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.80",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
-  "schema": "listing_v1",
-  "status": "ready",
-  "time_created": "2026-05-03T03:16:41.669Z",
-  "user_access_interfaces": {
-    "provider_api": {
-      "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
-      "routing_key": {
-        "model": "parasail-gpt-oss-120b"
-      }
+    },
+    "Connectivity test": {
+      "$doc_preset": "llm_connectivity"
     }
   }
 }
