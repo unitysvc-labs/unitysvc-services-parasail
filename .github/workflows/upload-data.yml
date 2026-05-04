@@ -52,7 +52,7 @@ jobs:
           UNITYSVC_SELLER_API_URL: ${{ secrets.UNITYSVC_SELLER_API_URL }}
         run: |
           echo "Publishing services to make them visible in the catalog..."
-          usvc_seller services publish --local-ids --data-dir data --yes
+          usvc_seller services set-visibility public --local-ids --data-dir data --yes
 
       - name: Submit services for review
         env:
