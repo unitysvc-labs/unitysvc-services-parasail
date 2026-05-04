@@ -11,6 +11,7 @@ logo = "https://parasail.io/favicon.ico"
 
 [services_populator]
 command = ["scripts/update_services.py", "--force"]
+requirements = ['requests', 'unitysvc-sellers']
 # scripts/update_services.py reads PARASAIL_API_KEY from os.environ;
 # the workflow must wire it in from `secrets.PARASAIL_API_KEY`.
 # PARASAIL_API_BASE_URL is optional — the script falls back to the
