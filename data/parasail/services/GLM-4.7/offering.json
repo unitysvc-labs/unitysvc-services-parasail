@@ -1,15 +1,31 @@
 {
-  "schema": "offering_v1",
-  "time_created": "2026-05-04T14:45:15.644Z",
-  "name": "zai-org/GLM-4.7",
-  "display_name": "GLM-4.7",
+  "currency": "USD",
   "description": "",
+  "details": {
+    "context_length": null,
+    "metadata_sources": {
+      "parameter_count": "huggingface_safetensors"
+    },
+    "model_name": "zai-org/GLM-4.7",
+    "parameter_count": 358337776896
+  },
+  "display_name": "GLM-4.7",
+  "name": "zai-org/GLM-4.7",
+  "payout_price": {
+    "description": "Pricing Per 1M Tokens",
+    "price": "0.50",
+    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+    "type": "one_million_tokens"
+  },
+  "schema": "offering_v1",
   "service_type": "llm",
   "status": "ready",
-  "currency": "USD",
-  "tags": ["ai", "gateway", "byok"],
-  "details": {"model_name": "zai-org/GLM-4.7", "context_length": null, "parameter_count": 358337776896, "metadata_sources": {"parameter_count": "huggingface_safetensors"}},
-  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.50", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
+  "tags": [
+    "ai",
+    "gateway",
+    "byok"
+  ],
+  "time_created": "2026-05-04T15:02:24.990Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
