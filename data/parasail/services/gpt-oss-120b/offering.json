@@ -1,31 +1,15 @@
 {
-  "currency": "USD",
-  "description": "",
-  "details": {
-    "context_length": 131072,
-    "metadata_sources": {
-      "context_length": "openrouter"
-    },
-    "model_name": "openai/gpt-oss-120b",
-    "parameter_count": null
-  },
-  "display_name": "gpt-oss-120b",
-  "name": "openai/gpt-oss-120b",
-  "payout_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.80",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
-  },
   "schema": "offering_v1",
+  "time_created": "2026-05-04T14:44:44.656Z",
+  "name": "openai/gpt-oss-120b",
+  "display_name": "gpt-oss-120b",
+  "description": "",
   "service_type": "llm",
   "status": "ready",
-  "tags": [
-    "ai",
-    "gateway",
-    "byok"
-  ],
-  "time_created": "2026-05-03T03:16:34.395Z",
+  "currency": "USD",
+  "tags": ["ai", "gateway", "byok"],
+  "details": {"model_name": "openai/gpt-oss-120b", "context_length": 131072, "parameter_count": 118244966400, "metadata_sources": {"context_length": "openrouter", "parameter_count": "huggingface_safetensors"}},
+  "payout_price": {"description": "Pricing Per 1M Tokens", "price": "0.80", "type": "one_million_tokens", "reference": "https://docs.parasail.io/parasail-docs/billing/pricing"},
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
