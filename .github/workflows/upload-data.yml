@@ -46,6 +46,14 @@ jobs:
             echo "No override files changed"
           fi
 
+      - name: Publish services
+        env:
+          UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_SELLER_API_KEY }}
+          UNITYSVC_SELLER_API_URL: ${{ secrets.UNITYSVC_SELLER_API_URL }}
+        run: |
+          echo "Publishing services to make them visible in the catalog..."
+          usvc_seller services publish --local-ids --data-dir data --yes
+
       - name: Submit services for review
         env:
           UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_SELLER_API_KEY }}
