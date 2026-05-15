@@ -14,7 +14,7 @@
   },
   "schema": "offering_v1",
   "service_type": "embedding",
-  "status": "ready",
+  "status": "deprecated",
   "tags": [
     "ai",
     "gateway",
