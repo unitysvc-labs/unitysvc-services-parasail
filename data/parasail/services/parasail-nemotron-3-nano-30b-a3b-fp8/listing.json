@@ -28,13 +28,13 @@
   },
   "schema": "listing_v1",
   "status": "ready",
-  "time_created": "2026-05-15T06:00:49.996Z",
+  "time_created": "2026-05-15T06:01:04.104Z",
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
       "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
       "routing_key": {
-        "model": "moonshotai/Kimi-K2.5"
+        "model": "parasail-nemotron-3-nano-30b-a3b-fp8"
       }
     }
   }

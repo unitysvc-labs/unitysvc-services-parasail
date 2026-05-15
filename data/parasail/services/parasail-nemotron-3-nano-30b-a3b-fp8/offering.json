@@ -3,11 +3,11 @@
   "description": "",
   "details": {
     "context_length": null,
-    "model_name": "parasail-kimi-k25",
+    "model_name": "parasail-nemotron-3-nano-30b-a3b-fp8",
     "parameter_count": null
   },
-  "display_name": "parasail-kimi-k25",
-  "name": "parasail-kimi-k25",
+  "display_name": "parasail-nemotron-3-nano-30b-a3b-fp8",
+  "name": "parasail-nemotron-3-nano-30b-a3b-fp8",
   "payout_price": {
     "description": "Pricing Per 1M Tokens",
     "price": "0.50",
@@ -22,7 +22,7 @@
     "gateway",
     "byok"
   ],
-  "time_created": "2026-05-15T06:01:00.186Z",
+  "time_created": "2026-05-15T06:01:04.104Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
@@ -49,7 +49,7 @@
         }
       ],
       "routing_key": {
-        "model": "parasail-kimi-k25"
+        "model": "parasail-nemotron-3-nano-30b-a3b-fp8"
       }
     }
   }
