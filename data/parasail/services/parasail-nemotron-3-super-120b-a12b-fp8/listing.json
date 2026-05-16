@@ -22,19 +22,19 @@
   },
   "list_price": {
     "description": "Pricing Per 1M Tokens",
-    "price": "0.50",
+    "price": "0.80",
     "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
     "type": "one_million_tokens"
   },
   "schema": "listing_v1",
   "status": "ready",
-  "time_created": "2026-05-16T05:32:49.613Z",
+  "time_created": "2026-05-16T05:32:50.546Z",
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
       "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
       "routing_key": {
-        "model": "parasail-mistral-small-32-24b"
+        "model": "parasail-nemotron-3-super-120b-a12b-fp8"
       }
     }
   }

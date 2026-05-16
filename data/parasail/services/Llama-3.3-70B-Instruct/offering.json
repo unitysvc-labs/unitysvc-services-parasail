@@ -2,7 +2,7 @@
   "currency": "USD",
   "description": "",
   "details": {
-    "context_length": 65536,
+    "context_length": 131072,
     "metadata_sources": {
       "context_length": "openrouter",
       "parameter_count": "huggingface_safetensors"
@@ -26,7 +26,7 @@
     "gateway",
     "byok"
   ],
-  "time_created": "2026-05-04T15:02:09.417Z",
+  "time_created": "2026-05-16T05:32:39.264Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",

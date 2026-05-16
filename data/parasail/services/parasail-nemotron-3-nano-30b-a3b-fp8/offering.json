@@ -2,15 +2,12 @@
   "currency": "USD",
   "description": "",
   "details": {
-    "context_length": 128000,
-    "metadata_sources": {
-      "context_length": "openrouter"
-    },
-    "model_name": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+    "context_length": null,
+    "model_name": "parasail-nemotron-3-nano-30b-a3b-fp8",
     "parameter_count": null
   },
-  "display_name": "Mistral-Small-3.2-24B-Instruct-2506",
-  "name": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+  "display_name": "parasail-nemotron-3-nano-30b-a3b-fp8",
+  "name": "parasail-nemotron-3-nano-30b-a3b-fp8",
   "payout_price": {
     "description": "Pricing Per 1M Tokens",
     "price": "0.50",
@@ -25,7 +22,7 @@
     "gateway",
     "byok"
   ],
-  "time_created": "2026-05-16T05:32:39.660Z",
+  "time_created": "2026-05-16T05:32:50.075Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
@@ -52,7 +49,7 @@
         }
       ],
       "routing_key": {
-        "model": "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+        "model": "parasail-nemotron-3-nano-30b-a3b-fp8"
       }
     }
   }
