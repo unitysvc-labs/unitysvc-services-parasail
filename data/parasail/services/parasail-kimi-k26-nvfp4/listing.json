@@ -27,12 +27,12 @@
     "type": "one_million_tokens"
   },
   "schema": "listing_v1",
-  "status": "upstream_deprecated",
+  "status": "deprecated",
   "time_created": "2026-05-04T15:02:16.539Z",
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/p/parasail",
+      "base_url": "${API_GATEWAY_BASE_URL}/parasail",
       "routing_key": {
         "model": "parasail-kimi-k26-nvfp4"
       }
