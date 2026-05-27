@@ -4,13 +4,14 @@
   "details": {
     "context_length": 262144,
     "metadata_sources": {
-      "context_length": "openrouter"
+      "context_length": "openrouter",
+      "parameter_count": "huggingface_safetensors"
     },
-    "model_name": "moonshotai/kimi-k2.5",
-    "parameter_count": null
+    "model_name": "moonshotai/Kimi-K2.5",
+    "parameter_count": 1014687129600
   },
-  "display_name": "kimi-k2.5",
-  "name": "moonshotai/kimi-k2.5",
+  "display_name": "Kimi-K2.5",
+  "name": "moonshotai/Kimi-K2.5",
   "payout_price": {
     "description": "Pricing Per 1M Tokens",
     "price": "0.50",
@@ -25,7 +26,7 @@
     "gateway",
     "byok"
   ],
-  "time_created": "2026-05-27T06:35:39.099Z",
+  "time_created": "2026-05-27T06:35:38.026Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
@@ -52,7 +53,7 @@
         }
       ],
       "routing_key": {
-        "model": "moonshotai/kimi-k2.5"
+        "model": "moonshotai/Kimi-K2.5"
       }
     }
   }
