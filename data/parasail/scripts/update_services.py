@@ -333,10 +333,10 @@ class ParasailModelExtractor:
                         data["status"] = "deprecated"
                         updated = True
                         msg = "offering status to deprecated"
-                    elif schema == "listing_v1" and data.get("status") != "upstream_deprecated":
-                        data["status"] = "upstream_deprecated"
+                    elif schema == "listing_v1" and data.get("status") != "deprecated":
+                        data["status"] = "deprecated"
                         updated = True
-                        msg = "listing status to upstream_deprecated"
+                        msg = "listing status to deprecated"
 
                     if updated:
                         if dry_run:
