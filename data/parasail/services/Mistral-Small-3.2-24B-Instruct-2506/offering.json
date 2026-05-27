@@ -4,10 +4,11 @@
   "details": {
     "context_length": 128000,
     "metadata_sources": {
-      "context_length": "openrouter"
+      "context_length": "openrouter",
+      "parameter_count": "huggingface_safetensors"
     },
     "model_name": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
-    "parameter_count": null
+    "parameter_count": 24011361280
   },
   "display_name": "Mistral-Small-3.2-24B-Instruct-2506",
   "name": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -25,7 +26,7 @@
     "gateway",
     "byok"
   ],
-  "time_created": "2026-05-25T06:42:24.717Z",
+  "time_created": "2026-05-27T06:35:37.814Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",

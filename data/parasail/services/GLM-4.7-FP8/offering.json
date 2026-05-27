@@ -4,10 +4,11 @@
   "details": {
     "context_length": 202752,
     "metadata_sources": {
-      "context_length": "litellm"
+      "context_length": "litellm",
+      "parameter_count": "huggingface_safetensors"
     },
     "model_name": "zai-org/GLM-4.7-FP8",
-    "parameter_count": null
+    "parameter_count": 355105505280
   },
   "display_name": "GLM-4.7-FP8",
   "name": "zai-org/GLM-4.7-FP8",
@@ -25,7 +26,7 @@
     "gateway",
     "byok"
   ],
-  "time_created": "2026-05-25T06:42:41.297Z",
+  "time_created": "2026-05-27T06:36:08.441Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
