@@ -26,13 +26,14 @@
     "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
     "type": "one_million_tokens"
   },
+  "name": "parasail/parasail-kimi-k26-nvfp4",
   "schema": "listing_v1",
   "status": "deprecated",
   "time_created": "2026-05-04T15:02:16.539Z",
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/parasail",
+      "base_url": "${API_GATEWAY_BASE_URL}/{{ service_name }}",
       "routing_key": {
         "model": "parasail-kimi-k26-nvfp4"
       }
