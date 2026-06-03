@@ -33,7 +33,7 @@
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
-      "base_url": "${API_GATEWAY_BASE_URL}/{{ service_name }}",
+      "base_url": "${API_GATEWAY_BASE_URL}/parasail",
       "routing_key": {
         "model": "Qwen/Qwen3-VL-235B-A22B-Instruct"
       }
