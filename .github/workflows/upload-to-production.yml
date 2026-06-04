@@ -26,6 +26,46 @@ jobs:
           python -m pip install --upgrade pip
           pip install unitysvc-sellers
 
+      - name: Seed seller-secrets store
+        env:
+          UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_SELLER_PRODUCTION_API_KEY }}
+          UNITYSVC_SELLER_API_URL: ${{ secrets.UNITYSVC_SELLER_PRODUCTION_API_URL }}
+          ALL_SECRETS_JSON: ${{ toJSON(secrets) }}
+        run: |
+          set -euo pipefail
+          # Auto-derive the seller-secret names this repo needs from its data
+          # files: every ${ customer_secrets.X } and ${ secrets.X } reference
+          # in any offering.json / listing.json. Templated forms like
+          # ${ customer_secrets.{{ params.X }} } are NOT matched directly —
+          # they're covered transitively when the per-service user_parameters_schema
+          # defaults the param to the literal name used by the non-plus variant.
+          names="$(grep -rEhno \
+            '\$\{\s*(customer_secrets|secrets)\.[A-Za-z_][A-Za-z0-9_]*' \
+            data/ \
+            | sed -E 's/.*(customer_secrets|secrets)\.([A-Za-z_][A-Za-z0-9_]*).*/\2/' \
+            | sort -u)"
+          if [ -z "$names" ]; then
+            echo "No secret references found under data/."
+            exit 0
+          fi
+          echo "Found secret references:"
+          printf '  - %s\n' $names
+          seeded=0
+          missing=0
+          while IFS= read -r name; do
+            [ -z "$name" ] && continue
+            value="$(printf '%s' "$ALL_SECRETS_JSON" | jq -r --arg n "$name" '.[$n] // empty')"
+            if [ -z "$value" ]; then
+              echo "::warning::Secret '$name' referenced under data/ has no value in GitHub secrets; skipping."
+              missing=$((missing+1))
+              continue
+            fi
+            echo "::add-mask::$value"
+            printf '%s' "$value" | usvc_seller secrets set "$name"
+            seeded=$((seeded+1))
+          done <<< "$names"
+          echo "Seeded $seeded secret(s); $missing missing."
+
       - name: Upload services
         env:
           UNITYSVC_SELLER_API_KEY: ${{ secrets.UNITYSVC_SELLER_PRODUCTION_API_KEY }}
