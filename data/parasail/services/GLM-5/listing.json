@@ -26,10 +26,9 @@
     "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
     "type": "one_million_tokens"
   },
-  "name": "parasail/zai-org/GLM-5",
   "schema": "listing_v1",
   "status": "ready",
-  "time_created": "2026-05-27T06:36:08.655Z",
+  "time_created": "2026-06-13T06:23:48.178Z",
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",

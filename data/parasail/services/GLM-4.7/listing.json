@@ -28,7 +28,7 @@
   },
   "name": "parasail/zai-org/GLM-4.7",
   "schema": "listing_v1",
-  "status": "ready",
+  "status": "deprecated",
   "time_created": "2026-05-27T06:36:08.150Z",
   "user_access_interfaces": {
     "provider_api": {
