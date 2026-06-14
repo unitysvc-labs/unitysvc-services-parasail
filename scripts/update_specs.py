@@ -42,11 +42,21 @@ ENV_API_KEY_NAME = "PARASAIL_API_KEY"
 
 def _sanitize_header_value(value: str) -> str:
     """Strip smart/curly quotes and any non-latin-1 chars that break HTTP headers."""
-    for bad, good in [("\u201c", '"'), ("\u201d", '"'), ("\u2018", "'"), ("\u2019", "'")]:
+    for bad, good in [
+        ("\u201c", '"'),
+        ("\u201d", '"'),
+        ("\u2018", "'"),
+        ("\u2019", "'"),
+    ]:
         value = value.replace(bad, good)
     value = value.encode("latin-1", errors="ignore").decode("latin-1").strip()
     value = value.strip('"').strip("'")
     return value
+
+
+def _now_iso() -> str:
+    """Millisecond ISO-8601 UTC timestamp, e.g. 2025-08-17T10:55:04.976Z."""
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
 
 
 # ---------------------------------------------------------------------------
@@ -56,13 +66,13 @@ def _sanitize_header_value(value: str) -> str:
 # Parasail prices serverless models by parameter size.
 # Table from https://docs.parasail.io/parasail-docs/billing/pricing
 PRICING_TIERS = [
-    (4,           "0.05"),
-    (8,           "0.08"),
-    (16,          "0.11"),
-    (21,          "0.45"),
-    (41,          "0.50"),
-    (80,          "0.70"),
-    (404,         "0.80"),
+    (4, "0.05"),
+    (8, "0.08"),
+    (16, "0.11"),
+    (21, "0.45"),
+    (41, "0.50"),
+    (80, "0.70"),
+    (404, "0.80"),
     (float("inf"), "1.75"),
 ]
 
@@ -101,6 +111,7 @@ def derive_service_type(model_id: str) -> str:
 # Extractor
 # ---------------------------------------------------------------------------
 
+
 class ParasailModelExtractor:
     def __init__(self, api_key: str, api_base_url: str, templates_dir: Path):
         api_key = _sanitize_header_value(api_key)
@@ -119,10 +130,8 @@ class ParasailModelExtractor:
             "total_models": 0,
             "successful_extractions": 0,
             "failed_extractions": 0,
-            "skipped_models": 0,
             "deprecated_models": [],
             "extraction_date": datetime.now().isoformat(),
-            "force_mode": False,
             "processing_limit": None,
         }
 
@@ -183,14 +192,14 @@ class ParasailModelExtractor:
         template = self.jinja_env.get_template(template_name)
         return template.render(**context)
 
-    def build_listing_context(self, model_id: str, price: str) -> Dict:
-        now = datetime.now(timezone.utc)
-        timestamp = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    def build_listing_context(
+        self, model_id: str, price: str, time_created: Optional[str] = None
+    ) -> Dict:
         return {
             "provider_name": PROVIDER_NAME,
             "offering_name": model_id,
             "env_api_key_name": ENV_API_KEY_NAME,
-            "time_created": timestamp,
+            "time_created": time_created or _now_iso(),
             "status": "ready",
             "list_price": {
                 "description": "Pricing Per 1M Tokens",
@@ -200,7 +209,13 @@ class ParasailModelExtractor:
             },
         }
 
-    def build_offering_context(self, model_id: str, model_data: Dict, price: str) -> Dict:
+    def build_offering_context(
+        self,
+        model_id: str,
+        model_data: Dict,
+        price: str,
+        time_created: Optional[str] = None,
+    ) -> Dict:
         service_type = derive_service_type(model_id)
         display_name = (
             model_data.get("display_name")
@@ -210,8 +225,14 @@ class ParasailModelExtractor:
         description = model_data.get("description", "")
 
         details: Dict[str, Any] = {"model_name": model_id}
-        for field in ["context_length", "context_window", "max_tokens",
-                      "parameter_count", "supports_tools", "supports_vision"]:
+        for field in [
+            "context_length",
+            "context_window",
+            "max_tokens",
+            "parameter_count",
+            "supports_tools",
+            "supports_vision",
+        ]:
             if field in model_data:
                 details[field] = model_data[field]
 
@@ -241,13 +262,11 @@ class ParasailModelExtractor:
             details.setdefault("context_length", None)
             details.setdefault("parameter_count", None)
 
-        now = datetime.now(timezone.utc)
-        timestamp = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         return {
             "provider_name": PROVIDER_NAME,
             "provider_display_name": PROVIDER_DISPLAY_NAME,
             "env_api_key_name": ENV_API_KEY_NAME,
-            "time_created": timestamp,
+            "time_created": time_created or _now_iso(),
             "offering_name": model_id,
             "display_name": display_name,
             "description": description,
@@ -276,13 +295,34 @@ class ParasailModelExtractor:
         except Exception as e:
             print(f"  ❌ Error writing {output_file}: {e}")
 
+    @staticmethod
+    def _existing_time_created(path: Path) -> Optional[str]:
+        """Return the ``time_created`` already recorded in a spec file, if any.
+
+        Regenerating a service reuses its original creation timestamp so an
+        unchanged service produces no diff; only brand-new services get a fresh
+        timestamp.
+        """
+        if path.is_file():
+            try:
+                return json.loads(path.read_text()).get("time_created")
+            except Exception:
+                return None
+        return None
+
     def write_listing(self, model_id: str, price: str, output_dir: Path):
-        context = self.build_listing_context(model_id, price)
+        created = self._existing_time_created(output_dir / "listing.json")
+        context = self.build_listing_context(model_id, price, time_created=created)
         content = self._render_template("listing.json.j2", context)
         self._write_file(content, output_dir / "listing.json")
 
-    def write_offering(self, model_id: str, model_data: Dict, price: str, output_dir: Path):
-        context = self.build_offering_context(model_id, model_data, price)
+    def write_offering(
+        self, model_id: str, model_data: Dict, price: str, output_dir: Path
+    ):
+        created = self._existing_time_created(output_dir / "offering.json")
+        context = self.build_offering_context(
+            model_id, model_data, price, time_created=created
+        )
         content = self._render_template("offering.json.j2", context)
         self._write_file(content, output_dir / "offering.json")
 
@@ -297,11 +337,10 @@ class ParasailModelExtractor:
     def write_summary(self):
         try:
             print(f"   Total models: {self.summary['total_models']}")
-            print(f"   Successful extractions: {self.summary['successful_extractions']}")
-            print(f"   Skipped models: {self.summary['skipped_models']}")
+            print(
+                f"   Successful extractions: {self.summary['successful_extractions']}"
+            )
             print(f"   Deprecated models: {len(self.summary['deprecated_models'])}")
-            if self.summary["force_mode"]:
-                print("   Force mode: Enabled")
             if self.summary["processing_limit"]:
                 print(f"   Processing limit: {self.summary['processing_limit']}")
         except Exception as e:
@@ -348,7 +387,13 @@ class ParasailModelExtractor:
                         print(f"    📝 [DRY-RUN] Would deprecate {json_file.name}")
                     else:
                         with open(json_file, "w", encoding="utf-8") as f:
-                            json.dump(data, f, sort_keys=True, indent=2, separators=(",", ": "))
+                            json.dump(
+                                data,
+                                f,
+                                sort_keys=True,
+                                indent=2,
+                                separators=(",", ": "),
+                            )
                             f.write("\n")
                         print(f"    ✅ Deprecated {json_file.name}")
                 except Exception as e:
@@ -367,18 +412,16 @@ class ParasailModelExtractor:
         self,
         output_dir: str = "services",
         specific_models: Optional[List[str]] = None,
-        force: bool = False,
         limit: Optional[int] = None,
         dry_run: bool = False,
     ):
         print("🚀 Starting Parasail model extraction...\n")
-        self.summary["force_mode"] = force
         self.summary["processing_limit"] = limit
 
         if dry_run:
-            print("🔍 Dry-run mode enabled - will show what would be done without writing files")
-        if force:
-            print("💪 Force mode enabled - will overwrite all existing data files")
+            print(
+                "🔍 Dry-run mode enabled - will show what would be done without writing files"
+            )
 
         if specific_models:
             print(f"🎯 Processing specific models: {', '.join(specific_models)}")
@@ -389,11 +432,12 @@ class ParasailModelExtractor:
             if not models:
                 print("❌ No models retrieved. Exiting.")
                 return
-            if force and limit is None:
+            # Full sync: deprecate any local service no longer offered upstream.
+            # (Skipped when --limit is set, since the model list is truncated.)
+            if limit is None:
                 active_ids = [m.get("id", "") for m in models if m.get("id")]
                 self.mark_deprecated_services(output_dir, active_ids, dry_run)
 
-        skipped_count = 0
         processed_count = 0
 
         for i, model_data in enumerate(models, start=1):
@@ -412,13 +456,6 @@ class ParasailModelExtractor:
             # The full model id (incl. any org segment) becomes the nested path
             # under specs/<provider>/, so the folder matches listing.name.
             data_dir = base_path / PROVIDER_NAME / model_id
-            offering_file = data_dir / "offering.json"
-
-            if not force and data_dir.exists() and offering_file.exists():
-                print(f"  ⏭️  Skipping {model_id} - files already exist (use --force to overwrite)")
-                skipped_count += 1
-                self.summary["skipped_models"] += 1
-                continue
 
             processed_count += 1
 
@@ -434,21 +471,20 @@ class ParasailModelExtractor:
                 print(f"  💰 Price: ${price}/1M tokens")
 
                 if dry_run:
-                    print(f"  📝 [DRY-RUN] Would write offering.json + listing.json to {data_dir}")
+                    print(
+                        f"  📝 [DRY-RUN] Would write offering.json + listing.json to {data_dir}"
+                    )
                     self.summary["successful_extractions"] += 1
                     continue
 
                 print(f"  📝 Writing files to {data_dir}...")
+                # Regenerate every file. time_created is preserved per-file
+                # (see write_offering/write_listing) so unchanged services are
+                # byte-identical and the daily cron produces no churn.
                 self.write_offering(model_id, model_data, price, data_dir)
                 # Self-contained service folder: copy the provider in too.
                 self.write_provider(data_dir)
-
-                listing_file = data_dir / "listing.json"
-                if listing_file.exists() and not force:
-                    print("  ⏭️  Skipping existing listing.json (use --force to overwrite)")
-                    print("      💡 Manual customizations can be preserved in service.json")
-                else:
-                    self.write_listing(model_id, price, data_dir)
+                self.write_listing(model_id, price, data_dir)
 
                 self.summary["successful_extractions"] += 1
                 print(f"  ✅ Successfully processed {model_id}")
@@ -459,8 +495,6 @@ class ParasailModelExtractor:
 
         self.write_summary()
         print(f"\n🎉 Extraction complete! Check {output_dir}/ for results.")
-        if skipped_count > 0:
-            print(f"   ⏭️  Skipped {skipped_count} existing models (use --force to overwrite)")
 
 
 # ---------------------------------------------------------------------------
@@ -488,11 +522,6 @@ if __name__ == "__main__":
         help="Specific model IDs to process",
     )
     parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Overwrite all existing files",
-    )
-    parser.add_argument(
         "--limit",
         type=int,
         help="Limit the number of models to process",
@@ -512,7 +541,9 @@ if __name__ == "__main__":
         api_key = _sanitize_header_value(api_key)
 
     if not api_key:
-        print("❌ Error: No API key provided. Set the PARASAIL_API_KEY environment variable.")
+        print(
+            "❌ Error: No API key provided. Set the PARASAIL_API_KEY environment variable."
+        )
         sys.exit(1)
 
     # Templates live at ../templates relative to this script
@@ -527,7 +558,6 @@ if __name__ == "__main__":
     extractor.process_all_models(
         args.output_dir,
         specific_models=args.models,
-        force=args.force,
         limit=args.limit,
         dry_run=args.dry_run,
     )
