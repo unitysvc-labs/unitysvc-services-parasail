@@ -2,16 +2,15 @@
   "currency": "USD",
   "description": "",
   "details": {
-    "context_length": 163840,
+    "context_length": null,
     "metadata_sources": {
-      "context_length": "litellm",
       "parameter_count": "huggingface_safetensors"
     },
-    "model_name": "deepseek-ai/DeepSeek-V3.2",
-    "parameter_count": 681408069632
+    "model_name": "MiniMaxAI/MiniMax-M3",
+    "parameter_count": 426993800960
   },
-  "display_name": "DeepSeek-V3.2",
-  "name": "deepseek-ai/DeepSeek-V3.2",
+  "display_name": "MiniMax-M3",
+  "name": "MiniMaxAI/MiniMax-M3",
   "payout_price": {
     "description": "Pricing Per 1M Tokens",
     "price": "0.50",
@@ -19,13 +18,13 @@
     "type": "one_million_tokens"
   },
   "service_type": "llm",
-  "status": "deprecated",
+  "status": "ready",
   "tags": [
     "ai",
     "gateway",
     "byok"
   ],
-  "time_created": "2026-05-27T06:35:33.872Z",
+  "time_created": "2026-06-14T03:28:42.085Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
@@ -52,7 +51,7 @@
         }
       ],
       "routing_key": {
-        "model": "deepseek-ai/DeepSeek-V3.2"
+        "model": "MiniMaxAI/MiniMax-M3"
       }
     }
   }

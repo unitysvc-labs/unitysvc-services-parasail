@@ -27,7 +27,7 @@
     "type": "one_million_tokens"
   },
   "name": "parasail/moonshotai/Kimi-K2.5",
-  "status": "ready",
+  "status": "deprecated",
   "time_created": "2026-05-27T06:35:39.100Z",
   "user_access_interfaces": {
     "provider_api": {

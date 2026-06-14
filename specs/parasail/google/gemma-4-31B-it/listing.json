@@ -34,7 +34,7 @@
       "access_method": "http",
       "base_url": "${API_GATEWAY_BASE_URL}/parasail",
       "routing_key": {
-        "model": "google/gemma-4-31b-it"
+        "model": "google/gemma-4-31B-it"
       }
     }
   }

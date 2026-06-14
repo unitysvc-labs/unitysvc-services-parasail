@@ -27,7 +27,7 @@
     "type": "one_million_tokens"
   },
   "name": "parasail/deepseek-chat",
-  "status": "ready",
+  "status": "deprecated",
   "time_created": "2026-05-27T06:35:35.162Z",
   "user_access_interfaces": {
     "provider_api": {
