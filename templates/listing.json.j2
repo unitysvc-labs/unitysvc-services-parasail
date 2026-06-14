@@ -1,6 +1,6 @@
 {
-  "schema": "listing_v1",
   "time_created": "{{ time_created }}",
+  "name": "{{ provider_name }}/{{ offering_name }}",
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
 {%- if list_price %}
