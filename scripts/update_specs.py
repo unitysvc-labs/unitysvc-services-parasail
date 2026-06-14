@@ -286,6 +286,14 @@ class ParasailModelExtractor:
         content = self._render_template("offering.json.j2", context)
         self._write_file(content, output_dir / "offering.json")
 
+    def write_provider(self, output_dir: Path):
+        """Copy the static templates/provider.json into the service folder so
+        each folder is self-contained. provider.json is a pure provider
+        definition — the populator config lives in templates/config.json."""
+        prov = json.loads((self.templates_dir / "provider.json").read_text())
+        content = json.dumps(prov, sort_keys=True, indent=2) + "\n"
+        self._write_file(content, output_dir / "provider.json")
+
     def write_summary(self):
         try:
             print(f"   Total models: {self.summary['total_models']}")
@@ -308,44 +316,41 @@ class ParasailModelExtractor:
     ):
         """Mark service files as deprecated for models no longer active."""
         print("🔍 Checking for deprecated services...")
-        base_path = Path(output_dir)
+        # Service folders live at specs/<provider>/<model_id>/ (model_id may be
+        # nested, e.g. deepseek-ai/DeepSeek-V3.2). File TYPE is the filename now.
+        base_path = Path(output_dir) / PROVIDER_NAME
         if not base_path.exists():
             return
 
-        active_dirs = {m.split("/")[-1].replace(":", "_") for m in active_models}
+        active = set(active_models)  # full model ids
         deprecated_count = 0
 
-        for item in base_path.iterdir():
-            if not item.is_dir() or item.name in active_dirs:
+        for listing_file in base_path.rglob("listing.json"):
+            svc_dir = listing_file.parent
+            model_id = svc_dir.relative_to(base_path).as_posix()
+            if model_id in active:
                 continue
 
             deprecated_count += 1
-            print(f"  🗑️  Processing deprecated service: {item.name}")
+            print(f"  🗑️  Processing deprecated service: {model_id}")
 
-            for json_file in item.glob("*.json"):
+            for fname in ("offering.json", "listing.json"):
+                json_file = svc_dir / fname
+                if not json_file.exists():
+                    continue
                 try:
                     with open(json_file, "r", encoding="utf-8") as f:
                         data = json.load(f)
-                    schema = data.get("schema", "")
-                    updated = False
-
-                    if schema == "offering_v1" and data.get("status") != "deprecated":
-                        data["status"] = "deprecated"
-                        updated = True
-                        msg = "offering status to deprecated"
-                    elif schema == "listing_v1" and data.get("status") != "deprecated":
-                        data["status"] = "deprecated"
-                        updated = True
-                        msg = "listing status to deprecated"
-
-                    if updated:
-                        if dry_run:
-                            print(f"    📝 [DRY-RUN] Would update {json_file.name} {msg}")
-                        else:
-                            with open(json_file, "w", encoding="utf-8") as f:
-                                json.dump(data, f, sort_keys=True, indent=2, separators=(",", ": "))
-                                f.write("\n")
-                            print(f"    ✅ Updated {json_file.name} {msg}")
+                    if data.get("status") == "deprecated":
+                        continue
+                    data["status"] = "deprecated"
+                    if dry_run:
+                        print(f"    📝 [DRY-RUN] Would deprecate {json_file.name}")
+                    else:
+                        with open(json_file, "w", encoding="utf-8") as f:
+                            json.dump(data, f, sort_keys=True, indent=2, separators=(",", ": "))
+                            f.write("\n")
+                        print(f"    ✅ Deprecated {json_file.name}")
                 except Exception as e:
                     print(f"    ❌ Error updating {json_file}: {e}")
 
@@ -403,8 +408,10 @@ class ParasailModelExtractor:
                 break
 
             base_path = Path(output_dir)
-            dir_name = model_id.split("/")[-1].replace(":", "_")
-            data_dir = base_path / dir_name
+            # Folder path = the listing name = "<provider>/<model_id>" (#1263).
+            # The full model id (incl. any org segment) becomes the nested path
+            # under specs/<provider>/, so the folder matches listing.name.
+            data_dir = base_path / PROVIDER_NAME / model_id
             offering_file = data_dir / "offering.json"
 
             if not force and data_dir.exists() and offering_file.exists():
@@ -433,11 +440,13 @@ class ParasailModelExtractor:
 
                 print(f"  📝 Writing files to {data_dir}...")
                 self.write_offering(model_id, model_data, price, data_dir)
+                # Self-contained service folder: copy the provider in too.
+                self.write_provider(data_dir)
 
                 listing_file = data_dir / "listing.json"
                 if listing_file.exists() and not force:
                     print("  ⏭️  Skipping existing listing.json (use --force to overwrite)")
-                    print("      💡 Manual customizations can be preserved in listing.override.json")
+                    print("      💡 Manual customizations can be preserved in service.json")
                 else:
                     self.write_listing(model_id, price, data_dir)
 
@@ -462,7 +471,7 @@ if __name__ == "__main__":
     # Resolve the default output directory relative to this script so the
     # behaviour matches the other 12 unitysvc-services-* repos and is
     # independent of the current working directory.
-    DEFAULT_OUTPUT_DIR = str(Path(__file__).resolve().parent.parent / "services")
+    DEFAULT_OUTPUT_DIR = str(Path(__file__).resolve().parent.parent / "specs")
 
     parser = argparse.ArgumentParser(
         description="Extract model data from Parasail API and generate service files"
