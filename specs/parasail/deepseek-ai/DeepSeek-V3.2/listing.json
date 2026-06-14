@@ -27,7 +27,7 @@
     "type": "one_million_tokens"
   },
   "name": "parasail/deepseek-ai/DeepSeek-V3.2",
-  "status": "ready",
+  "status": "deprecated",
   "time_created": "2026-05-27T06:35:33.872Z",
   "user_access_interfaces": {
     "provider_api": {

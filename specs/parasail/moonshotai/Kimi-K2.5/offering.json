@@ -19,7 +19,7 @@
     "type": "one_million_tokens"
   },
   "service_type": "llm",
-  "status": "ready",
+  "status": "deprecated",
   "tags": [
     "ai",
     "gateway",

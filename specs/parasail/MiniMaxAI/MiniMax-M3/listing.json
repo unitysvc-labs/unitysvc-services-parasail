@@ -26,15 +26,15 @@
     "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
     "type": "one_million_tokens"
   },
-  "name": "parasail/parasail-glm47",
-  "status": "deprecated",
-  "time_created": "2026-05-27T06:35:48.912Z",
+  "name": "parasail/MiniMaxAI/MiniMax-M3",
+  "status": "ready",
+  "time_created": "2026-06-14T03:28:42.086Z",
   "user_access_interfaces": {
     "provider_api": {
       "access_method": "http",
       "base_url": "${API_GATEWAY_BASE_URL}/parasail",
       "routing_key": {
-        "model": "parasail-glm47"
+        "model": "MiniMaxAI/MiniMax-M3"
       }
     }
   }

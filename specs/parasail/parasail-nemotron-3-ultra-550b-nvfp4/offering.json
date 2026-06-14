@@ -2,30 +2,26 @@
   "currency": "USD",
   "description": "",
   "details": {
-    "context_length": 163840,
-    "metadata_sources": {
-      "context_length": "litellm",
-      "parameter_count": "huggingface_safetensors"
-    },
-    "model_name": "deepseek-ai/DeepSeek-V3.2",
-    "parameter_count": 681408069632
+    "context_length": null,
+    "model_name": "parasail-nemotron-3-ultra-550b-nvfp4",
+    "parameter_count": null
   },
-  "display_name": "DeepSeek-V3.2",
-  "name": "deepseek-ai/DeepSeek-V3.2",
+  "display_name": "parasail-nemotron-3-ultra-550b-nvfp4",
+  "name": "parasail-nemotron-3-ultra-550b-nvfp4",
   "payout_price": {
     "description": "Pricing Per 1M Tokens",
-    "price": "0.50",
+    "price": "1.75",
     "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
     "type": "one_million_tokens"
   },
   "service_type": "llm",
-  "status": "deprecated",
+  "status": "ready",
   "tags": [
     "ai",
     "gateway",
     "byok"
   ],
-  "time_created": "2026-05-27T06:35:33.872Z",
+  "time_created": "2026-06-14T03:28:55.120Z",
   "upstream_access_config": {
     "Parasail API": {
       "access_method": "http",
@@ -52,7 +48,7 @@
         }
       ],
       "routing_key": {
-        "model": "deepseek-ai/DeepSeek-V3.2"
+        "model": "parasail-nemotron-3-ultra-550b-nvfp4"
       }
     }
   }
