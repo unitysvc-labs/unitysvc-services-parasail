@@ -1,0 +1,33 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "description": "",
+    "details": {
+      "context_length": null,
+      "metadata_sources": {
+        "parameter_count": "huggingface_safetensors"
+      },
+      "model_name": "MiniMaxAI/MiniMax-M3",
+      "parameter_count": 426993800960
+    },
+    "display_name": "MiniMax-M3",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.50",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "MiniMaxAI/MiniMax-M3",
+    "payout_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.50",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "time_created": "2026-06-14T03:28:42.085Z"
+  }
+}
