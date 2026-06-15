@@ -1,3 +1,7 @@
 {
-  "service_id": "cf9375ed-d964-45ef-84b8-27c520d6a683"
+  "display_name": "GLM-4.7",
+  "name": "parasail/zai-org/GLM-4.7",
+  "service_id": "cf9375ed-d964-45ef-84b8-27c520d6a683",
+  "status": "updated",
+  "time_created": "2026-06-06T15:45:11.500347Z"
 }

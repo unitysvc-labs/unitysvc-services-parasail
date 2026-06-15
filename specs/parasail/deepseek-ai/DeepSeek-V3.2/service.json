@@ -1,3 +1,7 @@
 {
-  "service_id": "e6b5b8b8-a6e6-4ba7-8c9c-1a83897ce040"
+  "display_name": "DeepSeek-V3.2",
+  "name": "parasail/deepseek-ai/DeepSeek-V3.2",
+  "service_id": "e6b5b8b8-a6e6-4ba7-8c9c-1a83897ce040",
+  "status": "updated",
+  "time_created": "2026-06-06T15:45:10.384445Z"
 }

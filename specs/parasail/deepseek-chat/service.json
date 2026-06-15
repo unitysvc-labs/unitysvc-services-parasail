@@ -1,3 +1,7 @@
 {
-  "service_id": "0fb9ba72-d76c-4e40-bb6e-58189d3e0ae4"
+  "display_name": "deepseek-chat",
+  "name": "parasail/deepseek-chat",
+  "service_id": "0fb9ba72-d76c-4e40-bb6e-58189d3e0ae4",
+  "status": "updated",
+  "time_created": "2026-06-06T15:45:24.701337Z"
 }

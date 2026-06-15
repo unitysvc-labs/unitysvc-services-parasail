@@ -1,3 +1,7 @@
 {
-  "service_id": "dde1c268-db77-4301-9f21-caac4868b473"
+  "display_name": "parasail-glm47",
+  "name": "parasail/parasail-glm47",
+  "service_id": "dde1c268-db77-4301-9f21-caac4868b473",
+  "status": "updated",
+  "time_created": "2026-06-06T15:45:32.627190Z"
 }

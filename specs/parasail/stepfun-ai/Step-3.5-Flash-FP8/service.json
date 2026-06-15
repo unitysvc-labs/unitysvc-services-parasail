@@ -1,3 +1,7 @@
 {
-  "service_id": "23b659a5-4bb7-4f72-930d-47805010050b"
+  "display_name": "Step-3.5-Flash-FP8",
+  "name": "parasail/stepfun-ai/Step-3.5-Flash-FP8",
+  "service_id": "23b659a5-4bb7-4f72-930d-47805010050b",
+  "status": "updated",
+  "time_created": "2026-06-06T15:45:22.802352Z"
 }

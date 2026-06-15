@@ -1,3 +1,7 @@
 {
-  "service_id": "0742123f-1daf-4859-818d-b09b871455f2"
+  "display_name": "parasail-qwen3-embedding",
+  "name": "parasail/parasail-qwen3-embedding",
+  "service_id": "0742123f-1daf-4859-818d-b09b871455f2",
+  "status": "updated",
+  "time_created": "2026-06-06T15:45:39.867139Z"
 }

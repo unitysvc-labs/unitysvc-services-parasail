@@ -1,3 +1,7 @@
 {
-  "service_id": "a60e96c3-d7c8-45a0-9efa-10bae7149e67"
+  "display_name": "Qwen3-Embedding-8B",
+  "name": "parasail/Qwen/Qwen3-Embedding-8B",
+  "service_id": "a60e96c3-d7c8-45a0-9efa-10bae7149e67",
+  "status": "updated",
+  "time_created": "2026-06-06T15:45:18.592116Z"
 }
