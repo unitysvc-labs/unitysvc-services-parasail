@@ -1,0 +1,33 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "description": "",
+    "details": {
+      "context_length": null,
+      "metadata_sources": {
+        "parameter_count": "huggingface_safetensors"
+      },
+      "model_name": "deepseek-ai/DeepSeek-V4-Pro",
+      "parameter_count": 786381668352
+    },
+    "display_name": "DeepSeek-V4-Pro",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.50",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "deepseek-ai/DeepSeek-V4-Pro",
+    "payout_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.50",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "time_created": "2026-05-27T06:35:34.310Z"
+  }
+}

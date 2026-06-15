@@ -1,7 +1,7 @@
 {
   "services_populator": {
     "command": [
-      "scripts/update_specs.py"
+      "scripts/update_params.py"
     ],
     "requirements": [
       "requests",

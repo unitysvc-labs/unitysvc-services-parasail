@@ -1,0 +1,33 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "description": "",
+    "details": {
+      "context_length": 262144,
+      "metadata_sources": {
+        "context_length": "openrouter"
+      },
+      "model_name": "google/gemma-4-31b-it",
+      "parameter_count": null
+    },
+    "display_name": "gemma-4-31b-it",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.50",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "google/gemma-4-31b-it",
+    "payout_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.50",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "time_created": "2026-06-14T03:28:47.238Z"
+  }
+}
