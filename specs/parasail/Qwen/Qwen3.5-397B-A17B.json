@@ -3,7 +3,7 @@
     "api_base_url": "https://api.parasail.io",
     "description": "",
     "details": {
-      "context_length": 262144,
+      "context_length": 256000,
       "metadata_sources": {
         "context_length": "openrouter",
         "parameter_count": "huggingface_safetensors"
