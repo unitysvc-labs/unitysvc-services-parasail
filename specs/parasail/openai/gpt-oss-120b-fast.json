@@ -3,32 +3,31 @@
     "api_base_url": "https://api.parasail.io",
     "description": "",
     "details": {
-      "context_length": 262144,
+      "context_length": 131072,
       "metadata_sources": {
-        "context_length": "openrouter",
-        "parameter_count": "huggingface_safetensors"
+        "context_length": "openrouter"
       },
-      "model_name": "google/gemma-3-27b-it",
-      "parameter_count": 27432406640
+      "model_name": "openai/gpt-oss-120b-fast",
+      "parameter_count": null
     },
-    "display_name": "gemma-3-27b-it",
+    "display_name": "gpt-oss-120b-fast",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
+      "price": "0.80",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
-    "offering_name": "google/gemma-3-27b-it",
+    "offering_name": "openai/gpt-oss-120b-fast",
     "payout_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
+      "price": "0.80",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-05-27T06:35:35.387Z"
+    "time_created": "2026-07-24T05:27:00.459Z"
   }
 }

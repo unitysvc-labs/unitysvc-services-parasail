@@ -3,15 +3,14 @@
     "api_base_url": "https://api.parasail.io",
     "description": "",
     "details": {
-      "context_length": 262144,
+      "context_length": null,
       "metadata_sources": {
-        "context_length": "openrouter",
         "parameter_count": "huggingface_safetensors"
       },
-      "model_name": "google/gemma-3-27b-it",
-      "parameter_count": 27432406640
+      "model_name": "zai-org/GLM-5.2",
+      "parameter_count": 753329921024
     },
-    "display_name": "gemma-3-27b-it",
+    "display_name": "GLM-5.2",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
       "description": "Pricing Per 1M Tokens",
@@ -19,7 +18,7 @@
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
-    "offering_name": "google/gemma-3-27b-it",
+    "offering_name": "zai-org/GLM-5.2",
     "payout_price": {
       "description": "Pricing Per 1M Tokens",
       "price": "0.50",
@@ -29,6 +28,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-05-27T06:35:35.387Z"
+    "time_created": "2026-07-24T05:27:13.930Z"
   }
 }

@@ -3,8 +3,9 @@
     "api_base_url": "https://api.parasail.io",
     "description": "",
     "details": {
-      "context_length": null,
+      "context_length": 32768,
       "metadata_sources": {
+        "context_length": "litellm",
         "parameter_count": "huggingface_safetensors"
       },
       "model_name": "deepseek-ai/DeepSeek-V4-Flash",
