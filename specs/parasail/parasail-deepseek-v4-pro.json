@@ -3,7 +3,10 @@
     "api_base_url": "https://api.parasail.io",
     "description": "",
     "details": {
-      "context_length": null,
+      "context_length": 1000000,
+      "metadata_sources": {
+        "context_length": "litellm"
+      },
       "model_name": "parasail-deepseek-v4-pro",
       "parameter_count": null
     },

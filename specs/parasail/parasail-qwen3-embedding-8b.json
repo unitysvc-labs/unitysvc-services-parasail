@@ -3,32 +3,26 @@
     "api_base_url": "https://api.parasail.io",
     "description": "",
     "details": {
-      "context_length": 262144,
-      "metadata_sources": {
-        "context_length": "openrouter",
-        "parameter_count": "huggingface_safetensors"
-      },
-      "model_name": "google/gemma-3-27b-it",
-      "parameter_count": 27432406640
+      "model_name": "parasail-qwen3-embedding-8b"
     },
-    "display_name": "gemma-3-27b-it",
+    "display_name": "parasail-qwen3-embedding-8b",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
+      "price": "0.08",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
-    "offering_name": "google/gemma-3-27b-it",
+    "offering_name": "parasail-qwen3-embedding-8b",
     "payout_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
+      "price": "0.08",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",
-    "service_type": "llm",
+    "service_type": "embedding",
     "status": "ready",
-    "time_created": "2026-05-27T06:35:35.387Z"
+    "time_created": "2026-07-24T05:27:09.270Z"
   }
 }
