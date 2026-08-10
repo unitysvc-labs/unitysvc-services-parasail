@@ -9,7 +9,7 @@
         "parameter_count": "huggingface_safetensors"
       },
       "model_name": "moonshotai/Kimi-K2.7-Code",
-      "parameter_count": 1014687129600
+      "parameter_count": 1014686023680
     },
     "display_name": "Kimi-K2.7-Code",
     "env_api_key_name": "PARASAIL_API_KEY",
