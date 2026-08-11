@@ -8,13 +8,13 @@ this file is the quick, repo-local reference and defers to those docs.
 
 ## Where the data lives and in what shape
 
-**All service data lives under `specs/`** (files are JSON or TOML — role is fixed
+**All service data lives under `services/specs/`** (files are JSON or TOML — role is fixed
 by filename: `offering.json`, `listing.json`, `provider.json`, `service.json`).
 Author each service one of **two ways**:
 
 **(a) Full spec** — a concrete folder per service:
 
-    specs/<provider>/<service-name>/
+    services/specs/<provider>/<service-name>/
       ├── offering.json      # exactly one — technical spec (upstream, auth, channels, payout)
       ├── listing.json       # one or more — customer-facing (base_url, price, docs, params)
       ├── provider.json      # the provider record
@@ -24,13 +24,13 @@ Author each service one of **two ways**:
 **(b) Templates + param data** — one template renders many services (large
 catalogs, notification-channel fleets):
 
-    templates/<template>/{provider.json, offering.json.j2, listing.json.j2}
-    specs/<provider>/<name>.json          # { "template": "<template>", "parameters": {…} }
-    specs/<provider>/<name>.service.json  # identity sidecar
+    services/templates/<template>/{provider.json, offering.json.j2, listing.json.j2}
+    services/specs/<provider>/<name>.json          # { "template": "<template>", "parameters": {…} }
+    services/specs/<provider>/<name>.service.json  # identity sidecar
     # Commit the param file + its .service.json — NEVER the rendered folder.
     # specs commands render param files into a temp folder ephemerally.
 
-Either way, the folder (or param-file stem) under `specs/<provider>/` **is** the
+Either way, the folder (or param-file stem) under `services/specs/<provider>/` **is** the
 service name. The backend derives identity: `service.name ← listing.name`,
 `display_name ← listing/offering display_name`, `status ← worst-of components`.
 
@@ -69,7 +69,7 @@ Invoke the CLI as `usvc_seller …` if on PATH, else
 
 ## Naming rules (the validator rejects violations)
 
-- `listing.name` MUST equal `<provider>/<service-name>` (its path under `specs/`),
+- `listing.name` MUST equal `<provider>/<service-name>` (its path under `services/specs/`),
   or be a bare top-level handle. `offering.name` stays the **bare** service name.
 - If `listing.name` contains `/`, the first segment MUST equal `provider.name`.
 - `user_access_interfaces.<iface>.base_url`: use
@@ -92,7 +92,7 @@ real value). Seed them from the repo-committed manifest, never GitHub variables:
   is both shell-sourceable for local tests and the upload workflow's seed source
   (`usvc_seller secrets upload seller.secrets.txt`).
 - Seed the **mock** value; keep the manifest exhaustive —
-  `grep -rho '\${ customer_secrets\.[A-Z_]*' specs/ | sort -u` should have no
+  `grep -rho '\${ customer_secrets\.[A-Z_]*' services/specs/ | sort -u` should have no
   name missing from it. A missing name is silently skipped ⇒ the gateway test
   fails with no obvious cause.
 - **Namespace** secret names by service (`HTTP_RELAY_BASE_URL`,

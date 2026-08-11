@@ -5,12 +5,12 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - "specs/**"
+      - "services/**"
       - ".github/workflows/validate-data.yml"
   push:
     branches: [main]
     paths:
-      - "specs/**"
+      - "services/**"
       - ".github/workflows/validate-data.yml"
 
 jobs:
