@@ -1,6 +1,6 @@
 {
   "currency": "USD",
-  "description": "",
+  "description": "parasail-qwen3-embedding \u2014 a embedding model served by Parasail\n\nparasail-qwen3-embedding is served by Parasail over an OpenAI-compatible API. Requests are proxied through the UnitySVC gateway and billed per token.\n\nReach it through the UnitySVC gateway on either channel: managed (the default) resells Parasail tokens at the listed rate, or byok, where you supply your own Parasail API key and pay Parasail directly.",
   "details": {
     "model_name": "parasail-qwen3-embedding"
   },
@@ -21,7 +21,36 @@
   ],
   "time_created": "2026-05-04T15:02:19.606Z",
   "upstream_access_config": {
-    "Parasail API": {
+    "byok": {
+      "access_method": "http",
+      "api_key": "${ customer_secrets.PARASAIL_API_KEY }",
+      "base_url": "https://api.parasail.io",
+      "rate_limits": [
+        {
+          "description": "Requests per minute",
+          "limit": 60,
+          "unit": "requests",
+          "window": "minute"
+        },
+        {
+          "description": "Input tokens per minute",
+          "limit": 100000,
+          "unit": "input_tokens",
+          "window": "minute"
+        },
+        {
+          "description": "Output tokens per minute",
+          "limit": 10000,
+          "unit": "output_tokens",
+          "window": "minute"
+        }
+      ],
+      "routing_key": {
+        "model": "parasail-qwen3-embedding"
+      },
+      "sort_order": 2
+    },
+    "managed": {
       "access_method": "http",
       "api_key": "${ secrets.PARASAIL_API_KEY }",
       "base_url": "https://api.parasail.io",
@@ -47,7 +76,8 @@
       ],
       "routing_key": {
         "model": "parasail-qwen3-embedding"
-      }
+      },
+      "sort_order": 1
     }
   }
 }

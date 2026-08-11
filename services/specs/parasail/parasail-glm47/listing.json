@@ -2,29 +2,65 @@
   "currency": "USD",
   "documents": {
     "Connectivity test": {
-      "$doc_preset": "llm_connectivity"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_connectivity"
+      }
     },
     "How to use this model": {
       "$doc_preset": "llm_description"
     },
     "JavaScript code example": {
-      "$doc_preset": "llm_code_example_javascript"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_code_example_javascript"
+      }
     },
     "Python code example": {
-      "$doc_preset": "llm_code_example_openai"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_code_example_openai"
+      }
     },
     "Python function calling code example": {
-      "$doc_preset": "llm_code_example_fc_requests"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_code_example_fc_requests"
+      }
     },
     "cURL code example": {
-      "$doc_preset": "llm_code_example_shell"
+      "$doc_preset": {
+        "meta": {
+          "sleep_after_test": 5
+        },
+        "name": "llm_code_example_shell"
+      }
     }
   },
   "list_price": {
-    "description": "Pricing Per 1M Tokens",
-    "price": "0.50",
-    "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-    "type": "one_million_tokens"
+    "channels": {
+      "byok": {
+        "description": "Free \u2014 bring your own Parasail API key; you pay Parasail directly for tokens",
+        "price": "0",
+        "type": "constant"
+      },
+      "managed": {
+        "description": "Pricing Per 1M Tokens",
+        "price": "0.50",
+        "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+        "type": "one_million_tokens"
+      }
+    },
+    "default": "managed",
+    "type": "channel"
   },
   "name": "parasail/parasail-glm47",
   "status": "deprecated",

@@ -1,9 +1,17 @@
 {
   "currency": "USD",
-  "description": "",
+  "description": "parasail-kimi-k25 \u2014 a llm model served by Parasail\n\nparasail-kimi-k25 is served by Parasail over an OpenAI-compatible API. Requests are proxied through the UnitySVC gateway and billed per token.\n\nReach it through the UnitySVC gateway on either channel: managed (the default) resells Parasail tokens at the listed rate, or byok, where you supply your own Parasail API key and pay Parasail directly. The endpoint accepts both OpenAI Chat Completions and Anthropic Messages requests \u2014 the gateway auto-detects the dialect, translates to the upstream, and returns the response in the format you sent. See the code examples for both styles.",
   "details": {
     "context_length": null,
+    "input_formats": [
+      "openai",
+      "anthropic"
+    ],
     "model_name": "parasail-kimi-k25",
+    "output_formats": [
+      "openai_response",
+      "anthropic_response"
+    ],
     "parameter_count": null
   },
   "display_name": "parasail-kimi-k25",
@@ -23,7 +31,39 @@
   ],
   "time_created": "2026-05-27T06:35:51.490Z",
   "upstream_access_config": {
-    "Parasail API": {
+    "byok": {
+      "access_method": "http",
+      "api_key": "${ customer_secrets.PARASAIL_API_KEY }",
+      "base_url": "https://api.parasail.io",
+      "rate_limits": [
+        {
+          "description": "Requests per minute",
+          "limit": 60,
+          "unit": "requests",
+          "window": "minute"
+        },
+        {
+          "description": "Input tokens per minute",
+          "limit": 100000,
+          "unit": "input_tokens",
+          "window": "minute"
+        },
+        {
+          "description": "Output tokens per minute",
+          "limit": 10000,
+          "unit": "output_tokens",
+          "window": "minute"
+        }
+      ],
+      "request_transformer": {
+        "llm_translator": "anthropic_to_openai"
+      },
+      "routing_key": {
+        "model": "parasail-kimi-k25"
+      },
+      "sort_order": 2
+    },
+    "managed": {
       "access_method": "http",
       "api_key": "${ secrets.PARASAIL_API_KEY }",
       "base_url": "https://api.parasail.io",
@@ -47,9 +87,13 @@
           "window": "minute"
         }
       ],
+      "request_transformer": {
+        "llm_translator": "anthropic_to_openai"
+      },
       "routing_key": {
         "model": "parasail-kimi-k25"
-      }
+      },
+      "sort_order": 1
     }
   }
 }
