@@ -8,7 +8,7 @@
         "parameter_count": "huggingface_safetensors"
       },
       "model_name": "deepseek-ai/DeepSeek-V4-Pro",
-      "parameter_count": 786381668352
+      "parameter_count": 1572763336704
     },
     "display_name": "DeepSeek-V4-Pro",
     "env_api_key_name": "PARASAIL_API_KEY",
