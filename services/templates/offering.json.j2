@@ -6,13 +6,19 @@
     the populate script emits an empty/one-line brief). Teaser + detail + how-to.
     The Anthropic/OpenAI dual-dialect sentence only applies to chat models. #}
 {%- set _is_chat = service_type == 'llm' %}
-{%- set _brief = description | default(display_name ~ ' — a ' ~ service_type ~ ' model served by ' ~ provider_display_name, true) %}
+{%- set _base = description | default(display_name ~ ' — a ' ~ service_type ~ ' model served by ' ~ provider_display_name, true) %}
+{%- set _dual = ' — callable in both OpenAI and Anthropic API styles through the UnitySVC gateway.' %}
+{%- set _brief = (_base ~ _dual) if ((_base | length) + (_dual | length) < 195) else _base %}
 {%- if not _brief %}{%- set _brief = display_name ~ ' — a ' ~ service_type ~ ' model served by ' ~ provider_display_name %}{%- endif %}
 {%- set _ctx = ' with a ' ~ details.context_length ~ '-token context window' if details.context_length else '' %}
 {%- set _detail = display_name ~ ' is served by ' ~ provider_display_name ~ ' over an OpenAI-compatible API' ~ _ctx ~ '. Requests are proxied through the UnitySVC gateway and billed per token.' %}
 {%- set _howto = 'Reach it through the UnitySVC gateway on either channel: managed (the default) resells ' ~ provider_display_name ~ ' tokens at the listed rate, or byok, where you supply your own ' ~ provider_display_name ~ ' API key and pay ' ~ provider_display_name ~ ' directly.' %}
-{%- if _is_chat %}{%- set _howto = _howto ~ ' The endpoint accepts both OpenAI Chat Completions and Anthropic Messages requests — the gateway auto-detects the dialect, translates to the upstream, and returns the response in the format you sent. See the code examples for both styles.' %}{%- endif %}
-{%- set _description = _brief ~ '\n\n' ~ _detail ~ '\n\n' ~ _howto %}
+{%- if _is_chat %}{%- set _howto = _howto ~ ' See the code examples for both styles.' %}{%- endif %}
+{#- Dedicated interoperability paragraph: the dual-dialect endpoint is the
+    platform differentiator and what makes services interchangeable enough to
+    sit behind the gateway's composition primitives. #}
+{%- set _interop = 'One endpoint, either dialect — send an OpenAI Chat Completions or an Anthropic Messages request and the gateway auto-detects the format, translates it for the upstream, and replies in the style you sent. Because every model on UnitySVC speaks both dialects, they are interchangeable behind a single client: swap providers without touching your code, and combine them with the gateway composition primitives — group (/g/), broadcast (/b/), chain (/c/) and failover (/f/).' %}
+{%- set _description = _brief ~ '\n\n' ~ _detail ~ '\n\n' ~ _howto ~ '\n\n' ~ _interop %}
   "description": {{ _description | tojson }},
   "service_type": "{{ service_type }}",
   "status": "{{ status | default('ready') }}",
