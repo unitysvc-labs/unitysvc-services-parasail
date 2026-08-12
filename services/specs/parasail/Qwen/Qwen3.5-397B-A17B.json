@@ -5,11 +5,10 @@
     "details": {
       "context_length": 262144,
       "metadata_sources": {
-        "context_length": "openrouter",
-        "parameter_count": "huggingface_safetensors"
+        "context_length": "openrouter"
       },
       "model_name": "Qwen/Qwen3.5-397B-A17B",
-      "parameter_count": 403397920304
+      "parameter_count": null
     },
     "display_name": "Qwen3.5-397B-A17B",
     "env_api_key_name": "PARASAIL_API_KEY",

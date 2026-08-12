@@ -3,12 +3,12 @@
     "api_base_url": "https://api.parasail.io",
     "description": "",
     "details": {
-      "context_length": null,
+      "context_length": 32768,
       "metadata_sources": {
-        "parameter_count": "huggingface_safetensors"
+        "context_length": "litellm"
       },
       "model_name": "deepseek-ai/DeepSeek-V4-Flash",
-      "parameter_count": 141733920768
+      "parameter_count": null
     },
     "display_name": "DeepSeek-V4-Flash",
     "env_api_key_name": "PARASAIL_API_KEY",

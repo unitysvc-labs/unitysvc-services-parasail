@@ -7,27 +7,27 @@
       "metadata_sources": {
         "context_length": "openrouter"
       },
-      "model_name": "Qwen/Qwen3.5-35B-A3B-FP8",
+      "model_name": "Qwen/Qwen3.5-9B",
       "parameter_count": null
     },
-    "display_name": "Qwen3.5-35B-A3B-FP8",
+    "display_name": "Qwen3.5-9B",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
+      "price": "0.11",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
-    "offering_name": "Qwen/Qwen3.5-35B-A3B-FP8",
+    "offering_name": "Qwen/Qwen3.5-9B",
     "payout_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
+      "price": "0.11",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-05-27T06:35:32.107Z"
+    "time_created": "2026-08-12T16:53:19.270Z"
   }
 }

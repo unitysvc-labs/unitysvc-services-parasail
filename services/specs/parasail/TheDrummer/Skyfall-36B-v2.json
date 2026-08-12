@@ -5,11 +5,10 @@
     "details": {
       "context_length": 32768,
       "metadata_sources": {
-        "context_length": "openrouter",
-        "parameter_count": "huggingface_safetensors"
+        "context_length": "openrouter"
       },
       "model_name": "TheDrummer/Skyfall-36B-v2",
-      "parameter_count": 36910535680
+      "parameter_count": null
     },
     "display_name": "Skyfall-36B-v2",
     "env_api_key_name": "PARASAIL_API_KEY",
