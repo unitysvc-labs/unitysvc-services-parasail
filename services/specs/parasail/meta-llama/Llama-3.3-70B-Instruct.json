@@ -5,10 +5,11 @@
     "details": {
       "context_length": 131072,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "meta-llama/Llama-3.3-70B-Instruct",
-      "parameter_count": null
+      "parameter_count": 70553706496
     },
     "display_name": "Llama-3.3-70B-Instruct",
     "env_api_key_name": "PARASAIL_API_KEY",
@@ -28,6 +29,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-05-27T06:35:37.377Z"
+    "time_created": "2026-08-13T02:09:47.363Z"
   }
 }

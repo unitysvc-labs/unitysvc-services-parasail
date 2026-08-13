@@ -5,10 +5,11 @@
     "details": {
       "context_length": 131072,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "TheDrummer/Cydonia-24B-v4.1",
-      "parameter_count": null
+      "parameter_count": 23572403200
     },
     "display_name": "Cydonia-24B-v4.1",
     "env_api_key_name": "PARASAIL_API_KEY",
@@ -28,6 +29,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-05-27T06:35:32.767Z"
+    "time_created": "2026-08-13T02:09:44.070Z"
   }
 }

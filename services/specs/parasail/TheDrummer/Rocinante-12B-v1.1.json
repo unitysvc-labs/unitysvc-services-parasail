@@ -5,10 +5,11 @@
     "details": {
       "context_length": 65536,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "TheDrummer/Rocinante-12B-v1.1",
-      "parameter_count": null
+      "parameter_count": 12247782400
     },
     "display_name": "Rocinante-12B-v1.1",
     "env_api_key_name": "PARASAIL_API_KEY",
@@ -28,6 +29,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-08-12T16:53:19.985Z"
+    "time_created": "2026-08-13T02:09:44.362Z"
   }
 }

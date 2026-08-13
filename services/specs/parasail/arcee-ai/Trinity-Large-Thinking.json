@@ -5,10 +5,11 @@
     "details": {
       "context_length": 262144,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "arcee-ai/Trinity-Large-Thinking",
-      "parameter_count": null
+      "parameter_count": 398635272192
     },
     "display_name": "Trinity-Large-Thinking",
     "env_api_key_name": "PARASAIL_API_KEY",
@@ -28,6 +29,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-05-27T06:35:33.434Z"
+    "time_created": "2026-08-13T02:09:44.995Z"
   }
 }

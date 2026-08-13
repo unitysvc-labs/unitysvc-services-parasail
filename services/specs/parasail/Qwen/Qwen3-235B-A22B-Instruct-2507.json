@@ -5,10 +5,11 @@
     "details": {
       "context_length": 131072,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507",
-      "parameter_count": null
+      "parameter_count": 235093634560
     },
     "display_name": "Qwen3-235B-A22B-Instruct-2507",
     "env_api_key_name": "PARASAIL_API_KEY",
@@ -28,6 +29,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-05-27T06:35:30.579Z"
+    "time_created": "2026-08-13T02:09:41.782Z"
   }
 }

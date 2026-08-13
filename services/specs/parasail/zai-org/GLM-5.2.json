@@ -4,8 +4,11 @@
     "description": "",
     "details": {
       "context_length": null,
+      "metadata_sources": {
+        "parameter_count": "huggingface_safetensors"
+      },
       "model_name": "zai-org/GLM-5.2",
-      "parameter_count": null
+      "parameter_count": 753329921024
     },
     "display_name": "GLM-5.2",
     "env_api_key_name": "PARASAIL_API_KEY",
@@ -25,6 +28,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-08-12T16:53:53.182Z"
+    "time_created": "2026-08-13T02:10:14.490Z"
   }
 }

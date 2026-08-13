@@ -417,6 +417,37 @@ class ParasailModelExtractor:
         else:
             print(f"  🗑️  Processed {deprecated_count} deprecated services")
 
+    @staticmethod
+    def _dedup_case_variant_ids(models: List[Dict]) -> List[Dict]:
+        """Drop case-variant duplicate model IDs returned by the API.
+
+        Parasail's catalog sometimes lists the same model twice under IDs that
+        differ only by letter case (e.g. ``MiniMaxAI/MiniMax-M3`` and
+        ``MiniMaxAI/Minimax-M3``). They render to service paths that collide on a
+        case-insensitive filesystem (default macOS, much CI), so keep exactly one
+        per case-folded ID — the most properly-cased variant (most uppercase
+        letters; ties broken lexicographically) — and skip the rest. Original API
+        order is preserved for the survivors.
+        """
+        by_fold: Dict[str, List[Dict]] = {}
+        for m in models:
+            mid = m.get("id", "")
+            if mid:
+                by_fold.setdefault(mid.casefold(), []).append(m)
+        keep_ids: set = set()
+        for group in by_fold.values():
+            if len(group) > 1:
+                group.sort(key=lambda m: (-sum(c.isupper() for c in m["id"]), m["id"]))
+                keep, *drop = group
+                print(
+                    f"  ⚠️  case-variant duplicate(s) of '{keep['id']}': dropping "
+                    + ", ".join(repr(m["id"]) for m in drop)
+                )
+            else:
+                keep = group[0]
+            keep_ids.add(id(keep))
+        return [m for m in models if id(m) in keep_ids]
+
     # ------------------------------------------------------------------
     # Main entry point
     # ------------------------------------------------------------------
@@ -445,6 +476,8 @@ class ParasailModelExtractor:
             if not models:
                 print("❌ No models retrieved. Exiting.")
                 return
+            models = self._dedup_case_variant_ids(models)
+            self.summary["total_models"] = len(models)
             # Full sync: deprecate any local service no longer offered upstream.
             # (Skipped when --limit is set, since the model list is truncated.)
             if limit is None:

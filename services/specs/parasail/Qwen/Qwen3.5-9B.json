@@ -5,10 +5,11 @@
     "details": {
       "context_length": 262144,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "Qwen/Qwen3.5-9B",
-      "parameter_count": null
+      "parameter_count": 9653100528
     },
     "display_name": "Qwen3.5-9B",
     "env_api_key_name": "PARASAIL_API_KEY",
@@ -28,6 +29,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-08-12T16:53:19.270Z"
+    "time_created": "2026-08-13T02:09:43.644Z"
   }
 }

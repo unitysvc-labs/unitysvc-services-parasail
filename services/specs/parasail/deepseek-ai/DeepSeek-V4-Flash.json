@@ -5,10 +5,11 @@
     "details": {
       "context_length": 32768,
       "metadata_sources": {
-        "context_length": "litellm"
+        "context_length": "litellm",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "deepseek-ai/DeepSeek-V4-Flash",
-      "parameter_count": null
+      "parameter_count": 283467841536
     },
     "display_name": "DeepSeek-V4-Flash",
     "env_api_key_name": "PARASAIL_API_KEY",
@@ -28,6 +29,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-05-27T06:35:34.090Z"
+    "time_created": "2026-08-13T02:09:45.439Z"
   }
 }
