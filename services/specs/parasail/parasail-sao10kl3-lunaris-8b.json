@@ -1,0 +1,33 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "description": "",
+    "details": {
+      "context_length": 200000,
+      "metadata_sources": {
+        "context_length": "litellm"
+      },
+      "model_name": "parasail-sao10kl3-lunaris-8b",
+      "parameter_count": null
+    },
+    "display_name": "parasail-sao10kl3-lunaris-8b",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.08",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "parasail-sao10kl3-lunaris-8b",
+    "payout_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.08",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "time_created": "2026-08-13T02:10:11.192Z"
+  }
+}

@@ -3,8 +3,23 @@
   "name": "{{ provider_name }}/{{ offering_name }}",
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
+{%- set _is_chat = service_type == 'llm' %}
 {%- if list_price %}
-  "list_price": {{ list_price | tojson }},
+  {#- Channel-keyed price: byok is free (the customer's own key pays Parasail
+      directly); managed resells Parasail tokens at the per-model rate carried in
+      the param `list_price`. Channel keys MUST match the offering channels. #}
+  "list_price": {
+    "type": "channel",
+    "default": "managed",
+    "channels": {
+      "byok": {
+        "description": "Free — bring your own {{ provider_display_name }} API key; you pay {{ provider_display_name }} directly for tokens",
+        "price": "0",
+        "type": "constant"
+      },
+      "managed": {{ list_price | tojson }}
+    }
+  },
 {%- endif %}
   "user_access_interfaces": {
     "provider_api": {
@@ -13,24 +28,37 @@
       "routing_key": {"model": "{{ offering_name }}"}
     }
   },
+  {#- sleep_after_test spaces out the executed docs against upstream rate limits.
+      llm_description declares no executed request and is left bare. #}
   "documents": {
     "How to use this model": {
       "$doc_preset": "llm_description"
     },
     "Python code example": {
-      "$doc_preset": "llm_code_example_openai"
+      "$doc_preset": {"name": "llm_code_example_openai", "meta": {"sleep_after_test": 5}}
     },
     "Python function calling code example": {
-      "$doc_preset": "llm_code_example_fc_requests"
+      "$doc_preset": {"name": "llm_code_example_fc_requests", "meta": {"sleep_after_test": 5}}
     },
     "JavaScript code example": {
-      "$doc_preset": "llm_code_example_javascript"
+      "$doc_preset": {"name": "llm_code_example_javascript", "meta": {"sleep_after_test": 5}}
     },
     "cURL code example": {
-      "$doc_preset": "llm_code_example_shell"
+      "$doc_preset": {"name": "llm_code_example_shell", "meta": {"sleep_after_test": 5}}
     },
+{%- if _is_chat %}
+    {#- Anthropic-dialect examples (chat only): the upstream speaks OpenAI, so
+        specs run-tests (local_testing) calls it in OpenAI form, while the
+        gateway path speaks Anthropic and exercises the llm_translator. #}
+    "Python code example (Anthropic-style input)": {
+      "$doc_preset": {"name": "llm_code_example_anthropic_to_openai_sdk", "meta": {"sleep_after_test": 5}}
+    },
+    "cURL code example (Anthropic-style input)": {
+      "$doc_preset": {"name": "llm_code_example_anthropic_to_openai_shell", "meta": {"sleep_after_test": 5}}
+    },
+{%- endif %}
     "Connectivity test": {
-      "$doc_preset": "llm_connectivity"
+      "$doc_preset": {"name": "llm_connectivity", "meta": {"sleep_after_test": 5}}
     }
   }
 }

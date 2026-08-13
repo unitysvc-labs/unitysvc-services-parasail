@@ -2,17 +2,50 @@
   "time_created": "{{ time_created }}",
   "name": "{{ offering_name }}",
   "display_name": "{{ display_name }}",
-  "description": {{ description | tojson }},
+{#- 3-paragraph marketplace description (the validator requires >=2 paragraphs;
+    the populate script emits an empty/one-line brief). Teaser + detail + how-to.
+    The Anthropic/OpenAI dual-dialect sentence only applies to chat models. #}
+{%- set _is_chat = service_type == 'llm' %}
+{%- set _base = description | default(display_name ~ ' — a ' ~ service_type ~ ' model served by ' ~ provider_display_name, true) %}
+{%- set _dual = ' — callable in both OpenAI and Anthropic API styles through the UnitySVC gateway.' %}
+{%- set _brief = (_base ~ _dual) if ((_base | length) + (_dual | length) < 195) else _base %}
+{%- if not _brief %}{%- set _brief = display_name ~ ' — a ' ~ service_type ~ ' model served by ' ~ provider_display_name %}{%- endif %}
+{%- set _ctx = ' with a ' ~ details.context_length ~ '-token context window' if details.context_length else '' %}
+{%- set _detail = display_name ~ ' is served by ' ~ provider_display_name ~ ' over an OpenAI-compatible API' ~ _ctx ~ '. Requests are proxied through the UnitySVC gateway and billed per token.' %}
+{%- set _howto = 'Reach it through the UnitySVC gateway on either channel: managed (the default) resells ' ~ provider_display_name ~ ' tokens at the listed rate, or byok, where you supply your own ' ~ provider_display_name ~ ' API key and pay ' ~ provider_display_name ~ ' directly.' %}
+{%- if _is_chat %}{%- set _howto = _howto ~ ' See the code examples for both styles.' %}{%- endif %}
+{#- Dedicated interoperability paragraph: the dual-dialect endpoint is the
+    platform differentiator and what makes services interchangeable enough to
+    sit behind the gateway's composition primitives. #}
+{%- set _interop = 'One endpoint, either dialect — send an OpenAI Chat Completions or an Anthropic Messages request and the gateway auto-detects the format, translates it for the upstream, and replies in the style you sent. Because every model on UnitySVC speaks both dialects, they are interchangeable behind a single client: swap providers without touching your code, and combine them with the gateway composition primitives — group (/g/), broadcast (/b/), chain (/c/) and failover (/f/).' %}
+{%- set _description = _brief ~ '\n\n' ~ _detail ~ '\n\n' ~ _howto ~ '\n\n' ~ _interop %}
+  "description": {{ _description | tojson }},
   "service_type": "{{ service_type }}",
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
   "tags": ["ai", "gateway", "byok"],
+{#- Formats are a service-level fact for every chat model: an OpenAI-compatible
+    upstream exposed in both dialects via the llm_translator below (callers may
+    send OpenAI or Anthropic; responses come back in kind). Embeddings and other
+    non-chat types have no translator and no dual formats. #}
+{%- if _is_chat %}
+{%- set _details = details.copy() %}
+{%- set _ = _details.update({"input_formats": ["openai", "anthropic"], "output_formats": ["openai_response", "anthropic_response"]}) %}
+  "details": {{ _details | tojson }},
+{%- else %}
   "details": {{ details | tojson }},
+{%- endif %}
 {%- if payout_price %}
   "payout_price": {{ payout_price | tojson }},
 {%- endif %}
+{#- Parasail resells its own tokens, so both channels front the same upstream and
+    differ only in whose key pays: managed = seller key (${ secrets.* }),
+    byok = customer key (${ customer_secrets.* }). Channel TYPE is derived from
+    that alone (no flag). llm_translator (chat only) lets the OpenAI upstream also
+    serve Anthropic-style callers; the gateway auto-detects and only translates
+    when the incoming dialect differs. base_url is unversioned and preserved as-is. #}
   "upstream_access_config": {
-    "{{ provider_display_name }} API": {
+    "managed": {
       "access_method": "http",
       "api_key": "${ secrets.{{ env_api_key_name }} }",
       "base_url": "{{ api_base_url }}",
@@ -38,7 +71,43 @@
       ],
       "routing_key": {
         "model": "{{ offering_name }}"
-      }
+      },
+{%- if _is_chat %}
+      "request_transformer": {"llm_translator": "anthropic_to_openai"},
+{%- endif %}
+      "sort_order": 1
+    },
+    "byok": {
+      "access_method": "http",
+      "api_key": "${ customer_secrets.{{ env_api_key_name }} }",
+      "base_url": "{{ api_base_url }}",
+      "rate_limits": [
+        {
+          "description": "Requests per minute",
+          "limit": 60,
+          "unit": "requests",
+          "window": "minute"
+        },
+        {
+          "description": "Input tokens per minute",
+          "limit": 100000,
+          "unit": "input_tokens",
+          "window": "minute"
+        },
+        {
+          "description": "Output tokens per minute",
+          "limit": 10000,
+          "unit": "output_tokens",
+          "window": "minute"
+        }
+      ],
+      "routing_key": {
+        "model": "{{ offering_name }}"
+      },
+{%- if _is_chat %}
+      "request_transformer": {"llm_translator": "anthropic_to_openai"},
+{%- endif %}
+      "sort_order": 2
     }
   }
 }
