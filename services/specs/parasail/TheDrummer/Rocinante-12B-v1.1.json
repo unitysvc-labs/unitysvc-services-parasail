@@ -1,0 +1,34 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "description": "",
+    "details": {
+      "context_length": 65536,
+      "metadata_sources": {
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
+      },
+      "model_name": "TheDrummer/Rocinante-12B-v1.1",
+      "parameter_count": 12247782400
+    },
+    "display_name": "Rocinante-12B-v1.1",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.11",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "TheDrummer/Rocinante-12B-v1.1",
+    "payout_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.11",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "time_created": "2026-08-13T04:17:42.205Z"
+  }
+}

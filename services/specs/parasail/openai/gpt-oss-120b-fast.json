@@ -1,0 +1,33 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "description": "",
+    "details": {
+      "context_length": 131072,
+      "metadata_sources": {
+        "context_length": "openrouter"
+      },
+      "model_name": "openai/gpt-oss-120b-fast",
+      "parameter_count": null
+    },
+    "display_name": "gpt-oss-120b-fast",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.80",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "openai/gpt-oss-120b-fast",
+    "payout_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.80",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "time_created": "2026-08-13T04:17:46.757Z"
+  }
+}

@@ -1,3 +1,4 @@
 {
-  "service_id": "fb2409fa-9616-4dec-9503-75d26032ec76"
+  "service_id": "fb2409fa-9616-4dec-9503-75d26032ec76",
+  "upstream_test_status": "fail"
 }

@@ -1,3 +1,4 @@
 {
-  "service_id": "a1fcac10-cab4-41b6-b8ea-524cdd8196cb"
+  "service_id": "a1fcac10-cab4-41b6-b8ea-524cdd8196cb",
+  "upstream_test_status": "pass"
 }
