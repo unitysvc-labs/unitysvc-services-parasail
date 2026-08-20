@@ -1,5 +1,13 @@
 {
   "time_created": "{{ time_created }}",
+{#- Model-family logo (unitysvc/unitysvc-data#60): the catalog row shows the
+    model's own mark rather than the provider's — the model is what a customer
+    recognises, and the provider is already named beside it. Resolved from the
+    model id, so no per-model parameter is needed and the populate script
+    cannot destroy it. A model the registry does not know resolves to null,
+    which creates no document and leaves the provider logo in place, so the key
+    needs no conditional. -#}
+  "logo": {{ {"$logo_preset": offering_name} | tojson }},
   "name": "{{ offering_name }}",
   "display_name": "{{ display_name }}",
 {#- summary = marketplace teaser (<=200 chars, required by unitysvc#1838);
