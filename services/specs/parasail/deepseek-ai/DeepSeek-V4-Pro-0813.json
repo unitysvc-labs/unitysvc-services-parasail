@@ -3,15 +3,14 @@
     "api_base_url": "https://api.parasail.io",
     "description": "",
     "details": {
-      "context_length": 131072,
+      "context_length": null,
       "metadata_sources": {
-        "context_length": "openrouter",
         "parameter_count": "huggingface_safetensors"
       },
-      "model_name": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
-      "parameter_count": 24011361280
+      "model_name": "deepseek-ai/DeepSeek-V4-Pro-0813",
+      "parameter_count": 1623497637888
     },
-    "display_name": "Mistral-Small-3.2-24B-Instruct-2506",
+    "display_name": "DeepSeek-V4-Pro-0813",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
       "description": "Pricing Per 1M Tokens",
@@ -19,7 +18,7 @@
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
-    "offering_name": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+    "offering_name": "deepseek-ai/DeepSeek-V4-Pro-0813",
     "payout_price": {
       "description": "Pricing Per 1M Tokens",
       "price": "0.50",
@@ -29,6 +28,6 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "time_created": "2026-08-13T02:09:47.784Z"
+    "time_created": "2026-08-22T03:00:26.071Z"
   }
 }
