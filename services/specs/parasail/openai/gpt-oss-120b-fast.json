@@ -1,6 +1,7 @@
 {
   "parameters": {
     "api_base_url": "https://api.parasail.io",
+    "capability": "chat",
     "description": "",
     "details": {
       "context_length": 131072,

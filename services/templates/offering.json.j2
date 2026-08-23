@@ -32,6 +32,19 @@
   "summary": {{ _summary | tojson }},
   "description": {{ _description | tojson }},
   "service_type": "{{ service_type }}",
+{#- Platform capability vocabulary (unitysvc docs/capabilities.yml) — what the
+    caller GETS. Not a map of service_type: `derive_service_type` deliberately
+    collapses TTS and transcription models into `llm` (those values are not
+    valid server-side), so the modality keywords are re-tested here. The
+    populator writes `capability` into every param file; this reproduces it for
+    a param file that predates that. -#}
+{%- set _n = offering_name | lower %}
+{%- set _cap = capability | default(
+      "rerank" if "rerank" in _n
+      else ("speech-synthesize" if ("tts" in _n or "text-to-speech" in _n)
+      else ("speech-transcribe" if ("whisper" in _n or "transcribe" in _n)
+      else {"embedding": "embed", "image_generation": "image-generate"}.get(service_type, "chat"))), true) %}
+  "capabilities": ["{{ _cap }}"],
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
   "tags": ["ai", "gateway", "byok"],
