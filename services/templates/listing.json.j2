@@ -7,17 +7,57 @@
 {%- if list_price %}
   {#- Channel-keyed price: byok is free (the customer's own key pays Parasail
       directly); managed resells Parasail tokens at the per-model rate carried in
-      the param `list_price`. Channel keys MUST match the offering channels. #}
+      the param `list_price`. Channel keys MUST match the offering channels.
+
+      Price-cell copy follows the marketplace description grammar
+      (unitysvc/unitysvc#1886, PR #1887):
+
+          <amount> [ ("/"|"per") <unit> ] [ "~"[intent] <badge> ]* [ "|" <note> ]
+
+      The description that matters is the one on the CHANNEL price, not the
+      sub-channel ones. CatalogServiceRow hands the whole `list_price` to
+      PriceTag, and PriceTag is the only component that parses a description;
+      the sub-channel prices reach ChannelDisplay's PriceBadge, which prints
+      whatever it is given verbatim. A channel-keyed price carrying neither a
+      top-level `description` nor a top-level `price` falls through PriceTag's
+      structured branch to `isFree`, so every metered model in this catalog
+      renders a green "Free" today. Naming the default channel's rate here is
+      the fix — and PriceTag's own docstring says channel prices "should set a
+      description" for exactly this reason.
+
+      No badge, deliberately. The row already carries a byok access-method chip
+      (AccessMethodBadges renders one per channel type), so a "BYOK" pill here
+      would duplicate an affordance the row already has — and the amount beside
+      it is the *managed* rate, so a bare `~` badge, which is the green "this
+      is a saving" register, would misdescribe the number it sits next to. The
+      byok alternative goes in the `|` note instead. That slot is terminal and
+      taken verbatim, so it is free to contain "/" and "per" without being
+      re-parsed as a unit.
+
+      Composed here rather than written into the param file because
+      scripts/update_params.py rebuilds `list_price` on the nightly populate
+      run (.github/workflows/populate-services.yml, 02:00 UTC) and would drop a
+      hand-edited description within a day. `payout_price` is seller-facing and
+      shares that script's wording — it is rendered by offering.json.j2 and is
+      deliberately untouched here. #}
+{%- set _byok_note = ' | Free on the byok channel - bring your own ' ~ provider_display_name ~ ' key and pay ' ~ provider_display_name ~ ' directly.' %}
+{%- set _managed_rate = ('$' ~ list_price.price ~ ' / 1M tokens') if list_price.price else '' %}
   "list_price": {
     "type": "channel",
     "default": "managed",
+{%- if _managed_rate %}
+    "description": {{ (_managed_rate ~ _byok_note) | tojson }},
+{%- endif %}
     "channels": {
       "byok": {
         "description": "Free — bring your own {{ provider_display_name }} API key; you pay {{ provider_display_name }} directly for tokens",
         "price": "0",
         "type": "constant"
       },
-      "managed": {{ list_price | tojson }}
+      {#- "Pricing Per 1M Tokens" names a unit and no number, so it parses to
+          the amount "Pricing" with the unit "1M Tokens" — the rate never
+          appears. Restate it with the figure the param already carries. #}
+      "managed": {{ dict(list_price, description=('$' ~ list_price.price ~ ' per 1M tokens') if list_price.price else list_price.description) | tojson }}
     }
   },
 {%- endif %}
