@@ -1,3 +1,8 @@
+{#- Capability-driven example dispatch. Keyed on the platform capability
+    rather than service_type, because `derive_service_type` cannot see every
+    embedding model (BAAI/bge-m3 has no "embed" in its name) and forces TTS
+    into `llm`. The capability is the thing the examples must match. -#}
+{%- set _cap = capability | default("chat", true) %}
 {
   "time_created": "{{ time_created }}",
   "name": "{{ provider_name }}/{{ offering_name }}",
@@ -74,6 +79,20 @@
     "How to use this model": {
       "$doc_preset": "llm_description"
     },
+{#- Embedding models serve /v1/embeddings; the chat presets 400 there, and the
+    function-calling one doubly so. Dispatch the example set on service_type so
+    an `embed` service ships examples an `embed` service can actually run. -#}
+{%- if _cap == "embed" %}
+    "Python code example": {
+      "$doc_preset": {"name": "llm_code_example_embed_requests", "meta": {"sleep_after_test": 5}}
+    },
+    "JavaScript code example": {
+      "$doc_preset": {"name": "llm_code_example_embed_javascript", "meta": {"sleep_after_test": 5}}
+    },
+    "cURL code example": {
+      "$doc_preset": {"name": "llm_code_example_embed_shell", "meta": {"sleep_after_test": 5}}
+    },
+{%- else %}
     "Python code example": {
       "$doc_preset": {"name": "llm_code_example_openai", "meta": {"sleep_after_test": 5}}
     },
@@ -86,6 +105,7 @@
     "cURL code example": {
       "$doc_preset": {"name": "llm_code_example_shell", "meta": {"sleep_after_test": 5}}
     },
+{%- endif %}
 {%- if _is_chat %}
     {#- Anthropic-dialect examples (chat only): the upstream speaks OpenAI, so
         specs run-tests (local_testing) calls it in OpenAI form, while the
@@ -97,8 +117,12 @@
       "$doc_preset": {"name": "llm_code_example_anthropic_to_openai_shell", "meta": {"sleep_after_test": 5}}
     },
 {%- endif %}
+{#- The connectivity test gates activation (`check_service_tests_passed`), so it
+    has to probe the endpoint the service actually serves. `llm_connectivity`
+    POSTs a chat-completion body, which an embedding model rejects — so the two
+    bge-m3 services were declaring a capability nothing verified. -#}
     "Connectivity test": {
-      "$doc_preset": {"name": "llm_connectivity", "meta": {"sleep_after_test": 5}}
+      "$doc_preset": {"name": "{{ 'llm_connectivity_embed' if _cap == 'embed' else 'llm_connectivity' }}", "meta": {"sleep_after_test": 5}}
     }
   }
 }

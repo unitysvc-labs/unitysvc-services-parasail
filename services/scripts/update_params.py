@@ -108,6 +108,39 @@ def derive_service_type(model_id: str) -> str:
     return "llm"
 
 
+#: Embedding model families whose names contain no "embed" substring, so
+#: ``derive_service_type`` files them as ``llm``.  BAAI/bge-m3 is the live
+#: case: it serves /v1/embeddings only, and a chat call against it 400s.
+_EMBEDDING_FAMILIES = ("bge-", "bge_", "gte-", "e5-", "jina-embeddings", "nomic-embed")
+
+
+def derive_capability(model_id: str, service_type: str) -> str:
+    """The platform capability this offering provides.
+
+    From the platform vocabulary (unitysvc ``docs/capabilities.yml``): what
+    the caller GETS from a call, which is a different axis from
+    ``service_type``.
+
+    Cannot simply map ``service_type``, because ``derive_service_type``
+    deliberately collapses TTS and transcription models into ``llm`` — those
+    values are not valid server-side. So the modality keywords are re-tested
+    here, where the collapse does not apply. Vision models stay ``chat``: an
+    image in the request is an attribute of a chat call.
+    """
+    mid = model_id.lower()
+    if "rerank" in mid:
+        return "rerank"
+    if any(k in mid for k in ["tts", "text-to-speech"]):
+        return "speech-synthesize"
+    if any(k in mid for k in ["whisper", "transcribe"]):
+        return "speech-transcribe"
+    if service_type == "embedding" or any(k in mid for k in _EMBEDDING_FAMILIES):
+        return "embed"
+    if service_type == "image_generation":
+        return "image-generate"
+    return "chat"
+
+
 # ---------------------------------------------------------------------------
 # Extractor
 # ---------------------------------------------------------------------------
@@ -272,6 +305,7 @@ class ParasailModelExtractor:
             "display_name": display_name,
             "description": description,
             "service_type": service_type,
+            "capability": derive_capability(model_id, service_type),
             "status": "ready",
             "api_base_url": "https://api.parasail.io",
             "details": details,
