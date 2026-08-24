@@ -14,7 +14,14 @@
     description = long-form detail + how-to + interop paragraphs.
     The populate script emits an empty/one-line brief; the Anthropic/OpenAI
     dual-dialect sentence only applies to chat models. #}
-{%- set _is_chat = service_type == 'llm' %}
+{#- Keyed on the platform capability, NOT on service_type. `derive_service_type`
+    files BAAI/bge-m3 and parasail-bge-m3 as `llm` (their names contain no
+    "embed"), so `service_type == 'llm'` is true for two embedding services —
+    which made them render the Anthropic-dialect chat examples and the
+    dual-dialect copy. Those examples POST a chat body at /v1/embeddings and
+    400, and code examples count toward the activation gate, not just the
+    connectivity test. -#}
+{%- set _is_chat = (capability | default('chat', true)) == 'chat' %}
 {%- set _base = description | default(display_name ~ ' — a ' ~ service_type ~ ' model served by ' ~ provider_display_name, true) %}
 {%- set _dual = ' — callable in both OpenAI and Anthropic API styles through the UnitySVC gateway.' %}
 {%- set _brief = (_base ~ _dual) if ((_base | length) + (_dual | length) < 195) else _base %}

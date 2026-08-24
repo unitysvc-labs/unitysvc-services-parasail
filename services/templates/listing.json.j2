@@ -8,7 +8,14 @@
   "name": "{{ provider_name }}/{{ offering_name }}",
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
-{%- set _is_chat = service_type == 'llm' %}
+{#- Keyed on the platform capability, NOT on service_type. `derive_service_type`
+    files BAAI/bge-m3 and parasail-bge-m3 as `llm` (their names contain no
+    "embed"), so `service_type == 'llm'` is true for two embedding services —
+    which made them render the Anthropic-dialect chat examples and the
+    dual-dialect copy. Those examples POST a chat body at /v1/embeddings and
+    400, and code examples count toward the activation gate, not just the
+    connectivity test. -#}
+{%- set _is_chat = (capability | default('chat', true)) == 'chat' %}
 {%- if list_price %}
   {#- Channel-keyed price: byok is free (the customer's own key pays Parasail
       directly); managed resells Parasail tokens at the per-model rate carried in
