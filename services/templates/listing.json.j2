@@ -103,9 +103,15 @@
     "Python code example": {
       "$doc_preset": {"name": "llm_code_example_openai", "meta": {"sleep_after_test": 5}}
     },
+{%- if supports_tools | default(true) %}
+    {#- Only when the deployment accepts `tools` — parasail's model API reports
+        supports_tools=null for everything, so the populator's observed-failure
+        denylist drives this flag (400/500 on tools otherwise). Param files
+        written before the populator emitted it default to attaching. #}
     "Python function calling code example": {
       "$doc_preset": {"name": "llm_code_example_fc_requests", "meta": {"sleep_after_test": 5}}
     },
+{%- endif %}
     "JavaScript code example": {
       "$doc_preset": {"name": "llm_code_example_javascript", "meta": {"sleep_after_test": 5}}
     },

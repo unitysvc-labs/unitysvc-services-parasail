@@ -37,6 +37,27 @@ from unitysvc_sellers.params_render import write_params_from_iterator
 
 
 PROVIDER_NAME = "parasail"
+
+#: Models whose parasail deployment rejects ``tools`` at request time — a 400
+#: ('"auto" tool choice requires --enable-auto-tool-choice and
+#: --tool-call-parser to be set') or an outright 500. Parasail's model API
+#: reports supports_tools=null for everything, so this observed-failure list
+#: is the only gate for the function-calling example (staging, 2026-08-25).
+#: Drop entries when parasail enables a tool-call parser for a deployment.
+_FC_DENYLIST = frozenset({
+    "ByteDance-Seed/UI-TARS-1.5-7B",
+    "TheDrummer/Cydonia-24B-v4.1",
+    "TheDrummer/Skyfall-36B-v2",
+    "google/gemma-3-27b-it",
+    "parasail-cydonia-24-v41",
+    "parasail-gemma3-27b-it",
+    "parasail-googlegemma-3-4b-it",
+    "parasail-mythomax-13b",
+    "parasail-sao10kl3-lunaris-8b",
+    "parasail-skyfall-36b-v2-fp8",
+    "parasail-ui-tars-1p5-7b",
+    "parasail-unslopnemo-12b",
+})
 PROVIDER_DISPLAY_NAME = "Parasail"
 ENV_API_KEY_NAME = "PARASAIL_API_KEY"
 
@@ -296,6 +317,15 @@ class ParasailModelExtractor:
             details.setdefault("context_length", None)
             details.setdefault("parameter_count", None)
 
+        # Gate for the function-calling code example. Parasail's model API
+        # reports supports_tools=null for every model, so there is no positive
+        # signal to key on; default to attaching the example and correct with
+        # the observed-failure denylist (deployments without a tool-call
+        # parser 400 — or crash with a 500 — on any `tools` request).
+        supports_tools = details.get("supports_tools") is not False
+        if model_id in _FC_DENYLIST:
+            supports_tools = False
+
         return {
             "provider_name": PROVIDER_NAME,
             "provider_display_name": PROVIDER_DISPLAY_NAME,
@@ -308,6 +338,7 @@ class ParasailModelExtractor:
             "capability": derive_capability(model_id, service_type),
             "status": "ready",
             "api_base_url": "https://api.parasail.io",
+            "supports_tools": supports_tools,
             "details": details,
             "payout_price": {
                 "description": "Pricing Per 1M Tokens",
