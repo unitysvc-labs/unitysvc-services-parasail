@@ -82,60 +82,34 @@
   },
   {#- sleep_after_test spaces out the executed docs against upstream rate limits.
       llm_description declares no executed request and is left bare. #}
+  {#- Every document below is DERIVED from what this service is: its
+      capability and the request dialects it accepts (unitysvc/unitysvc#1899).
+      The catalog-wide shape lives in unitysvc-data's `llm_example_collection`
+      preset, so a new example flavour or a fixed preset reaches this repo on
+      the next release rather than through a PR here.
+
+      A collection covers ONE capability, so `_cap` still chooses the branch —
+      and it now picks the connectivity probe as a consequence rather than
+      through the inline `'llm_connectivity_embed' if _cap == 'embed'`
+      conditional this block used to carry. -#}
   "documents": {
-    "How to use this model": {
-      "$doc_preset": "llm_description"
-    },
-{#- Embedding models serve /v1/embeddings; the chat presets 400 there, and the
-    function-calling one doubly so. Dispatch the example set on service_type so
-    an `embed` service ships examples an `embed` service can actually run. -#}
 {%- if _cap == "embed" %}
-    "Python code example": {
-      "$doc_preset": {"name": "llm_code_example_embed_requests", "meta": {"sleep_after_test": 5}}
-    },
-    "JavaScript code example": {
-      "$doc_preset": {"name": "llm_code_example_embed_javascript", "meta": {"sleep_after_test": 5}}
-    },
-    "cURL code example": {
-      "$doc_preset": {"name": "llm_code_example_embed_shell", "meta": {"sleep_after_test": 5}}
-    },
-{%- else %}
-    "Python code example": {
-      "$doc_preset": {"name": "llm_code_example_openai", "meta": {"sleep_after_test": 5}}
-    },
-{%- if supports_tools | default(true) %}
-    {#- Only when the deployment accepts `tools` — parasail's model API reports
-        supports_tools=null for everything, so the populator's observed-failure
-        denylist drives this flag (400/500 on tools otherwise). Param files
-        written before the populator emitted it default to attaching. #}
-    "Python function calling code example": {
-      "$doc_preset": {"name": "llm_code_example_fc_requests", "meta": {"sleep_after_test": 5}}
-    },
-{%- endif %}
-    "JavaScript code example": {
-      "$doc_preset": {"name": "llm_code_example_javascript", "meta": {"sleep_after_test": 5}}
-    },
-    "cURL code example": {
-      "$doc_preset": {"name": "llm_code_example_shell", "meta": {"sleep_after_test": 5}}
-    },
-{%- endif %}
-{%- if _is_chat %}
-    {#- Anthropic-dialect examples (chat only): the upstream speaks OpenAI, so
-        specs run-tests (local_testing) calls it in OpenAI form, while the
-        gateway path speaks Anthropic and exercises the llm_translator. #}
-    "Python code example (Anthropic-style input)": {
-      "$doc_preset": {"name": "llm_code_example_anthropic_to_openai_sdk", "meta": {"sleep_after_test": 5}}
-    },
-    "cURL code example (Anthropic-style input)": {
-      "$doc_preset": {"name": "llm_code_example_anthropic_to_openai_shell", "meta": {"sleep_after_test": 5}}
-    },
-{%- endif %}
-{#- The connectivity test gates activation (`check_service_tests_passed`), so it
-    has to probe the endpoint the service actually serves. `llm_connectivity`
-    POSTs a chat-completion body, which an embedding model rejects — so the two
-    bge-m3 services were declaring a capability nothing verified. -#}
-    "Connectivity test": {
-      "$doc_preset": {"name": "{{ 'llm_connectivity_embed' if _cap == 'embed' else 'llm_connectivity' }}", "meta": {"sleep_after_test": 5}}
+    "$llm_example_collection": {
+      "capabilities": ["embed"],
+      "formats": ["openai"],
+      "upstream_dialect": "openai",
+      "sleep": 5
     }
+{%- else %}
+    "$llm_example_collection": {
+      "capabilities": ["chat"],
+      "formats": ["openai", "anthropic"],
+      "upstream_dialect": "openai",
+      {#- Parasail's API reports supports_tools=null for every model, so the
+          repo's default of true is preserved rather than newly narrowed. -#}
+      "tools": {{ (supports_tools | default(true)) | tojson }},
+      "sleep": 5
+    }
+{%- endif %}
   }
 }
