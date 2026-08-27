@@ -4,6 +4,21 @@
   "homepage": "https://parasail.io/",
   "logo": "https://www.parasail.io/favicon.png",
   "name": "parasail",
+  "rate_limits": [
+    {
+      "description": "Self-imposed ceiling so platform test sweeps cannot saturate the account; not a published provider limit.",
+      "limit": 10,
+      "name": "parasail_concurrency",
+      "unit": "concurrent"
+    },
+    {
+      "description": "Self-imposed ceiling so platform test sweeps cannot saturate the account; not a published provider limit.",
+      "limit": 100,
+      "name": "parasail_rpm",
+      "unit": "requests",
+      "window": "minute"
+    }
+  ],
   "secondary_contact_email": "inquiries@parasail.io",
   "status": "ready",
   "terms_of_service": "https://parasail.io/terms",
