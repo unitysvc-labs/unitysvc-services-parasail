@@ -4,7 +4,7 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": 256000,
+      "context_length": 131072,
       "metadata_sources": {
         "context_length": "openrouter",
         "parameter_count": "huggingface_safetensors"
@@ -30,6 +30,7 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
+    "supports_tools": true,
     "time_created": "2026-08-13T02:09:47.784Z"
   }
 }

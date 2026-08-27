@@ -10,7 +10,7 @@
         "parameter_count": "huggingface_safetensors"
       },
       "model_name": "openai/gpt-oss-20b",
-      "parameter_count": 19707494400
+      "parameter_count": 19110297600
     },
     "display_name": "gpt-oss-20b",
     "env_api_key_name": "PARASAIL_API_KEY",
@@ -30,6 +30,7 @@
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
+    "supports_tools": true,
     "time_created": "2026-08-13T02:09:49.383Z"
   }
 }

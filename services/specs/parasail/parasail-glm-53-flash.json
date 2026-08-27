@@ -1,0 +1,32 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "capability": "chat",
+    "description": "",
+    "details": {
+      "context_length": null,
+      "model_name": "parasail-glm-53-flash",
+      "parameter_count": null
+    },
+    "display_name": "parasail-glm-53-flash",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.50",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "parasail-glm-53-flash",
+    "payout_price": {
+      "description": "Pricing Per 1M Tokens",
+      "price": "0.50",
+      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "supports_tools": true,
+    "time_created": "2026-08-27T12:41:59.248Z"
+  }
+}
