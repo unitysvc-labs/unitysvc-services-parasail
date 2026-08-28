@@ -93,7 +93,33 @@
       through the inline `'llm_connectivity_embed' if _cap == 'embed'`
       conditional this block used to carry. -#}
   "documents": {
-{%- if _cap == "embed" %}
+{#- The audio branches. Without them every non-embed service fell through to
+    chat, so `parasail-resemble-tts-en` — a `ready` TTS service — was handed the
+    chat collection and tested against /chat/completions: 30 examples, 30
+    failures, none of them about the service. The offering already declared
+    `capabilities: ["text-to-speech"]` correctly; only the document selection
+    was wrong.
+
+    Both audio capabilities carry a full example set AND a connectivity probe as
+    of unitysvc-data 0.1.40 (`llm_connectivity_transcription`,
+    `llm_connectivity_tts`), so the collection resolves each on its own now.
+    `formats: ["openai"]` because neither speaks the Anthropic dialect, and no
+    `tools` for the same reason. -#}
+{%- if _cap == "text-to-speech" %}
+    "$llm_example_collection": {
+      "capabilities": ["text-to-speech"],
+      "formats": ["openai"],
+      "upstream_dialect": "openai",
+      "sleep": 5
+    }
+{%- elif _cap == "speech-to-text" %}
+    "$llm_example_collection": {
+      "capabilities": ["speech-to-text"],
+      "formats": ["openai"],
+      "upstream_dialect": "openai",
+      "sleep": 5
+    }
+{%- elif _cap == "embed" %}
     "$llm_example_collection": {
       "capabilities": ["embed"],
       "formats": ["openai"],
