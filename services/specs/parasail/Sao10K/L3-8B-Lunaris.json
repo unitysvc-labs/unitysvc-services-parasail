@@ -4,32 +4,32 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": 65536,
+      "context_length": 8192,
       "metadata_sources": {
-        "context_length": "openrouter",
-        "parameter_count": "huggingface_safetensors"
+        "context_length": "litellm"
       },
-      "model_name": "TheDrummer/Rocinante-12B-v1.1",
-      "parameter_count": 12247782400
+      "model_name": "Sao10K/L3-8B-Lunaris",
+      "parameter_count": null
     },
-    "display_name": "Rocinante-12B-v1.1",
+    "display_name": "L3-8B-Lunaris",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.11",
+      "price": "0.08",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
-    "offering_name": "TheDrummer/Rocinante-12B-v1.1",
+    "offering_name": "Sao10K/L3-8B-Lunaris",
     "payout_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.11",
+      "price": "0.08",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",
     "service_type": "llm",
-    "status": "deprecated",
-    "time_created": "2026-08-13T02:09:44.362Z"
+    "status": "ready",
+    "supports_tools": true,
+    "time_created": "2026-08-28T23:28:12.034Z"
   }
 }

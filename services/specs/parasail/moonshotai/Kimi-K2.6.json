@@ -6,11 +6,10 @@
     "details": {
       "context_length": 262144,
       "metadata_sources": {
-        "context_length": "openrouter",
-        "parameter_count": "huggingface_safetensors"
+        "context_length": "openrouter"
       },
       "model_name": "moonshotai/Kimi-K2.6",
-      "parameter_count": 1014686023680
+      "parameter_count": null
     },
     "display_name": "Kimi-K2.6",
     "env_api_key_name": "PARASAIL_API_KEY",
