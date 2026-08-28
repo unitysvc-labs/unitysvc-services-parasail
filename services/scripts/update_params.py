@@ -132,9 +132,9 @@ def derive_capability(model_id: str, service_type: str) -> str:
     if "rerank" in mid:
         return "rerank"
     if any(k in mid for k in ["tts", "text-to-speech"]):
-        return "speech-synthesize"
+        return "text-to-speech"
     if any(k in mid for k in ["whisper", "transcribe"]):
-        return "speech-transcribe"
+        return "speech-to-text"
     if service_type == "embedding" or any(k in mid for k in _EMBEDDING_FAMILIES):
         return "embed"
     if service_type == "image_generation":

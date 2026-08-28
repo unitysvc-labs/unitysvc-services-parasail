@@ -48,8 +48,8 @@
 {%- set _n = offering_name | lower %}
 {%- set _cap = capability | default(
       "rerank" if "rerank" in _n
-      else ("speech-synthesize" if ("tts" in _n or "text-to-speech" in _n)
-      else ("speech-transcribe" if ("whisper" in _n or "transcribe" in _n)
+      else ("text-to-speech" if ("tts" in _n or "text-to-speech" in _n)
+      else ("speech-to-text" if ("whisper" in _n or "transcribe" in _n)
       else {"embedding": "embed", "image_generation": "image-generate"}.get(service_type, "chat"))), true) %}
   "capabilities": ["{{ _cap }}"],
   "status": "{{ status | default('ready') }}",
