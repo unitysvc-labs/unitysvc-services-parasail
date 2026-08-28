@@ -165,7 +165,8 @@ class ParasailModelExtractor:
             "total_models": 0,
             "successful_extractions": 0,
             "failed_extractions": 0,
-            "deprecated_models": [],
+            "deprecated_models": 0,
+            "new_models": 0,
             "extraction_date": datetime.now().isoformat(),
             "processing_limit": None,
         }
@@ -399,69 +400,16 @@ class ParasailModelExtractor:
             print(
                 f"   Successful extractions: {self.summary['successful_extractions']}"
             )
-            print(f"   Deprecated models: {len(self.summary['deprecated_models'])}")
+            print(f"   New models: {self.summary.get('new_models', 0)}")
+            print(f"   Deprecated models: {self.summary.get('deprecated_models', 0)}")
             if self.summary["processing_limit"]:
                 print(f"   Processing limit: {self.summary['processing_limit']}")
         except Exception as e:
             print(f"❌ Error writing summary: {e}")
 
     # ------------------------------------------------------------------
-    # Deprecation
+    # Model list hygiene
     # ------------------------------------------------------------------
-
-    def mark_deprecated_services(
-        self, output_dir: str, active_models: List[str], dry_run: bool = False
-    ):
-        """Mark service files as deprecated for models no longer active."""
-        print("🔍 Checking for deprecated services...")
-        # Service folders live at specs/<provider>/<model_id>/ (model_id may be
-        # nested, e.g. deepseek-ai/DeepSeek-V3.2). File TYPE is the filename now.
-        base_path = Path(output_dir) / PROVIDER_NAME
-        if not base_path.exists():
-            return
-
-        active = set(active_models)  # full model ids
-        deprecated_count = 0
-
-        for listing_file in base_path.rglob("listing.json"):
-            svc_dir = listing_file.parent
-            model_id = svc_dir.relative_to(base_path).as_posix()
-            if model_id in active:
-                continue
-
-            deprecated_count += 1
-            print(f"  🗑️  Processing deprecated service: {model_id}")
-
-            for fname in ("offering.json", "listing.json"):
-                json_file = svc_dir / fname
-                if not json_file.exists():
-                    continue
-                try:
-                    with open(json_file, "r", encoding="utf-8") as f:
-                        data = json.load(f)
-                    if data.get("status") == "deprecated":
-                        continue
-                    data["status"] = "deprecated"
-                    if dry_run:
-                        print(f"    📝 [DRY-RUN] Would deprecate {json_file.name}")
-                    else:
-                        with open(json_file, "w", encoding="utf-8") as f:
-                            json.dump(
-                                data,
-                                f,
-                                sort_keys=True,
-                                indent=2,
-                                separators=(",", ": "),
-                            )
-                            f.write("\n")
-                        print(f"    ✅ Deprecated {json_file.name}")
-                except Exception as e:
-                    print(f"    ❌ Error updating {json_file}: {e}")
-
-        if deprecated_count == 0:
-            print("  ✅ No deprecated services found")
-        else:
-            print(f"  🗑️  Processed {deprecated_count} deprecated services")
 
     @staticmethod
     def _dedup_case_variant_ids(models: List[Dict]) -> List[Dict]:
@@ -520,15 +468,14 @@ class ParasailModelExtractor:
         else:
             models = self.get_all_models()
             if not models:
-                print("❌ No models retrieved. Exiting.")
-                return
+                # Exit non-zero, not quietly. An empty enumeration means the
+                # upstream call failed (bad credential, endpoint, outage) — and
+                # a silent success here writes nothing, produces no PR, and
+                # looks exactly like "no changes today".
+                print("❌ No models retrieved — treating as a failed run, not an empty catalog.")
+                sys.exit(1)
             models = self._dedup_case_variant_ids(models)
             self.summary["total_models"] = len(models)
-            # Full sync: deprecate any local service no longer offered upstream.
-            # (Skipped when --limit is set, since the model list is truncated.)
-            if limit is None:
-                active_ids = [m.get("id", "") for m in models if m.get("id")]
-                self.mark_deprecated_services(output_dir, active_ids, dry_run)
 
         processed_count = 0
         param_contexts: List[Dict] = []
@@ -579,7 +526,7 @@ class ParasailModelExtractor:
                 ) or self._existing_time_created(data_dir / "offering.json")
                 offering = self.build_offering_context(model_id, model_data, price, time_created=created)
                 listing = self.build_listing_context(model_id, price, time_created=created)
-                param_contexts.append({**offering, **listing, "name": f"{PROVIDER_NAME}/{model_id}"})
+                param_contexts.append({**offering, **listing, "service_name": f"{PROVIDER_NAME}/{model_id}"})
 
                 self.summary["successful_extractions"] += 1
                 print(f"  ✅ Successfully processed {model_id}")
@@ -589,7 +536,27 @@ class ParasailModelExtractor:
                 self.summary["failed_extractions"] += 1
 
         if not dry_run:
-            write_params_from_iterator(iter(param_contexts), output_dir)
+            # Deprecating on absence is only sound when this run saw the whole
+            # catalog. A truncated run (--limit) yields a handful of models, and
+            # a run that dropped models to per-model errors cannot tell "retired
+            # upstream" from "we failed to fetch it" — either would retire live
+            # services. Skip deprecation rather than guess.
+            complete_run = limit is None and self.summary["failed_extractions"] == 0
+            if not complete_run:
+                print(
+                    "⚠️  Incomplete run "
+                    f"(limit={limit}, failures={self.summary['failed_extractions']})"
+                    " — skipping deprecation of absent services."
+                )
+            stats = write_params_from_iterator(
+                iter(param_contexts), output_dir, deprecate_missing=complete_run
+            )
+            # Report what the writer actually did. The old counter tracked this
+            # script's own deprecation pass, which scanned for listing.json —
+            # a shape this repo has not had since the params migration — so it
+            # printed 0 no matter what.
+            self.summary["deprecated_models"] = stats["deprecated"]
+            self.summary["new_models"] = stats["new"]
 
         self.write_summary()
         print(f"\n🎉 Extraction complete! Check {output_dir}/ for results.")

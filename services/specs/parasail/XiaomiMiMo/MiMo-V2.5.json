@@ -4,12 +4,12 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": null,
+      "context_length": 262144,
       "metadata_sources": {
-        "parameter_count": "huggingface_safetensors"
+        "context_length": "litellm"
       },
       "model_name": "XiaomiMiMo/MiMo-V2.5",
-      "parameter_count": 306655002624
+      "parameter_count": null
     },
     "display_name": "MiMo-V2.5",
     "env_api_key_name": "PARASAIL_API_KEY",
