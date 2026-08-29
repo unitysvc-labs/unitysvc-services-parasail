@@ -9,21 +9,21 @@
         "context_length": "openrouter",
         "parameter_count": "huggingface_safetensors"
       },
-      "model_name": "google/gemma-3-27b-it",
-      "parameter_count": 27432406640
+      "model_name": "google/gemma-3-4b-it",
+      "parameter_count": 4300079472
     },
-    "display_name": "gemma-3-27b-it",
+    "display_name": "gemma-3-4b-it",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
+      "price": "0.05",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
-    "offering_name": "google/gemma-3-27b-it",
+    "offering_name": "google/gemma-3-4b-it",
     "payout_price": {
       "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
+      "price": "0.05",
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
@@ -31,6 +31,6 @@
     "service_type": "llm",
     "status": "ready",
     "supports_tools": true,
-    "time_created": "2026-08-13T02:09:46.079Z"
+    "time_created": "2026-08-29T00:20:46.748Z"
   }
 }
