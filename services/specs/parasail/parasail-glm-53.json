@@ -4,15 +4,11 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": 131072,
-      "metadata_sources": {
-        "context_length": "openrouter",
-        "parameter_count": "huggingface_safetensors"
-      },
-      "model_name": "google/gemma-3-27b-it",
-      "parameter_count": 27432406640
+      "context_length": null,
+      "model_name": "parasail-glm-53",
+      "parameter_count": null
     },
-    "display_name": "gemma-3-27b-it",
+    "display_name": "parasail-glm-53",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
       "description": "Pricing Per 1M Tokens",
@@ -20,7 +16,7 @@
       "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
       "type": "one_million_tokens"
     },
-    "offering_name": "google/gemma-3-27b-it",
+    "offering_name": "parasail-glm-53",
     "payout_price": {
       "description": "Pricing Per 1M Tokens",
       "price": "0.50",
@@ -31,6 +27,6 @@
     "service_type": "llm",
     "status": "ready",
     "supports_tools": true,
-    "time_created": "2026-08-13T02:09:46.079Z"
+    "time_created": "2026-08-29T00:20:55.816Z"
   }
 }

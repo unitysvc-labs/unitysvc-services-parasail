@@ -4,8 +4,9 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": null,
+      "context_length": 262144,
       "metadata_sources": {
+        "context_length": "litellm",
         "parameter_count": "huggingface_safetensors"
       },
       "model_name": "XiaomiMiMo/MiMo-V2.5",
