@@ -5,7 +5,7 @@
 {%- set _cap = capability | default("chat", true) %}
 {
   "time_created": "{{ time_created }}",
-  "name": "{{ provider_name }}/{{ offering_name }}",
+  "name": "{{ service_name }}",
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
 {#- Keyed on the platform capability, NOT on service_type. `derive_service_type`

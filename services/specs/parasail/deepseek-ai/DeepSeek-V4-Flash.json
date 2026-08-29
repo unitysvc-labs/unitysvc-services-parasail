@@ -6,10 +6,11 @@
     "details": {
       "context_length": 32768,
       "metadata_sources": {
-        "context_length": "litellm"
+        "context_length": "litellm",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "deepseek-ai/DeepSeek-V4-Flash",
-      "parameter_count": null
+      "parameter_count": 283467841536
     },
     "display_name": "DeepSeek-V4-Flash",
     "env_api_key_name": "PARASAIL_API_KEY",

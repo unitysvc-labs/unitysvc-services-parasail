@@ -6,10 +6,11 @@
     "details": {
       "context_length": 262144,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "Qwen/Qwen3-Coder-Next",
-      "parameter_count": null
+      "parameter_count": 79674391296
     },
     "display_name": "Qwen3-Coder-Next",
     "env_api_key_name": "PARASAIL_API_KEY",

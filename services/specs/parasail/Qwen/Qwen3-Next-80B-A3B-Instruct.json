@@ -6,10 +6,11 @@
     "details": {
       "context_length": 262144,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "Qwen/Qwen3-Next-80B-A3B-Instruct",
-      "parameter_count": null
+      "parameter_count": 81324862720
     },
     "display_name": "Qwen3-Next-80B-A3B-Instruct",
     "env_api_key_name": "PARASAIL_API_KEY",
