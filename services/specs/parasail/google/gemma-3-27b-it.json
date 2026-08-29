@@ -4,12 +4,13 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": 131072,
+      "context_length": 262144,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "google/gemma-3-27b-it",
-      "parameter_count": null
+      "parameter_count": 27432406640
     },
     "display_name": "gemma-3-27b-it",
     "env_api_key_name": "PARASAIL_API_KEY",

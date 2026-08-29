@@ -6,10 +6,11 @@
     "details": {
       "context_length": 131072,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "openai/gpt-oss-20b",
-      "parameter_count": null
+      "parameter_count": 19110297600
     },
     "display_name": "gpt-oss-20b",
     "env_api_key_name": "PARASAIL_API_KEY",

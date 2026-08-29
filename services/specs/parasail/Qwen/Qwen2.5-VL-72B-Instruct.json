@@ -6,10 +6,11 @@
     "details": {
       "context_length": 128000,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "Qwen/Qwen2.5-VL-72B-Instruct",
-      "parameter_count": null
+      "parameter_count": 73410777344
     },
     "display_name": "Qwen2.5-VL-72B-Instruct",
     "env_api_key_name": "PARASAIL_API_KEY",

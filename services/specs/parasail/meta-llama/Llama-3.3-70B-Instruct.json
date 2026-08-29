@@ -6,10 +6,11 @@
     "details": {
       "context_length": 131072,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "meta-llama/Llama-3.3-70B-Instruct",
-      "parameter_count": null
+      "parameter_count": 70553706496
     },
     "display_name": "Llama-3.3-70B-Instruct",
     "env_api_key_name": "PARASAIL_API_KEY",

@@ -6,10 +6,11 @@
     "details": {
       "context_length": 524288,
       "metadata_sources": {
-        "context_length": "litellm"
+        "context_length": "litellm",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "MiniMaxAI/MiniMax-M3",
-      "parameter_count": null
+      "parameter_count": 426993800960
     },
     "display_name": "MiniMax-M3",
     "env_api_key_name": "PARASAIL_API_KEY",

@@ -6,10 +6,11 @@
     "details": {
       "context_length": 131072,
       "metadata_sources": {
-        "context_length": "openrouter"
+        "context_length": "openrouter",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "mistralai/Mistral-Nemo-Instruct-2407",
-      "parameter_count": null
+      "parameter_count": 12247782400
     },
     "display_name": "Mistral-Nemo-Instruct-2407",
     "env_api_key_name": "PARASAIL_API_KEY",
