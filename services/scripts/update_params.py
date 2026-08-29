@@ -169,7 +169,18 @@ class ParasailModelExtractor:
             "new_models": 0,
             "extraction_date": datetime.now().isoformat(),
             "processing_limit": None,
+            # Tool-calling probe outcomes (see _probe_tools).
+            "tools_supported": 0,
+            "tools_unsupported": 0,
+            "tools_unknown": 0,
+            "tools_skipped_non_chat": 0,
         }
+        #: (model_id, override_value, probed_value) where a human override in
+        #: <model>.override.json contradicts what the probe measured. The
+        #: override still wins — it is merged at render time and this script
+        #: never writes one — but a disagreement is evidence about the probe,
+        #: so it is collected and reported rather than silently reconciled.
+        self.tools_override_conflicts: List[tuple] = []
 
         # Set up Jinja2 environment
         self.jinja_env = Environment(
@@ -221,6 +232,169 @@ class ParasailModelExtractor:
         return None
 
     # ------------------------------------------------------------------
+    # Tool-calling probe
+    # ------------------------------------------------------------------
+
+    #: Pause between probe requests, and the base for the bounded 429 backoff.
+    #: ~99 models means ~99 POSTs against a shared seller key; pacing them keeps
+    #: the run from rate-limiting itself into a wall of UNKNOWNs.
+    _PROBE_PACE_SECONDS = 0.5
+    _PROBE_MAX_RETRIES = 2
+
+    #: The probe payload mirrors the catalog's canonical tools code example, so
+    #: a pass here means the example a customer copies will also pass.
+    _TOOL_PROBE_TOOL = {
+        "type": "function",
+        "function": {
+            "name": "get_time",
+            "description": "Get the current time",
+            "parameters": {"type": "object", "properties": {}},
+        },
+    }
+
+    @staticmethod
+    def _error_message(response) -> str:
+        """Best-effort human-readable error text from a provider response."""
+        try:
+            payload = response.json()
+        except Exception:
+            return (response.text or "")[:200]
+        err = payload.get("error") if isinstance(payload, dict) else None
+        if isinstance(err, dict):
+            return str(err.get("message", ""))
+        if isinstance(err, str):
+            return err
+        return str(payload)[:200]
+
+    def _chat_probe(self, model_id: str, *, tools: bool):
+        """One /v1/chat/completions POST, with a bounded retry on 429.
+
+        Returns the response, or None if the request never completed. The body
+        carries no token cap or sampling knob on purpose: a parameter one model
+        family rejects would read as a refusal of the thing being measured.
+        """
+        body: Dict[str, Any] = {
+            "model": model_id,
+            "messages": [{"role": "user", "content": "What time is it?"}],
+        }
+        if tools:
+            body["tools"] = [self._TOOL_PROBE_TOOL]
+        url = f"{self.api_base_url}/chat/completions"
+        for attempt in range(self._PROBE_MAX_RETRIES + 1):
+            try:
+                response = self.session.post(url, json=body, timeout=60)
+            except requests.RequestException as exc:
+                print(f"  ⚠️  probe transport error ({exc})")
+                return None
+            if response.status_code == 429 and attempt < self._PROBE_MAX_RETRIES:
+                wait = self._PROBE_PACE_SECONDS * (2 ** (attempt + 1))
+                print(f"  ⏳ 429 rate-limited — backing off {wait:.1f}s")
+                time.sleep(wait)
+                continue
+            return response
+        return None
+
+    def _probe_tools(self, model_id: str) -> Optional[bool]:
+        """Does this deployment accept a ``tools`` request?
+
+        Returns True (accepted), False (answered the identical call WITHOUT
+        tools but explicitly refused it WITH tools), or None for UNKNOWN.
+
+        **None is not False.** Parasail's /v1/models reports
+        ``supports_tools: null`` for every model, so this probe is the only
+        positive signal there is — but a probe that cannot reach a verdict must
+        never be recorded as a negative. Writing False on a rate limit, an
+        exhausted key or an upstream blip would strip ``feature:func-call``
+        from a working model and delete its tools code example, which is how a
+        wave of false rejections happened here before. Callers keep whatever
+        the param file already holds when this returns None.
+
+        The refusal is confirmed *differentially* rather than by matching error
+        text. A 400 on a ``tools`` request can mean "this deployment has no
+        tool-call parser" or it can mean the model is unserviceable right now;
+        only the second request — the identical call minus ``tools`` —
+        separates the two. If the model answers without tools and refuses with
+        them, the ``tools`` parameter is the only difference and the refusal is
+        real. Anything else is UNKNOWN, including the 500 that some
+        parser-less deployments throw instead of a 400: a 5xx is
+        indistinguishable from an outage, so those genuine negatives stay in
+        the .override.json denylist rather than being guessed at here.
+        """
+        response = self._chat_probe(model_id, tools=True)
+        if response is None:
+            return None
+        if response.status_code == 200:
+            print("  🔧 tools supported")
+            return True
+        if response.status_code not in (400, 404):
+            print(
+                f"  ❓ tools probe HTTP {response.status_code} — UNKNOWN "
+                "(not a refusal; keeping the committed value)"
+            )
+            return None
+
+        message = self._error_message(response)
+        control = self._chat_probe(model_id, tools=False)
+        if control is None or control.status_code != 200:
+            observed = (
+                "transport error" if control is None else f"HTTP {control.status_code}"
+            )
+            print(
+                f"  ❓ tools probe {response.status_code} but the control call "
+                f"(same request, no tools) also failed ({observed}) — UNKNOWN, "
+                "the model itself is unserviceable"
+            )
+            return None
+        print(f"  🚫 tools NOT supported ({message[:70]})")
+        return False
+
+    def resolve_supports_tools(
+        self, model_id: str, capability: str, param_file: Path, override_file: Path
+    ) -> Optional[bool]:
+        """Measured tool support for one model, or the committed value.
+
+        Never returns a value derived from a failed measurement: on UNKNOWN it
+        falls back to what is already committed, and if nothing is committed it
+        returns None so the caller omits the key entirely. A null is never
+        written — ``supports_tools: null`` would render ``"tools": null`` into
+        the listing's example collection.
+        """
+        committed = self._param_field(param_file, "supports_tools")
+
+        if capability != "chat":
+            # /v1/chat/completions is the wrong endpoint for an embedding, TTS
+            # or rerank deployment, so a refusal there measures nothing. The
+            # offering template gates feature:func-call on the chat capability
+            # anyway, so there is nothing here worth a request.
+            print("  ⏭️  non-chat capability — skipping tools probe")
+            self.summary["tools_skipped_non_chat"] += 1
+            return committed
+
+        probed = self._probe_tools(model_id)
+        time.sleep(self._PROBE_PACE_SECONDS)
+
+        if probed is None:
+            self.summary["tools_unknown"] += 1
+            if committed is None:
+                print("  ❓ no committed value either — leaving supports_tools unset")
+            else:
+                print(f"  ↩️  keeping committed supports_tools={committed}")
+            return committed
+
+        self.summary["tools_supported" if probed else "tools_unsupported"] += 1
+
+        override = self._param_field(override_file, "supports_tools")
+        if override is not None and override != probed:
+            # The override wins regardless — it is merged at render time and
+            # this script never writes override files — but record it.
+            self.tools_override_conflicts.append((model_id, override, probed))
+            print(
+                f"  ⚠️  override says supports_tools={override} but the probe "
+                f"measured {probed}; the override still wins at render time"
+            )
+        return probed
+
+    # ------------------------------------------------------------------
     # Template rendering
     # ------------------------------------------------------------------
 
@@ -251,6 +425,7 @@ class ParasailModelExtractor:
         model_data: Dict,
         price: str,
         time_created: Optional[str] = None,
+        supports_tools: Optional[bool] = None,
     ) -> Dict:
         service_type = derive_service_type(model_id)
         display_name = (
@@ -298,17 +473,17 @@ class ParasailModelExtractor:
             details.setdefault("context_length", None)
             details.setdefault("parameter_count", None)
 
-        # Gate for the function-calling code example. Parasail's model API
-        # reports supports_tools=null for every model, so there is no positive
-        # signal to key on; default to attaching the example and correct with
-        # the observed-failure denylist (deployments without a tool-call
-        # parser 400 — or crash with a 500 — on any `tools` request).
-        # Parasail's model API reports supports_tools=null for everything;
-        # corrections live in the per-model <name>.override.json companions
-        # (merged at render time), so this script never changes for one.
-        supports_tools = details.get("supports_tools") is not False
-
-        return {
+        # Gate for the function-calling code example and for the
+        # `feature:func-call` tag. Measured per model by `_probe_tools` and
+        # passed in by the caller — Parasail's model API still reports
+        # supports_tools=null for everything, so a live request is the only
+        # positive signal available. `None` means the probe reached no verdict
+        # AND nothing is committed, in which case the key is left out of the
+        # param file entirely: writing null would render `"tools": null` into
+        # the listing's example collection. Corrections still live in the
+        # per-model <name>.override.json companions (merged at render time),
+        # which this script only ever reads.
+        context = {
             "provider_name": PROVIDER_NAME,
             "provider_display_name": PROVIDER_DISPLAY_NAME,
             "env_api_key_name": ENV_API_KEY_NAME,
@@ -320,7 +495,6 @@ class ParasailModelExtractor:
             "capability": derive_capability(model_id, service_type),
             "status": "ready",
             "api_base_url": "https://api.parasail.io",
-            "supports_tools": supports_tools,
             "details": details,
             "payout_price": {
                 "description": "Pricing Per 1M Tokens",
@@ -329,6 +503,9 @@ class ParasailModelExtractor:
                 "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
             },
         }
+        if supports_tools is not None:
+            context["supports_tools"] = supports_tools
+        return context
 
     # ------------------------------------------------------------------
     # File I/O
@@ -359,16 +536,28 @@ class ParasailModelExtractor:
         return None
 
     @staticmethod
-    def _param_time_created(path: Path) -> Optional[str]:
-        """time_created recorded inside a committed param file's ``parameters``
-        (the post-migration home of the field), so re-runs stay idempotent."""
+    def _param_field(path: Path, field: str) -> Any:
+        """Read one field out of a committed param (or override) file's
+        ``parameters`` block, or None if the file, the block or the field is
+        missing or unreadable.
+
+        This is how a run that could not measure something keeps what is
+        already committed instead of overwriting it — an unreadable file must
+        read as "unknown", never as a new value.
+        """
         if path.is_file():
             try:
                 data = json.loads(path.read_text())
-                return (data.get("parameters") or {}).get("time_created")
+                return (data.get("parameters") or {}).get(field)
             except Exception:
                 return None
         return None
+
+    @classmethod
+    def _param_time_created(cls, path: Path) -> Optional[str]:
+        """time_created recorded inside a committed param file's ``parameters``
+        (the post-migration home of the field), so re-runs stay idempotent."""
+        return cls._param_field(path, "time_created")
 
     def write_listing(self, model_id: str, price: str, output_dir: Path):
         created = self._existing_time_created(output_dir / "listing.json")
@@ -404,6 +593,27 @@ class ParasailModelExtractor:
             print(f"   Deprecated models: {self.summary.get('deprecated_models', 0)}")
             if self.summary["processing_limit"]:
                 print(f"   Processing limit: {self.summary['processing_limit']}")
+            print(
+                "   Tool probe: "
+                f"{self.summary['tools_supported']} supported, "
+                f"{self.summary['tools_unsupported']} refused, "
+                f"{self.summary['tools_unknown']} UNKNOWN (committed value kept), "
+                f"{self.summary['tools_skipped_non_chat']} non-chat (not probed)"
+            )
+            # An UNKNOWN is not a failure, but a run that is mostly UNKNOWN
+            # measured nothing — say so rather than letting the counts imply
+            # the catalog was verified.
+            probed = self.summary["tools_supported"] + self.summary["tools_unsupported"]
+            if self.summary["tools_unknown"] > probed:
+                print(
+                    "   ⚠️  more models were UNKNOWN than were measured — treat "
+                    "supports_tools in this run as carried over, not verified."
+                )
+            for model_id, override, measured in self.tools_override_conflicts:
+                print(
+                    f"   ⚠️  override conflict: {model_id} "
+                    f"override={override} probe={measured} (override wins)"
+                )
         except Exception as e:
             print(f"❌ Error writing summary: {e}")
 
@@ -521,10 +731,23 @@ class ParasailModelExtractor:
                 # legacy expanded offering.json) so unchanged services don't
                 # churn; the merged offering + listing render context becomes
                 # one param file.
+                param_file = base_path / PROVIDER_NAME / f"{model_id}.json"
                 created = self._param_time_created(
-                    base_path / PROVIDER_NAME / f"{model_id}.json"
+                    param_file
                 ) or self._existing_time_created(data_dir / "offering.json")
-                offering = self.build_offering_context(model_id, model_data, price, time_created=created)
+                supports_tools = self.resolve_supports_tools(
+                    model_id,
+                    derive_capability(model_id, derive_service_type(model_id)),
+                    param_file,
+                    base_path / PROVIDER_NAME / f"{model_id}.override.json",
+                )
+                offering = self.build_offering_context(
+                    model_id,
+                    model_data,
+                    price,
+                    time_created=created,
+                    supports_tools=supports_tools,
+                )
                 listing = self.build_listing_context(model_id, price, time_created=created)
                 param_contexts.append({**offering, **listing, "service_name": f"{PROVIDER_NAME}/{model_id}"})
 
