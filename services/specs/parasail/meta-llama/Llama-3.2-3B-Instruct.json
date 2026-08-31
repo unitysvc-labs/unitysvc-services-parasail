@@ -15,16 +15,17 @@
     "display_name": "Llama-3.2-3B-Instruct",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.05",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "description": "$0.058/$0.38 / 1M input/output tokens",
+      "input": "0.058",
+      "output": "0.38",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "meta-llama/Llama-3.2-3B-Instruct",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.05",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "input": "0.05",
+      "output": "0.33",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

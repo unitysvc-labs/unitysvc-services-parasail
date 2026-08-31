@@ -11,22 +11,25 @@
     "display_name": "parasail-gemma3-27b-it",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.046",
+      "description": "$0.092/$0.518 / 1M input/output tokens",
+      "input": "0.092",
+      "output": "0.518",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "parasail-gemma3-27b-it",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.04",
+      "input": "0.08",
+      "output": "0.45",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
-    "supports_tools": true,
+    "supports_tools": false,
     "time_created": "2026-08-13T02:09:53.978Z"
   }
 }

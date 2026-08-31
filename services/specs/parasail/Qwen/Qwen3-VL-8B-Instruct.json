@@ -15,16 +15,19 @@
     "display_name": "Qwen3-VL-8B-Instruct",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.08",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.138",
+      "description": "$0.288/$0.863 / 1M input/output tokens",
+      "input": "0.288",
+      "output": "0.863",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "Qwen/Qwen3-VL-8B-Instruct",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.08",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.12",
+      "input": "0.25",
+      "output": "0.75",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",
