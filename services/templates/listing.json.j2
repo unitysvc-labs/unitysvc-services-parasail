@@ -53,7 +53,14 @@
       shares that script's wording — it is rendered by offering.json.j2 and is
       deliberately untouched here. #}
 {%- set _byok_note = ' | Free on the byok channel - bring your own ' ~ provider_display_name ~ ' key and pay ' ~ provider_display_name ~ ' directly.' %}
-{%- set _managed_rate = ('$' ~ list_price.price ~ ' / 1M tokens') if list_price.price else '' %}
+{#- Parasail prices input and output separately, so the catalog rate cell has to
+    name both. `list_price.description` is authored in update_params.build_price
+    and is already in the parsed price-tag grammar, so it is used as-is rather
+    than restated here. `.get()` not `.price`: the env is StrictUndefined, where
+    a bare attribute miss raises instead of being falsy. The single-`price`
+    branch remains for any param file predating the input/output split. #}
+{%- set _managed_rate = list_price.description if list_price.get('input')
+      else (('$' ~ list_price.price ~ ' / 1M tokens') if list_price.get('price') else '') %}
   "list_price": {
     "type": "channel",
     "default": "managed",
@@ -66,10 +73,12 @@
         "price": "0",
         "type": "constant"
       },
-      {#- "Pricing Per 1M Tokens" names a unit and no number, so it parses to
-          the amount "Pricing" with the unit "1M Tokens" — the rate never
-          appears. Restate it with the figure the param already carries. #}
-      "managed": {{ dict(list_price, description=('$' ~ list_price.price ~ ' per 1M tokens') if list_price.price else list_price.description) | tojson }}
+      {#- Split input/output prices carry their own description already. The
+          blended fallback still needs restating: "Pricing Per 1M Tokens" names
+          a unit and no number, so it parses to the amount "Pricing" with the
+          unit "1M Tokens" and the rate never appears. #}
+      "managed": {{ (list_price if list_price.get('input')
+                     else dict(list_price, description='$' ~ list_price.price ~ ' per 1M tokens')) | tojson }}
     }
   },
 {%- endif %}
