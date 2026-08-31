@@ -4,7 +4,7 @@ update_services.py - Extract model data from Parasail API and generate service f
 
 This script:
 1. Retrieves all models from Parasail /v1/models endpoint
-2. Derives pricing from Parasail's parameter-size pricing table
+2. Reads real per-model input/output rates from Parasail's published model catalog
 3. Renders listing.json and offering.json from Jinja2 templates
 4. Flags deprecated service directories
 
@@ -28,6 +28,7 @@ import argparse
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 import re
+from decimal import Decimal, ROUND_HALF_UP
 from datetime import datetime, timezone
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
@@ -65,37 +66,162 @@ def _now_iso() -> str:
 # Pricing
 # ---------------------------------------------------------------------------
 
-# Parasail prices serverless models by parameter size.
-# Table from https://docs.parasail.io/parasail-docs/billing/pricing
-PRICING_TIERS = [
-    (4, "0.05"),
-    (8, "0.08"),
-    (16, "0.11"),
-    (21, "0.45"),
-    (41, "0.50"),
-    (80, "0.70"),
-    (404, "0.80"),
-    (float("inf"), "1.75"),
-]
+# Parasail's published model catalog: one markdown table carrying, per model,
+# the context window, max output, quantization and the REAL serverless rates
+# (input / output / cached input, $ per 1M tokens). Parasail regenerates it
+# daily from their live models endpoint, and `.md` is served as text/markdown,
+# so it parses deterministically.
+#
+# This replaces a `derive_price()` that guessed a parameter count out of the
+# model-NAME string and looked it up in Parasail's *batch* size-tier table.
+# That was wrong three ways: it read the wrong table, it collapsed separate
+# input/output rates into one blended number, and — because 20 of 47 model
+# names carry no "<N>b" token — it silently defaulted them to 30B/$0.50.
+# Kimi K3 (~1T params, $3/$15) was billed as a 30B model at $0.50 flat.
+#
+# /v1/models is NOT a pricing source: it returns the OpenAI-standard
+# id/object/created/owned_by and nothing else.
+PARASAIL_MODELS_DOC_URL = "https://docs.parasail.io/parasail-docs/products/overview/models.md"
+
+# What the platform adds on top of the upstream rate for the MANAGED channel,
+# where UnitySVC's own key pays Parasail and the customer pays UnitySVC. The
+# byok channel is unaffected: the customer's key pays Parasail directly, so
+# there is nothing to mark up and nothing to pay out.
+#
+# Matches the crofai catalog, which is the reference implementation for this
+# shape. Kept as a marked-up `list_price` + raw `payout_price` pair rather than
+# a `revenue_share` payout, so the payout does not silently follow a change to
+# the markup, an override, or a promotion (unitysvc/unitysvc#1892).
+PLATFORM_MARKUP = Decimal("1.15")
+
+# Rounding for the marked-up rate, matching crofai. 3dp measured across every
+# rate this catalog carries ($0.03 - $15) lands the effective markup in
+# 15.0% - 16.7%; the top of that range is the $0.03 floor, where a third
+# decimal is the finest granularity available and $0.03 -> $0.035 overshoots
+# by half a cent. 2dp would be far worse there ($0.03 -> $0.03, no markup at
+# all, or $0.04 at a third). `_fmt_price` drops trailing zeros afterwards, so
+# a rate that needs no third decimal does not show one.
+PRICE_PLACES = Decimal("0.001")
 
 
-def derive_price(model_id: str) -> str:
-    """Return price-per-1M-tokens string for a model based on its parameter count."""
-    model_lower = model_id.lower()
+def _fmt_price(value: Decimal) -> str:
+    """Render a rate without trailing zeros ($0.250 -> "0.25", $1.000 -> "1")."""
+    return str(value.normalize().quantize(Decimal(1)) if value == value.to_integral_value() else value.normalize())
 
-    # MoE pattern: NxMb (e.g. 8x7b = 56b total)
-    moe_match = re.search(r"(\d+)x(\d+\.?\d*)b", model_lower)
-    if moe_match:
-        params_b = int(moe_match.group(1)) * float(moe_match.group(2))
-    else:
-        # Largest number followed by b (handles 70b, 3.3-70b, 235b-a22b → 235)
-        size_matches = re.findall(r"(\d+\.?\d*)b", model_lower)
-        params_b = max(float(x) for x in size_matches) if size_matches else 30
 
-    for max_b, price in PRICING_TIERS:
-        if params_b <= max_b:
-            return price
-    return PRICING_TIERS[-1][1]
+def _parse_money(cell: str) -> Optional[Decimal]:
+    cell = cell.replace("$", "").replace(",", "").strip()
+    if cell in ("", "—", "-", "–", "N/A"):
+        return None
+    try:
+        return Decimal(cell)
+    except Exception:
+        return None
+
+
+def _parse_int(cell: str) -> Optional[int]:
+    cell = cell.replace(",", "").strip()
+    if not cell or not cell.replace(".", "").isdigit():
+        return None
+    try:
+        return int(float(cell))
+    except Exception:
+        return None
+
+
+def fetch_upstream_catalog(url: str = PARASAIL_MODELS_DOC_URL) -> Dict[str, Dict]:
+    """Parse Parasail's published model table into {model_id: {...}}.
+
+    Columns: Model | Model ID | Context window | Max output | Quantization
+             | Input ($/1M) | Output ($/1M) | Cached input ($/1M)
+
+    Rows without BOTH an input and an output rate are dropped rather than
+    half-filled: a model we cannot price is a model we must not publish.
+    """
+    print(f"🔍 Fetching upstream pricing catalog: {url}")
+    response = requests.get(url, timeout=30)
+    response.raise_for_status()
+
+    catalog: Dict[str, Dict] = {}
+    for line in response.text.splitlines():
+        line = line.strip()
+        if not line.startswith("|") or set(line) <= set("|-: "):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 8:
+            continue
+        model_id = cells[1].strip().strip("`")
+        if not model_id.startswith(f"{PROVIDER_NAME}-"):
+            continue  # skips the header row and any stray table
+        up_in, up_out = _parse_money(cells[5]), _parse_money(cells[6])
+        if up_in is None or up_out is None:
+            print(f"  ⚠️  {model_id}: no input/output rate published, skipping")
+            continue
+        catalog[model_id] = {
+            "input": up_in,
+            "output": up_out,
+            "cached_input": _parse_money(cells[7]),
+            "context_length": _parse_int(cells[2]),
+            "max_output": _parse_int(cells[3]),
+            "quantization": cells[4] or None,
+        }
+
+    if not catalog:
+        raise RuntimeError(
+            f"Parsed 0 priced models from {url}. The table layout probably "
+            f"changed — refusing to run rather than republish stale prices."
+        )
+    print(f"✅ Parsed {len(catalog)} priced models from the upstream catalog")
+    return catalog
+
+
+def build_price(model_id: str, catalog: Dict[str, Dict]) -> Optional[Dict]:
+    """Upstream and marked-up rates for one model, or None if unpriced.
+
+    Returns ``{"upstream": {...}, "managed": {...}}`` — two distinct
+    ``one_million_tokens`` prices that must never be aliased to one object:
+
+    * ``upstream`` is what Parasail charges. It becomes ``payout_price``:
+      what the platform owes the seller, which must not move when we change
+      what we charge.
+    * ``managed`` is upstream x ``PLATFORM_MARKUP``. It becomes ``list_price``:
+      what the customer pays UnitySVC.
+
+    Returning None is deliberate and load-bearing — see the caller, which drops
+    the model from the iterator rather than falling back to a default rate. That
+    drop is also what retires it: `write_params_from_iterator(deprecate_missing=
+    True)` marks every committed service the iterator did not yield as
+    `status="deprecated"`. No published rate means Parasail stopped selling it.
+    """
+    entry = catalog.get(model_id)
+    if entry is None:
+        return None
+
+    up_in, up_out = entry["input"], entry["output"]
+    up_cached = entry.get("cached_input")
+
+    def marked(value: Decimal) -> Decimal:
+        return (value * PLATFORM_MARKUP).quantize(PRICE_PLACES, rounding=ROUND_HALF_UP)
+
+    mk_in, mk_out = marked(up_in), marked(up_out)
+
+    upstream: Dict[str, str] = {
+        "input": _fmt_price(up_in),
+        "output": _fmt_price(up_out),
+        "type": "one_million_tokens",
+        "reference": PARASAIL_MODELS_DOC_URL,
+    }
+    managed: Dict[str, str] = {
+        "description": f"${_fmt_price(mk_in)}/${_fmt_price(mk_out)} / 1M input/output tokens",
+        "input": _fmt_price(mk_in),
+        "output": _fmt_price(mk_out),
+        "type": "one_million_tokens",
+        "reference": PARASAIL_MODELS_DOC_URL,
+    }
+    if up_cached is not None:
+        upstream["cached_input"] = _fmt_price(up_cached)
+        managed["cached_input"] = _fmt_price(marked(up_cached))
+    return {"upstream": upstream, "managed": managed}
 
 
 def derive_service_type(model_id: str) -> str:
@@ -229,7 +355,7 @@ class ParasailModelExtractor:
         return template.render(**context)
 
     def build_listing_context(
-        self, model_id: str, price: str, time_created: Optional[str] = None
+        self, model_id: str, price: Dict, time_created: Optional[str] = None
     ) -> Dict:
         return {
             "provider_name": PROVIDER_NAME,
@@ -237,19 +363,18 @@ class ParasailModelExtractor:
             "env_api_key_name": ENV_API_KEY_NAME,
             "time_created": time_created or _now_iso(),
             "status": "ready",
-            "list_price": {
-                "description": "Pricing Per 1M Tokens",
-                "price": price,
-                "type": "one_million_tokens",
-                "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-            },
+            # The MARKED-UP rate: what the customer pays UnitySVC on the
+            # managed channel. `description` is set in build_price() because
+            # the listing template falls back to it whenever `price` is absent,
+            # which is always now that we carry input/output separately.
+            "list_price": price["managed"],
         }
 
     def build_offering_context(
         self,
         model_id: str,
         model_data: Dict,
-        price: str,
+        price: Dict,
         time_created: Optional[str] = None,
     ) -> Dict:
         service_type = derive_service_type(model_id)
@@ -322,12 +447,9 @@ class ParasailModelExtractor:
             "api_base_url": "https://api.parasail.io",
             "supports_tools": supports_tools,
             "details": details,
-            "payout_price": {
-                "description": "Pricing Per 1M Tokens",
-                "price": price,
-                "type": "one_million_tokens",
-                "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
-            },
+            # The RAW upstream rate: what the platform owes the seller. It must
+            # not track list_price — that is the whole point of storing both.
+            "payout_price": price["upstream"],
         }
 
     # ------------------------------------------------------------------
@@ -480,6 +602,12 @@ class ParasailModelExtractor:
         processed_count = 0
         param_contexts: List[Dict] = []
 
+        # Fetched once per run, not per model. A failure here raises rather
+        # than degrading to a default: republishing 47 services at a guessed
+        # rate is strictly worse than not republishing them at all.
+        upstream_catalog = fetch_upstream_catalog()
+        unpriced: List[str] = []
+
         for i, model_data in enumerate(models, start=1):
             model_id = model_data.get("id", "")
             if not model_id:
@@ -506,9 +634,22 @@ class ParasailModelExtractor:
                     model_data = model_data | details
                 time.sleep(0.1)
 
-                # Derive pricing from parameter count
-                price = derive_price(model_id)
-                print(f"  💰 Price: ${price}/1M tokens")
+                # Real upstream rates, looked up by model id. A model absent
+                # from Parasail's published catalog is dropped from the
+                # iterator, never priced from a fallback: the old code's
+                # `else 30` default is exactly what put Kimi K3 on the shelf
+                # at $0.50. Dropping it also retires it, via deprecate_missing.
+                price = build_price(model_id, upstream_catalog)
+                if price is None:
+                    print(f"  ⏭️  No published upstream rate for {model_id} — will deprecate")
+                    unpriced.append(model_id)
+                    self.summary["skipped_unpriced"] = len(unpriced)
+                    continue
+                print(
+                    f"  💰 upstream ${price['upstream']['input']}/${price['upstream']['output']}"
+                    f"  →  managed (×{PLATFORM_MARKUP}) "
+                    f"${price['managed']['input']}/${price['managed']['output']} per 1M in/out"
+                )
 
                 if dry_run:
                     print(
@@ -542,6 +683,17 @@ class ParasailModelExtractor:
             # upstream" from "we failed to fetch it" — either would retire live
             # services. Skip deprecation rather than guess.
             complete_run = limit is None and self.summary["failed_extractions"] == 0
+            if unpriced:
+                # Dropped from the iterator on purpose, so `deprecate_missing`
+                # retires them. A model Parasail no longer publishes a rate for
+                # is a model Parasail no longer sells; keeping it listed at its
+                # last known price is the worse failure. write_params_from_iterator
+                # still raises UpstreamEnumerationError if the iterator matched
+                # NOTHING, which is the case this must not be confused with.
+                print(
+                    f"\n⚠️  {len(unpriced)} service(s) have no published upstream "
+                    f"rate and will be DEPRECATED: {', '.join(sorted(unpriced))}"
+                )
             if not complete_run:
                 print(
                     "⚠️  Incomplete run "
