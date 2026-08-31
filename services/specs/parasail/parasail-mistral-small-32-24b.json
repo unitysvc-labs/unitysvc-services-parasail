@@ -11,16 +11,19 @@
     "display_name": "parasail-mistral-small-32-24b",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.058",
+      "description": "$0.104/$0.345 / 1M input/output tokens",
+      "input": "0.104",
+      "output": "0.345",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "parasail-mistral-small-32-24b",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.05",
+      "input": "0.09",
+      "output": "0.3",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

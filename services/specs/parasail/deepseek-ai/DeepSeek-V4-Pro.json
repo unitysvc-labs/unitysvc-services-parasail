@@ -15,16 +15,19 @@
     "display_name": "DeepSeek-V4-Pro",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.115",
+      "description": "$2.001/$4.002 / 1M input/output tokens",
+      "input": "2.001",
+      "output": "4.002",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "deepseek-ai/DeepSeek-V4-Pro",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.1",
+      "input": "1.74",
+      "output": "3.48",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

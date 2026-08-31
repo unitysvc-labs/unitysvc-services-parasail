@@ -11,16 +11,17 @@
     "display_name": "parasail-mistralaimistral-nemo",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "description": "$0.035/$0.035 / 1M input/output tokens",
+      "input": "0.035",
+      "output": "0.035",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "parasail-mistralaimistral-nemo",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "input": "0.03",
+      "output": "0.03",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

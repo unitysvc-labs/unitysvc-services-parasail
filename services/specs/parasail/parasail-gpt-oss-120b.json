@@ -11,16 +11,19 @@
     "display_name": "parasail-gpt-oss-120b",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.80",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.063",
+      "description": "$0.115/$0.863 / 1M input/output tokens",
+      "input": "0.115",
+      "output": "0.863",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "parasail-gpt-oss-120b",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.80",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.055",
+      "input": "0.1",
+      "output": "0.75",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

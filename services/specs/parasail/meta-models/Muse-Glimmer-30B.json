@@ -15,16 +15,19 @@
     "display_name": "Muse-Glimmer-30B",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.046",
+      "description": "$0.345/$1.265 / 1M input/output tokens",
+      "input": "0.345",
+      "output": "1.265",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "meta-models/Muse-Glimmer-30B",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.04",
+      "input": "0.3",
+      "output": "1.1",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

@@ -11,16 +11,19 @@
     "display_name": "parasail-qwen3-vl-235b-a22b-instruct",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.80",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.115",
+      "description": "$0.242/$2.185 / 1M input/output tokens",
+      "input": "0.242",
+      "output": "2.185",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "parasail-qwen3-vl-235b-a22b-instruct",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.80",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.1",
+      "input": "0.21",
+      "output": "1.9",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

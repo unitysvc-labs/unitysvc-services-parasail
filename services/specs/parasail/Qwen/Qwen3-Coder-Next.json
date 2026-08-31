@@ -15,16 +15,19 @@
     "display_name": "Qwen3-Coder-Next",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.081",
+      "description": "$0.138/$0.92 / 1M input/output tokens",
+      "input": "0.138",
+      "output": "0.92",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "Qwen/Qwen3-Coder-Next",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.50",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.07",
+      "input": "0.12",
+      "output": "0.8",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

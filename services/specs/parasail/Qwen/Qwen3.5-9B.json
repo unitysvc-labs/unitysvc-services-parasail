@@ -15,16 +15,17 @@
     "display_name": "Qwen3.5-9B",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.11",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "description": "$0.115/$0.288 / 1M input/output tokens",
+      "input": "0.115",
+      "output": "0.288",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "Qwen/Qwen3.5-9B",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.11",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "input": "0.1",
+      "output": "0.25",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

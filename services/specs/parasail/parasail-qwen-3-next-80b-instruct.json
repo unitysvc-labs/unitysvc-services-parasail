@@ -11,16 +11,19 @@
     "display_name": "parasail-qwen-3-next-80b-instruct",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.70",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.081",
+      "description": "$0.115/$1.265 / 1M input/output tokens",
+      "input": "0.115",
+      "output": "1.265",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "parasail-qwen-3-next-80b-instruct",
     "payout_price": {
-      "description": "Pricing Per 1M Tokens",
-      "price": "0.70",
-      "reference": "https://docs.parasail.io/parasail-docs/billing/pricing",
+      "cached_input": "0.07",
+      "input": "0.1",
+      "output": "1.1",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "provider_display_name": "Parasail",

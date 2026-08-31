@@ -4,25 +4,29 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": null,
-      "model_name": "parasail-qwen3-coder-next",
-      "parameter_count": null
+      "context_length": 1048575,
+      "metadata_sources": {
+        "context_length": "litellm",
+        "parameter_count": "huggingface_safetensors"
+      },
+      "model_name": "zai-org/GLM-5.3",
+      "parameter_count": 751226191872
     },
-    "display_name": "parasail-qwen3-coder-next",
+    "display_name": "GLM-5.3",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "cached_input": "0.081",
-      "description": "$0.138/$0.92 / 1M input/output tokens",
-      "input": "0.138",
-      "output": "0.92",
+      "cached_input": "0.299",
+      "description": "$1.61/$5.06 / 1M input/output tokens",
+      "input": "1.61",
+      "output": "5.06",
       "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
-    "offering_name": "parasail-qwen3-coder-next",
+    "offering_name": "zai-org/GLM-5.3",
     "payout_price": {
-      "cached_input": "0.07",
-      "input": "0.12",
-      "output": "0.8",
+      "cached_input": "0.26",
+      "input": "1.4",
+      "output": "4.4",
       "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
@@ -30,6 +34,6 @@
     "service_type": "llm",
     "status": "ready",
     "supports_tools": true,
-    "time_created": "2026-08-13T02:10:06.009Z"
+    "time_created": "2026-08-31T21:43:34.392Z"
   }
 }
