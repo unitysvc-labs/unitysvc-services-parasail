@@ -175,7 +175,47 @@ def fetch_upstream_catalog(url: str = PARASAIL_MODELS_DOC_URL) -> Dict[str, Dict
     return catalog
 
 
-def build_price(model_id: str, catalog: Dict[str, Dict]) -> Optional[Dict]:
+def _norm_model_id(model_id: str) -> str:
+    """Normalise a model id for cross-naming comparison.
+
+    Parasail serves the same deployment under two id styles and `/v1/models`
+    returns BOTH: a flat alias (`parasail-qwen38-27b`) and the canonical
+    vendor id (`Qwen/Qwen3.8-27B`). The published price table lists only the
+    alias, so canonical ids need resolving to their alias to be priced.
+
+    Deliberately conservative — it normalises SEPARATORS and nothing else:
+    drop the vendor prefix, drop a leading `parasail-`, read Fireworks-style
+    `3p5` as `3.5`, then strip non-alphanumerics. Every digit survives, so
+    sizes and versions stay distinct: Qwen3.5-35B and Qwen3.5-235B do not
+    collapse, and `-FP8` / `-it` / `-fast` variants stay separate SKUs.
+    Matching is exact equality on this form — a near-miss yields no match
+    (and the caller preserves the committed price) rather than a wrong one.
+    """
+    s = model_id.split("/")[-1].lower()
+    s = re.sub(r"^parasail-", "", s)
+    s = re.sub(r"(?<=\d)p(?=\d)", ".", s)
+    return re.sub(r"[^a-z0-9]", "", s)
+
+
+def build_alias_index(catalog: Dict[str, Dict]) -> Dict[str, str]:
+    """{normalised id: catalog key}, built only from unambiguous entries.
+
+    A normalised form claimed by two catalog entries is dropped rather than
+    arbitrated: an ambiguous match is exactly the kind of silent
+    mis-assignment this whole module exists to stop.
+    """
+    buckets: Dict[str, List[str]] = {}
+    for key in catalog:
+        buckets.setdefault(_norm_model_id(key), []).append(key)
+    dropped = {k: v for k, v in buckets.items() if len(v) > 1}
+    for k, v in dropped.items():
+        print(f"  ⚠️  ambiguous normalised id {k!r} claimed by {v} — not indexed")
+    return {k: v[0] for k, v in buckets.items() if len(v) == 1}
+
+
+def build_price(
+    model_id: str, catalog: Dict[str, Dict], alias_index: Optional[Dict[str, str]] = None
+) -> Optional[Dict]:
     """Upstream and marked-up rates for one model, or None if unpriced.
 
     Returns ``{"upstream": {...}, "managed": {...}}`` — two distinct
@@ -187,13 +227,20 @@ def build_price(model_id: str, catalog: Dict[str, Dict]) -> Optional[Dict]:
     * ``managed`` is upstream x ``PLATFORM_MARKUP``. It becomes ``list_price``:
       what the customer pays UnitySVC.
 
-    Returning None is deliberate and load-bearing — see the caller, which drops
-    the model from the iterator rather than falling back to a default rate. That
-    drop is also what retires it: `write_params_from_iterator(deprecate_missing=
-    True)` marks every committed service the iterator did not yield as
-    `status="deprecated"`. No published rate means Parasail stopped selling it.
+    Returning None means "no published rate", NOT "retired". The caller still
+    yields the model, with both prices as None so the committed values are
+    preserved (`preserve_known_values`), and warns. Deprecation is driven by
+    absence from `/v1/models` — the enumeration source — and never by absence
+    from the price table, which lists only the flat `parasail-*` aliases: 62 of
+    99 committed services are canonical ids that appear nowhere in it, so
+    treating unpriced as retired would have deprecated most of the catalog.
     """
     entry = catalog.get(model_id)
+    if entry is None and alias_index is not None:
+        alias = alias_index.get(_norm_model_id(model_id))
+        if alias is not None:
+            print(f"  ↪ priced via alias: {model_id} -> {alias}")
+            entry = catalog[alias]
     if entry is None:
         return None
 
@@ -529,7 +576,7 @@ class ParasailModelExtractor:
         return template.render(**context)
 
     def build_listing_context(
-        self, model_id: str, price: Dict, time_created: Optional[str] = None
+        self, model_id: str, price: Optional[Dict], time_created: Optional[str] = None
     ) -> Dict:
         return {
             "provider_name": PROVIDER_NAME,
@@ -541,14 +588,16 @@ class ParasailModelExtractor:
             # managed channel. `description` is set in build_price() because
             # the listing template falls back to it whenever `price` is absent,
             # which is always now that we carry input/output separately.
-            "list_price": price["managed"],
+            # None when unpriced: `preserve_known_values` then keeps the
+            # committed price rather than blanking it.
+            "list_price": price["managed"] if price else None,
         }
 
     def build_offering_context(
         self,
         model_id: str,
         model_data: Dict,
-        price: Dict,
+        price: Optional[Dict],
         time_created: Optional[str] = None,
         supports_tools: Optional[bool] = None,
     ) -> Dict:
@@ -623,7 +672,7 @@ class ParasailModelExtractor:
             "details": details,
             # The RAW upstream rate: what the platform owes the seller. It must
             # not track list_price — that is the whole point of storing both.
-            "payout_price": price["upstream"],
+            "payout_price": price["upstream"] if price else None,
         }
         if supports_tools is not None:
             context["supports_tools"] = supports_tools
@@ -816,6 +865,7 @@ class ParasailModelExtractor:
         # than degrading to a default: republishing 47 services at a guessed
         # rate is strictly worse than not republishing them at all.
         upstream_catalog = fetch_upstream_catalog()
+        alias_index = build_alias_index(upstream_catalog)
         unpriced: List[str] = []
 
         for i, model_data in enumerate(models, start=1):
@@ -844,22 +894,32 @@ class ParasailModelExtractor:
                     model_data = model_data | details
                 time.sleep(0.1)
 
-                # Real upstream rates, looked up by model id. A model absent
-                # from Parasail's published catalog is dropped from the
-                # iterator, never priced from a fallback: the old code's
-                # `else 30` default is exactly what put Kimi K3 on the shelf
-                # at $0.50. Dropping it also retires it, via deprecate_missing.
-                price = build_price(model_id, upstream_catalog)
+                # Real upstream rates, looked up by model id (then by alias
+                # for canonical ids, which the price table does not list).
+                #
+                # An unpriced model is still YIELDED, with both prices None so
+                # `preserve_known_values` keeps whatever is committed. It must
+                # not be dropped: dropping is what `deprecate_missing` reads as
+                # "retired upstream", and the price table covers only the flat
+                # `parasail-*` aliases — 62 of 99 committed services are
+                # canonical ids absent from it, so dropping on unpriced would
+                # retire most of the catalog. Whether a model is still SOLD is
+                # answered by /v1/models, which drives this loop; whether we
+                # know its PRICE is a separate question with a separate answer.
+                price = build_price(model_id, upstream_catalog, alias_index)
                 if price is None:
-                    print(f"  ⏭️  No published upstream rate for {model_id} — will deprecate")
+                    print(
+                        f"  ⚠️  No published upstream rate for {model_id} — "
+                        "keeping the committed price (service NOT deprecated)"
+                    )
                     unpriced.append(model_id)
-                    self.summary["skipped_unpriced"] = len(unpriced)
-                    continue
-                print(
-                    f"  💰 upstream ${price['upstream']['input']}/${price['upstream']['output']}"
-                    f"  →  managed (×{PLATFORM_MARKUP}) "
-                    f"${price['managed']['input']}/${price['managed']['output']} per 1M in/out"
-                )
+                    self.summary["unpriced_preserved"] = len(unpriced)
+                else:
+                    print(
+                        f"  💰 upstream ${price['upstream']['input']}/${price['upstream']['output']}"
+                        f"  →  managed (×{PLATFORM_MARKUP}) "
+                        f"${price['managed']['input']}/${price['managed']['output']} per 1M in/out"
+                    )
 
                 if dry_run:
                     print(
@@ -907,15 +967,13 @@ class ParasailModelExtractor:
             # services. Skip deprecation rather than guess.
             complete_run = limit is None and self.summary["failed_extractions"] == 0
             if unpriced:
-                # Dropped from the iterator on purpose, so `deprecate_missing`
-                # retires them. A model Parasail no longer publishes a rate for
-                # is a model Parasail no longer sells; keeping it listed at its
-                # last known price is the worse failure. write_params_from_iterator
-                # still raises UpstreamEnumerationError if the iterator matched
-                # NOTHING, which is the case this must not be confused with.
+                # These were yielded, so they are NOT deprecated — they keep
+                # their committed prices. Listed so the gap stays visible: a
+                # service on a stale price is a real problem, just a smaller
+                # one than a live service retired by mistake.
                 print(
                     f"\n⚠️  {len(unpriced)} service(s) have no published upstream "
-                    f"rate and will be DEPRECATED: {', '.join(sorted(unpriced))}"
+                    f"rate and kept their committed price: {', '.join(sorted(unpriced))}"
                 )
             if not complete_run:
                 print(
