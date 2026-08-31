@@ -54,7 +54,18 @@
   "capabilities": ["{{ _cap }}"],
   "status": "{{ status | default('ready') }}",
   "currency": "USD",
-  "tags": ["ai", "gateway", "byok"],
+{#- Tags are a CLOSED vocabulary server-side (unitysvc docs/tags.yml): ingest
+    rejects anything outside it, and `feature:func-call` is the only tag a
+    seller may declare. The legacy ai/gateway/byok trio restated service_type,
+    gateway_type and the enrollment channel — all platform-derived — so it is
+    gone rather than translated. The tag is gated on _is_chat as well as the
+    flag because a non-chat model must never claim tool calling: parasail-bge-m3
+    and BAAI/bge-m3 are embeddings that carry supports_tools=true (the populator
+    defaults the flag to true; see below), and a func-call tag there would ship
+    a tools code example that 400s at /v1/embeddings. -#}
+{%- if _is_chat and supports_tools | default(false) %}
+  "tags": ["feature:func-call"],
+{%- endif %}
 {#- Formats are a service-level fact for every chat model: an OpenAI-compatible
     upstream exposed in both dialects via the llm_translator below (callers may
     send OpenAI or Anthropic; responses come back in kind). Embeddings and other
