@@ -5,7 +5,8 @@
     "model": "moonshotai/Kimi-K3",
     "payout_input": "3",
     "payout_output": "15",
-    "service_name": "parasail/kimi-k3-member"
+    "service_name": "parasail/kimi-k3-member",
+    "status": "deprecated"
   },
   "template": "kimi-k3"
 }

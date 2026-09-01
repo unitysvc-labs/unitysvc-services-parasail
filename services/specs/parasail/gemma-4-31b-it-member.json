@@ -5,7 +5,8 @@
     "model": "google/gemma-4-31B-it",
     "payout_input": "0.15",
     "payout_output": "0.4",
-    "service_name": "parasail/gemma-4-31b-it-member"
+    "service_name": "parasail/gemma-4-31b-it-member",
+    "status": "deprecated"
   },
   "template": "gemma-4-31b-it"
 }

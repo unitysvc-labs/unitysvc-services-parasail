@@ -5,7 +5,8 @@
     "model": "meta-models/Muse-Glimmer-30B",
     "payout_input": "0.3",
     "payout_output": "1.1",
-    "service_name": "parasail/llm-balanced-muse-glimmer-30b"
+    "service_name": "parasail/llm-balanced-muse-glimmer-30b",
+    "status": "deprecated"
   },
   "template": "llm-balanced"
 }
