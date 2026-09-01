@@ -1,0 +1,11 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io/v1",
+    "api_key_secret": "PARASAIL_API_KEY",
+    "model": "Qwen/Qwen3.8-27B",
+    "payout_input": "0.35",
+    "payout_output": "3.2",
+    "service_name": "parasail/llm-balanced-qwen3.8-27b"
+  },
+  "template": "llm-balanced"
+}

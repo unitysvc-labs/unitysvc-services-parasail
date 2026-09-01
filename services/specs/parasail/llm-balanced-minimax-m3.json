@@ -1,0 +1,11 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io/v1",
+    "api_key_secret": "PARASAIL_API_KEY",
+    "model": "MiniMaxAI/MiniMax-M3",
+    "payout_input": "0.3",
+    "payout_output": "1.2",
+    "service_name": "parasail/llm-balanced-minimax-m3"
+  },
+  "template": "llm-balanced"
+}
