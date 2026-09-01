@@ -1,0 +1,11 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io/v1",
+    "api_key_secret": "PARASAIL_API_KEY",
+    "model": "openai/gpt-oss-20b",
+    "payout_input": "0.03",
+    "payout_output": "0.15",
+    "service_name": "parasail/gpt-oss-20b-member"
+  },
+  "template": "gpt-oss-20b"
+}
