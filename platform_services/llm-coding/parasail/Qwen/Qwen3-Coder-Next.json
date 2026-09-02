@@ -1,0 +1,11 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io/v1",
+    "api_key_secret": "PARASAIL_API_KEY",
+    "model": "Qwen/Qwen3-Coder-Next",
+    "payout_input": "0.12",
+    "payout_output": "0.8",
+    "service_name": "llm-coding/parasail/Qwen/Qwen3-Coder-Next"
+  },
+  "template": "llm-coding"
+}

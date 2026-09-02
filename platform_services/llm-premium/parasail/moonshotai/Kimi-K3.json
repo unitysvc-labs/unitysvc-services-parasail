@@ -1,0 +1,11 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io/v1",
+    "api_key_secret": "PARASAIL_API_KEY",
+    "model": "moonshotai/Kimi-K3",
+    "payout_input": "3",
+    "payout_output": "15",
+    "service_name": "llm-premium/parasail/moonshotai/Kimi-K3"
+  },
+  "template": "llm-premium"
+}

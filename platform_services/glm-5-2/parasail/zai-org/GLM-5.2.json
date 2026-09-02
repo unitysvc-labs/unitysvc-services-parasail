@@ -1,0 +1,11 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io/v1",
+    "api_key_secret": "PARASAIL_API_KEY",
+    "model": "zai-org/GLM-5.2",
+    "payout_input": "1.4",
+    "payout_output": "4.4",
+    "service_name": "glm-5-2/parasail/zai-org/GLM-5.2"
+  },
+  "template": "glm-5-2"
+}
