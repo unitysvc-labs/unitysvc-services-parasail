@@ -32,7 +32,7 @@
     },
     "provider_display_name": "Parasail",
     "service_type": "llm",
-    "status": "ready",
+    "status": "deprecated",
     "supports_tools": true,
     "time_created": "2026-08-29T00:20:48.356Z"
   }
