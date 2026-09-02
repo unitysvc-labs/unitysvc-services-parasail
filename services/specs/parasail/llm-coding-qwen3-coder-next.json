@@ -5,7 +5,8 @@
     "model": "Qwen/Qwen3-Coder-Next",
     "payout_input": "0.12",
     "payout_output": "0.8",
-    "service_name": "parasail/llm-coding-qwen3-coder-next"
+    "service_name": "parasail/llm-coding-qwen3-coder-next",
+    "status": "deprecated"
   },
   "template": "llm-coding"
 }

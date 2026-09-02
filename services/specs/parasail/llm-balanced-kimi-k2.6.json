@@ -5,7 +5,8 @@
     "model": "moonshotai/Kimi-K2.6",
     "payout_input": "0.75",
     "payout_output": "3.5",
-    "service_name": "parasail/llm-balanced-kimi-k2.6"
+    "service_name": "parasail/llm-balanced-kimi-k2.6",
+    "status": "deprecated"
   },
   "template": "llm-balanced"
 }

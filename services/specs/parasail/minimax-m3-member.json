@@ -5,7 +5,8 @@
     "model": "MiniMaxAI/MiniMax-M3",
     "payout_input": "0.3",
     "payout_output": "1.2",
-    "service_name": "parasail/minimax-m3-member"
+    "service_name": "parasail/minimax-m3-member",
+    "status": "deprecated"
   },
   "template": "minimax-m3"
 }

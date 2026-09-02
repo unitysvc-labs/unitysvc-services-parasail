@@ -5,7 +5,8 @@
     "model": "deepseek-ai/DeepSeek-V4-Pro",
     "payout_input": "1.74",
     "payout_output": "3.48",
-    "service_name": "parasail/llm-premium-deepseek-v4-pro"
+    "service_name": "parasail/llm-premium-deepseek-v4-pro",
+    "status": "deprecated"
   },
   "template": "llm-premium"
 }

@@ -5,7 +5,8 @@
     "model": "openai/gpt-oss-120b",
     "payout_input": "0.1",
     "payout_output": "0.75",
-    "service_name": "parasail/gpt-oss-120b-member"
+    "service_name": "parasail/gpt-oss-120b-member",
+    "status": "deprecated"
   },
   "template": "gpt-oss-120b"
 }

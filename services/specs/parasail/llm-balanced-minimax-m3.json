@@ -5,7 +5,8 @@
     "model": "MiniMaxAI/MiniMax-M3",
     "payout_input": "0.3",
     "payout_output": "1.2",
-    "service_name": "parasail/llm-balanced-minimax-m3"
+    "service_name": "parasail/llm-balanced-minimax-m3",
+    "status": "deprecated"
   },
   "template": "llm-balanced"
 }
