@@ -1,12 +1,14 @@
 {
+  "constants": {
+    "status": "deprecated"
+  },
   "parameters": {
     "api_base_url": "https://api.parasail.io/v1",
     "api_key_secret": "PARASAIL_API_KEY",
     "model": "moonshotai/Kimi-K3",
     "payout_input": "3",
     "payout_output": "15",
-    "service_name": "parasail/kimi-k3-member",
-    "status": "deprecated"
+    "service_name": "parasail/kimi-k3-member"
   },
   "template": "kimi-k3"
 }

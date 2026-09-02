@@ -4,7 +4,7 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": 1048575,
+      "context_length": 1048576,
       "metadata_sources": {
         "context_length": "litellm",
         "parameter_count": "huggingface_safetensors"

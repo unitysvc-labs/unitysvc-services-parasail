@@ -1,12 +1,14 @@
 {
+  "constants": {
+    "status": "deprecated"
+  },
   "parameters": {
     "api_base_url": "https://api.parasail.io/v1",
     "api_key_secret": "PARASAIL_API_KEY",
     "model": "deepseek-ai/DeepSeek-V4-Flash",
     "payout_input": "0.14",
     "payout_output": "0.28",
-    "service_name": "parasail/deepseek-v4-flash-member",
-    "status": "deprecated"
+    "service_name": "parasail/deepseek-v4-flash-member"
   },
   "template": "deepseek-v4-flash"
 }
