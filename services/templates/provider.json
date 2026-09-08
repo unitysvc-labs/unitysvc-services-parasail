@@ -6,8 +6,8 @@
   "name": "parasail",
   "rate_limits": [
     {
-      "description": "Self-imposed ceiling so platform test sweeps cannot saturate the account; not a published provider limit.",
-      "limit": 10,
+      "description": "UnitySVC self-imposed gateway concurrency cap for shared Parasail account traffic; Parasail publishes RPM limits, not a concurrency limit.",
+      "limit": 100,
       "name": "parasail_concurrency",
       "unit": "concurrent"
     },
