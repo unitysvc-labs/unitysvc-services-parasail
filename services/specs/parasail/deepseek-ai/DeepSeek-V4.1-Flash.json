@@ -1,0 +1,38 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "capability": "chat",
+    "description": "",
+    "details": {
+      "context_length": null,
+      "metadata_sources": {
+        "parameter_count": "huggingface_safetensors"
+      },
+      "model_name": "deepseek-ai/DeepSeek-V4.1-Flash",
+      "parameter_count": 557171343360
+    },
+    "display_name": "DeepSeek-V4.1-Flash",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "cached_input": "0.007",
+      "description": "$0.345/$1.38 / 1M input/output tokens",
+      "input": "0.345",
+      "output": "1.38",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "payout_price": {
+      "cached_input": "0.006",
+      "input": "0.3",
+      "output": "1.2",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "supports_tools": true,
+    "time_created": "2026-09-15T07:34:48.005Z"
+  }
+}
