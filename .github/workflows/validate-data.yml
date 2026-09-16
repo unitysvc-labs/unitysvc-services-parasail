@@ -6,11 +6,13 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - "services/**"
+      - "platform_services/**"
       - ".github/workflows/validate-data.yml"
   push:
     branches: [main]
     paths:
       - "services/**"
+      - "platform_services/**"
       - ".github/workflows/validate-data.yml"
 
 jobs:
