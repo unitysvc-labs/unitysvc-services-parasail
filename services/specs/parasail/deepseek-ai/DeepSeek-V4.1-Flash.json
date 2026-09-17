@@ -4,8 +4,9 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": null,
+      "context_length": 1048576,
       "metadata_sources": {
+        "context_length": "litellm",
         "parameter_count": "huggingface_safetensors"
       },
       "model_name": "deepseek-ai/DeepSeek-V4.1-Flash",
