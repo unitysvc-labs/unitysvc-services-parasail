@@ -42,6 +42,13 @@ PROVIDER_NAME = "parasail"
 PROVIDER_DISPLAY_NAME = "Parasail"
 ENV_API_KEY_NAME = "PARASAIL_API_KEY"
 
+# Listed by /v1/models but not usable through Parasail's documented OpenAI
+# surfaces. Keep these out of generated specs until the provider documents and
+# serves a working request contract.
+UNSUPPORTED_MODELS = {
+    "parasail-resemble-tts-en",
+}
+
 
 def _sanitize_header_value(value: str) -> str:
     """Strip smart/curly quotes and any non-latin-1 chars that break HTTP headers."""
@@ -871,6 +878,9 @@ class ParasailModelExtractor:
         for i, model_data in enumerate(models, start=1):
             model_id = model_data.get("id", "")
             if not model_id:
+                continue
+            if model_id in UNSUPPORTED_MODELS:
+                print(f"\n[{i}/{len(models)}] Skipping unsupported model: {model_id}")
                 continue
 
             print(f"\n[{i}/{len(models)}] Processing: {model_id}")
