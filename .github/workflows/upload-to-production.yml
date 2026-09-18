@@ -1,16 +1,20 @@
 name: Upload Data to Production
 
-# Manual-only: production uploads are deliberate, never PR-triggered.
+# Production uploads run manually or after a pull request is merged.
 # Assumes service IDs already exist in production (created by an earlier
 # staging run; this repo's *.override.{json,toml} files carry those IDs).
 # This workflow therefore does NOT write back override files — those are
 # managed exclusively by the staging workflow.
 
 on:
+  pull_request:
+    types: [closed]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   upload:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
     uses: unitysvc-labs/.github/.github/workflows/seller-upload-production.yml@main
     secrets: inherit
     permissions:
