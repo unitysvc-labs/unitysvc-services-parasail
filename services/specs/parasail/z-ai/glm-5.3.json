@@ -4,7 +4,7 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": 1310720,
+      "context_length": 1048576,
       "metadata_sources": {
         "context_length": "openrouter"
       },
