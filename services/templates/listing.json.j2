@@ -64,8 +64,14 @@
   "list_price": {
     "type": "channel",
     "default": "managed",
+{#- The headline LEADS with "Free - " because this price is mixed: byok costs
+    nothing and managed does not. `check_channel_price_headline` splits the
+    description on "|" and looks for "free" in the part before it, since the
+    note after "|" is not rendered in the catalog row — so naming only the
+    managed rate here advertises a paid-only service that is in fact free on
+    one channel. The note still follows, to say HOW it is free. #}
 {%- if _managed_rate %}
-    "description": {{ (_managed_rate ~ _byok_note) | tojson }},
+    "description": {{ ('Free - ' ~ _managed_rate ~ _byok_note) | tojson }},
 {%- endif %}
     "channels": {
       "byok": {
