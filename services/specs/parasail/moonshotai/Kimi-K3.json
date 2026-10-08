@@ -15,18 +15,18 @@
     "display_name": "Kimi-K3",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "cached_input": "0.345",
-      "description": "$3.45/$17.25 / 1M input/output tokens",
-      "input": "3.45",
-      "output": "17.25",
+      "cached_input": "0.299",
+      "description": "$2.99/$14.95 / 1M input/output tokens",
+      "input": "2.99",
+      "output": "14.95",
       "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "moonshotai/Kimi-K3",
     "payout_price": {
-      "cached_input": "0.3",
-      "input": "3",
-      "output": "15",
+      "cached_input": "0.26",
+      "input": "2.6",
+      "output": "13",
       "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },

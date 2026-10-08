@@ -1,0 +1,22 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "capability": "chat",
+    "description": "",
+    "details": {
+      "context_length": null,
+      "model_name": "parasail-glm-53-flash-fast",
+      "parameter_count": null
+    },
+    "display_name": "parasail-glm-53-flash-fast",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": null,
+    "offering_name": "parasail-glm-53-flash-fast",
+    "payout_price": null,
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "supports_tools": true,
+    "time_created": "2026-10-08T08:46:58.839Z"
+  }
+}
