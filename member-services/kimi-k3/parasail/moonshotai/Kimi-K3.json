@@ -6,6 +6,7 @@
     "model": "moonshotai/Kimi-K3",
     "payout_input": "3",
     "payout_output": "15",
+    "served_model": "kimi-k3",
     "service_name": "kimi-k3/parasail/moonshotai/Kimi-K3"
   },
   "template": "kimi-k3"

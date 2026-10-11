@@ -6,6 +6,7 @@
     "model": "deepseek-ai/DeepSeek-V4-Flash",
     "payout_input": "0.14",
     "payout_output": "0.28",
+    "served_model": "deepseek-v4-flash",
     "service_name": "deepseek-v4-flash/parasail/deepseek-ai/DeepSeek-V4-Flash"
   },
   "template": "deepseek-v4-flash"

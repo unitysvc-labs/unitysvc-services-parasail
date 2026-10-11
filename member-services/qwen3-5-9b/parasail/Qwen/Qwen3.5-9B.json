@@ -6,6 +6,7 @@
     "model": "Qwen/Qwen3.5-9B",
     "payout_input": "0.1",
     "payout_output": "0.25",
+    "served_model": "qwen3.5-9b",
     "service_name": "qwen3-5-9b/parasail/Qwen/Qwen3.5-9B"
   },
   "template": "qwen3-5-9b"

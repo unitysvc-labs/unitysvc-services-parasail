@@ -6,6 +6,7 @@
     "model": "openai/gpt-oss-120b",
     "payout_input": "0.1",
     "payout_output": "0.75",
+    "served_model": "gpt-oss-120b",
     "service_name": "gpt-oss-120b/parasail/openai/gpt-oss-120b"
   },
   "template": "gpt-oss-120b"
