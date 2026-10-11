@@ -15,7 +15,7 @@
     "payout_price": null,
     "provider_display_name": "Parasail",
     "service_type": "llm",
-    "status": "ready",
+    "status": "deprecated",
     "supports_tools": true,
     "time_created": "2026-10-08T08:47:00.247Z"
   }
