@@ -2,6 +2,7 @@
   "parameters": {
     "api_base_url": "https://api.parasail.io/v1",
     "api_key_secret": "PARASAIL_API_KEY",
+    "context_length": 262144,
     "model": "Qwen/Qwen3.5-9B",
     "payout_input": "0.1",
     "payout_output": "0.25",

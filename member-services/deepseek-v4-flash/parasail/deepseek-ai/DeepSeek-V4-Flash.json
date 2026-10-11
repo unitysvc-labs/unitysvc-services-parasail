@@ -2,6 +2,7 @@
   "parameters": {
     "api_base_url": "https://api.parasail.io/v1",
     "api_key_secret": "PARASAIL_API_KEY",
+    "context_length": 1048576,
     "model": "deepseek-ai/DeepSeek-V4-Flash",
     "payout_input": "0.14",
     "payout_output": "0.28",

@@ -2,6 +2,7 @@
   "parameters": {
     "api_base_url": "https://api.parasail.io/v1",
     "api_key_secret": "PARASAIL_API_KEY",
+    "context_length": 1048576,
     "model": "moonshotai/Kimi-K3",
     "payout_input": "3",
     "payout_output": "15",
