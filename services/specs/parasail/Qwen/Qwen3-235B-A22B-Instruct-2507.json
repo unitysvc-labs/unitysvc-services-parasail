@@ -4,9 +4,9 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": 131072,
+      "context_length": 262144,
       "metadata_sources": {
-        "context_length": "openrouter",
+        "context_length": "litellm",
         "parameter_count": "huggingface_safetensors"
       },
       "model_name": "Qwen/Qwen3-235B-A22B-Instruct-2507",
