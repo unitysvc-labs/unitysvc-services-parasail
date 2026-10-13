@@ -7,7 +7,8 @@
     "payout_input": "1.4",
     "payout_output": "4.4",
     "served_model": "glm-5.2",
-    "service_name": "llm-balanced/parasail/zai-org/GLM-5.2"
+    "service_name": "llm-balanced/parasail/zai-org/GLM-5.2",
+    "status": "deprecated"
   },
   "template": "llm-balanced"
 }
