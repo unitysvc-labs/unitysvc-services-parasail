@@ -6,6 +6,8 @@
     "model": "google/gemma-4-31B-it",
     "payout_input": "0.15",
     "payout_output": "0.4",
+    "price_input": "0.173",
+    "price_output": "0.46",
     "served_model": "gemma-4-31b-it",
     "service_name": "gemma-4-31b-it/parasail/google/gemma-4-31B-it"
   },

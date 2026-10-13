@@ -6,6 +6,8 @@
     "model": "zai-org/GLM-5.2",
     "payout_input": "1.4",
     "payout_output": "4.4",
+    "price_input": "1.61",
+    "price_output": "5.06",
     "served_model": "glm-5.2",
     "service_name": "glm-5-2/parasail/zai-org/GLM-5.2"
   },

@@ -6,6 +6,8 @@
     "model": "openai/gpt-oss-20b",
     "payout_input": "0.03",
     "payout_output": "0.15",
+    "price_input": "0.035",
+    "price_output": "0.173",
     "served_model": "gpt-oss-20b",
     "service_name": "gpt-oss-20b/parasail/openai/gpt-oss-20b"
   },
