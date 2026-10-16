@@ -9,8 +9,7 @@
     "price_input": "1.61",
     "price_output": "5.06",
     "served_model": "glm-5.2",
-    "service_name": "llm-balanced/parasail/zai-org/GLM-5.2",
-    "status": "deprecated"
+    "service_name": "llm-balanced/parasail/zai-org/GLM-5.2"
   },
   "template": "llm-balanced"
 }
