@@ -9,7 +9,8 @@
     "price_input": "0.518",
     "price_output": "4.002",
     "served_model": "deepseek-v4-pro",
-    "service_name": "llm-premium/parasail/deepseek-ai/DeepSeek-V4-Pro"
+    "service_name": "llm-premium/parasail/deepseek-ai/DeepSeek-V4-Pro",
+    "status": "deprecated"
   },
   "template": "llm-premium"
 }
