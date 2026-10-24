@@ -1,0 +1,38 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "capability": "chat",
+    "description": "",
+    "details": {
+      "context_length": 1048576,
+      "metadata_sources": {
+        "context_length": "openrouter"
+      },
+      "model_name": "moonshotai/Kimi-K3-fast",
+      "parameter_count": null
+    },
+    "display_name": "Kimi-K3-fast",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "cached_input": "0.518",
+      "description": "$5.175/$25.875 / 1M input/output tokens",
+      "input": "5.175",
+      "output": "25.875",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "moonshotai/Kimi-K3-fast",
+    "payout_price": {
+      "cached_input": "0.45",
+      "input": "4.5",
+      "output": "22.5",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "supports_tools": true,
+    "time_created": "2026-10-24T07:08:21.390Z"
+  }
+}
