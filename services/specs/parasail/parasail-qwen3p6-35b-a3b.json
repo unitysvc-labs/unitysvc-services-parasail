@@ -11,18 +11,18 @@
     "display_name": "parasail-qwen3p6-35b-a3b",
     "env_api_key_name": "PARASAIL_API_KEY",
     "list_price": {
-      "cached_input": "0.058",
-      "description": "$0.173/$1.15 / 1M input/output tokens",
-      "input": "0.173",
-      "output": "1.15",
+      "cached_input": "0.029",
+      "description": "$0.115/$1.035 / 1M input/output tokens",
+      "input": "0.115",
+      "output": "1.035",
       "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
     "offering_name": "parasail-qwen3p6-35b-a3b",
     "payout_price": {
-      "cached_input": "0.05",
-      "input": "0.15",
-      "output": "1",
+      "cached_input": "0.025",
+      "input": "0.1",
+      "output": "0.9",
       "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
       "type": "one_million_tokens"
     },
