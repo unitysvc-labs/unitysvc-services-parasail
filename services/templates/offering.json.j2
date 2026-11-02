@@ -91,26 +91,6 @@
       "access_method": "http",
       "api_key": "${ secrets.{{ env_api_key_name }} }",
       "base_url": "{{ api_base_url }}",
-      "rate_limits": [
-        {
-          "description": "Requests per minute",
-          "limit": 60,
-          "unit": "requests",
-          "window": "minute"
-        },
-        {
-          "description": "Input tokens per minute",
-          "limit": 100000,
-          "unit": "input_tokens",
-          "window": "minute"
-        },
-        {
-          "description": "Output tokens per minute",
-          "limit": 10000,
-          "unit": "output_tokens",
-          "window": "minute"
-        }
-      ],
       "routing_key": {
         "model": "{{ offering_name }}"
       },
@@ -123,26 +103,6 @@
       "access_method": "http",
       "api_key": "${ customer_secrets.{{ env_api_key_name }} }",
       "base_url": "{{ api_base_url }}",
-      "rate_limits": [
-        {
-          "description": "Requests per minute",
-          "limit": 60,
-          "unit": "requests",
-          "window": "minute"
-        },
-        {
-          "description": "Input tokens per minute",
-          "limit": 100000,
-          "unit": "input_tokens",
-          "window": "minute"
-        },
-        {
-          "description": "Output tokens per minute",
-          "limit": 10000,
-          "unit": "output_tokens",
-          "window": "minute"
-        }
-      ],
       "routing_key": {
         "model": "{{ offering_name }}"
       },
