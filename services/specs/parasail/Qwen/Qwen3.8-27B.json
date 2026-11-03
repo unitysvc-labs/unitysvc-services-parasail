@@ -4,7 +4,7 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": 1000000,
+      "context_length": 1024000,
       "metadata_sources": {
         "context_length": "openrouter",
         "parameter_count": "huggingface_safetensors"

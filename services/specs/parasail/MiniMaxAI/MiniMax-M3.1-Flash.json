@@ -4,8 +4,9 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": null,
+      "context_length": 1048576,
       "metadata_sources": {
+        "context_length": "litellm",
         "parameter_count": "huggingface_safetensors"
       },
       "model_name": "MiniMaxAI/MiniMax-M3.1-Flash",
@@ -13,9 +14,22 @@
     },
     "display_name": "MiniMax-M3.1-Flash",
     "env_api_key_name": "PARASAIL_API_KEY",
-    "list_price": null,
+    "list_price": {
+      "cached_input": "0.017",
+      "description": "$0.173/$0.69 / 1M input/output tokens",
+      "input": "0.173",
+      "output": "0.69",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
     "offering_name": "MiniMaxAI/MiniMax-M3.1-Flash",
-    "payout_price": null,
+    "payout_price": {
+      "cached_input": "0.015",
+      "input": "0.15",
+      "output": "0.6",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
     "provider_display_name": "Parasail",
     "service_type": "llm",
     "status": "ready",
