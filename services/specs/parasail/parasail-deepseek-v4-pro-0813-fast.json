@@ -1,0 +1,38 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "capability": "chat",
+    "description": "",
+    "details": {
+      "context_length": 1000000,
+      "metadata_sources": {
+        "context_length": "litellm"
+      },
+      "model_name": "parasail-deepseek-v4-pro-0813-fast",
+      "parameter_count": null
+    },
+    "display_name": "parasail-deepseek-v4-pro-0813-fast",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "cached_input": "0.076",
+      "description": "$2.277/$6.831 / 1M input/output tokens",
+      "input": "2.277",
+      "output": "6.831",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "parasail-deepseek-v4-pro-0813-fast",
+    "payout_price": {
+      "cached_input": "0.066",
+      "input": "1.98",
+      "output": "5.94",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "supports_tools": true,
+    "time_created": "2026-11-07T08:39:26.888Z"
+  }
+}
