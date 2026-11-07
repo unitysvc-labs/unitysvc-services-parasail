@@ -4,9 +4,9 @@
     "capability": "chat",
     "description": "",
     "details": {
-      "context_length": null,
+      "context_length": 1048576,
       "metadata_sources": {
-        "parameter_count": "huggingface_safetensors"
+        "context_length": "litellm"
       },
       "model_name": "zai-org/GLM-5.2-FP8",
       "parameter_count": 751226191872

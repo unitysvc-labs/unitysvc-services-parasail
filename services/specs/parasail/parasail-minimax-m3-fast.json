@@ -1,0 +1,35 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "capability": "chat",
+    "description": "",
+    "details": {
+      "context_length": null,
+      "model_name": "parasail-minimax-m3-fast",
+      "parameter_count": null
+    },
+    "display_name": "parasail-minimax-m3-fast",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": {
+      "cached_input": "0.104",
+      "description": "$0.518/$2.07 / 1M input/output tokens",
+      "input": "0.518",
+      "output": "2.07",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
+    "offering_name": "parasail-minimax-m3-fast",
+    "payout_price": {
+      "cached_input": "0.09",
+      "input": "0.45",
+      "output": "1.8",
+      "reference": "https://docs.parasail.io/parasail-docs/products/overview/models.md",
+      "type": "one_million_tokens"
+    },
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "supports_tools": true,
+    "time_created": "2026-11-07T08:40:39.998Z"
+  }
+}
