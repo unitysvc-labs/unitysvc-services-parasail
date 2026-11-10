@@ -1,0 +1,21 @@
+{
+  "parameters": {
+    "api_base_url": "https://api.parasail.io",
+    "capability": "chat",
+    "description": "",
+    "details": {
+      "context_length": null,
+      "model_name": "parasail-deepseek-v41-flash-p2p",
+      "parameter_count": null
+    },
+    "display_name": "parasail-deepseek-v41-flash-p2p",
+    "env_api_key_name": "PARASAIL_API_KEY",
+    "list_price": null,
+    "offering_name": "parasail-deepseek-v41-flash-p2p",
+    "payout_price": null,
+    "provider_display_name": "Parasail",
+    "service_type": "llm",
+    "status": "ready",
+    "time_created": "2026-11-10T09:36:22.305Z"
+  }
+}
