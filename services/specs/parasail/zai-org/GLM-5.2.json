@@ -6,7 +6,8 @@
     "details": {
       "context_length": 1048576,
       "metadata_sources": {
-        "context_length": "litellm"
+        "context_length": "litellm",
+        "parameter_count": "huggingface_safetensors"
       },
       "model_name": "zai-org/GLM-5.2",
       "parameter_count": 753329921024
